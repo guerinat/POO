@@ -6,13 +6,13 @@ public class Carte {
 
     public Carte(int tailleCases, int nbLignes, int nbColonnes) {
 
-        this.tailleCases = taillesCases;
+        this.tailleCases = tailleCases;
         this.nbLignes = nbLignes ;
         this.nbColonnes = nbColonnes ;
-        this.carte = new Case[nbLignes][nbColonne];
+        this.carte = new Case[nbLignes][nbColonnes];
 
-        for (int ligne=0, ligne < nbLignes, ++ligne){
-            for (int colonne=0, colonne < nbColonnes, ++colonne){
+        for (int ligne=0; ligne < nbLignes; ++ligne){
+            for (int colonne=0; colonne < nbColonnes; ++colonne){
                 this.carte[ligne][colonne] = new Case(ligne, colonne);
             }
         }
@@ -23,15 +23,11 @@ public class Carte {
     }
 
     public int getNbColonnes () {
-        return this.nbColonne;
+        return this.nbColonnes;
     }
 
     public int TailleCases() {
         return this.tailleCases;
-    }
-
-    public Case getCase(int ligne, int colonne) {
-        return this.carte[ligne][colonne];
     }
 
     public Case getCase(int ligne, int colonne) {
@@ -48,7 +44,7 @@ public class Carte {
             case OUEST:
                 return (src.getColonne() != 0);
             case EST:
-                return (src.getColonne() != this.nbColonne - 1);
+                return (src.getColonne() != this.nbColonnes - 1);
             default:
                 throw new Error("[!] Direction inconnue.");
         }

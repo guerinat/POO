@@ -4,7 +4,7 @@ public abstract class Robot {
     private double[] vitesseTerrain;
 
     private boolean utilisePoudre;
-    private boolean remplitSurEau
+    private boolean remplitSurEau;
 
     private int quant_reservoire;
     private int quant_eau;
@@ -14,9 +14,9 @@ public abstract class Robot {
     private int duree_intervention;
 
     //Robots à eau
-    public Robot(position, vitesseTerrain, utilisePoudre, remplitSurEau, quant_reservoire,
-    quant_eau, duree_remplissage, quant_eau_intervention, duree_intervention) {
-        this.position = position
+    public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre, boolean remplitSurEau, 
+    int quant_reservoire, int quant_eau, int duree_remplissage, int quant_eau_intervention, int duree_intervention) {
+        this.position = position;
         this.vitesseTerrain = vitesseTerrain;
         this.utilisePoudre = utilisePoudre;
         this.remplitSurEau = remplitSurEau;
@@ -28,8 +28,9 @@ public abstract class Robot {
     }
 
     //Robots à poudre
-    public Robot(position, vitesseTerrain, utilisePoudre, quant_eau_intervention, duree_intervention) {
-        this.position = position
+    public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre,
+    int quant_eau_intervention, int duree_intervention) {
+        this.position = position;
         this.vitesseTerrain = vitesseTerrain;
         this.utilisePoudre = utilisePoudre;
         this.quant_eau_intervention = quant_eau_intervention;
@@ -41,8 +42,8 @@ public abstract class Robot {
         return position;
     }
 
-    public double getVitesse(NatureTerrain) {
-        return vitesseTerrain[NatureTerrain];
+    public double getVitesse(NatureTerrain nature_terain) {
+        return vitesseTerrain[nature_terain.ordinal()];
     }
 
     public void derverserEau(int volume) {
@@ -59,7 +60,7 @@ public abstract class Robot {
 
         if (utilisePoudre) return;
 
-        his.quant_eau = this.quant_reservoire;
+        this.quant_eau = this.quant_reservoire;
     }
 }
 

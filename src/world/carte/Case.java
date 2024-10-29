@@ -8,7 +8,7 @@ public class Case {
         this.colonne = colonne ;
     }
 
-    public Case (int ligne, int colonne, String nature_terrain) {
+    public Case (int ligne, int colonne, NatureTerrain nature_terrain) {
         this.ligne = ligne ;
         this.colonne = colonne ;
         this.nature_terrain = nature_terrain;
