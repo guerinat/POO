@@ -10,6 +10,7 @@ public class Incendie {
     public Case getPosition() {
         return this.position;
     }
+
     public int getEauNecessaire() {
         return this.eau_necessaire;
     }
