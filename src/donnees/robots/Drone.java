@@ -1,3 +1,7 @@
+package donnees.robots;
+
+import donnees.carte.Case;
+
 public class Drone extends Robot {
 
     public Drone(Case position) {

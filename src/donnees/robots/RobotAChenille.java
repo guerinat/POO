@@ -1,3 +1,7 @@
+package donnees.robots;
+
+import donnees.carte.*;
+
 public class RobotAChenille extends Robot {
 
     public RobotAChenille(Case position) {

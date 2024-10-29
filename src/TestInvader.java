@@ -51,7 +51,7 @@ class Invader implements Simulable {
      * @param gui l'interface graphique associée, dans laquelle se fera le
      * dessin et qui enverra les messages via les méthodes héritées de
      * Simulable.
-     * @param color la couleur de l'invader
+     * @param invaderColor la couleur de l'invader
      */
     public Invader(GUISimulator gui, Color invaderColor) {
         this.gui = gui;
