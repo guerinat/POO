@@ -245,4 +245,9 @@ public class LecteurDonnees {
             throw new DataFormatException("format invalide, donnees en trop.");
         }
     }
+
+
+    public DonneesSimulation creeDonnees(String fichierDonnees) {
+        
+    }
 }
