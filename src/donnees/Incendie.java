@@ -1,3 +1,6 @@
+package donnees;
+import donnees.carte.*;
+
 public class Incendie {
     private Case position;
     private int eau_necessaire;

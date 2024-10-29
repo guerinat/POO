@@ -1,3 +1,9 @@
+package donnees.robots;
+
+import donnees.carte.Case;
+import donnees.carte.NatureTerrain;
+
+
 public abstract class Robot {
 
     private Case position;

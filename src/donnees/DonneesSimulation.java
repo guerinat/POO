@@ -1,3 +1,9 @@
+package donnees;
+
+import donnees.*;
+import donnees.carte.*;
+import donnees.robots.*;
+
 public class DonneesSimulation {
 
     private Robot[] robots;

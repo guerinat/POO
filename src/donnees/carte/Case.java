@@ -1,3 +1,5 @@
+package donnees.carte;
+
 public class Case {
     private int ligne ;
     private int colonne ;

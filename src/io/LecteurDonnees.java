@@ -5,7 +5,8 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
-
+import donnees.*;
+import donnees.carte.*;
 
 /**
  * Lecteur de cartes au format spectifié dans le sujet.
@@ -67,7 +68,6 @@ public class LecteurDonnees {
 
     /**
      * Lit et affiche les donnees de la carte.
-     * @throws ExceptionFormatDonnees
      */
     private void lireCarte() throws DataFormatException {
         ignorerCommentaires();
@@ -120,6 +120,36 @@ public class LecteurDonnees {
 
         System.out.println();
     }
+
+
+
+    /**
+     * Lit et affiche les donnees d'une case.
+     */
+    private void creerCase(int lig, int col) throws DataFormatException {
+        ignorerCommentaires();
+
+        String chaineNature = new String();
+        NatureTerrain nature;
+
+        try {
+            chaineNature = scanner.next();
+            // si NatureTerrain est un Enum, vous pouvez recuperer la valeur
+            // de l'enum a partir d'une String avec:
+            //			NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
+
+            verifieLigneTerminee();
+
+            System.out.print("nature = " + chaineNature);
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format de case invalide. "
+                    + "Attendu: nature altitude [valeur_specifique]");
+        }
+
+        System.out.println();
+    }
+
 
 
     /**
@@ -245,6 +275,9 @@ public class LecteurDonnees {
             throw new DataFormatException("format invalide, donnees en trop.");
         }
     }
+
+
+    
 
 
     public DonneesSimulation creeDonnees(String fichierDonnees) {
