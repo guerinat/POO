@@ -13,6 +13,7 @@ public abstract class Robot {
     private int quant_eau_intervention;
     private int duree_intervention;
 
+    //Robots à eau
     public Robot(position, vitesseTerrain, utilisePoudre, remplitSurEau, quant_reservoire,
     quant_eau, duree_remplissage, quant_eau_intervention, duree_intervention) {
         this.position = position
@@ -22,6 +23,15 @@ public abstract class Robot {
         this.quant_reservoire = quant_reservoire;
         this.quant_eau = quant_eau;
         this.duree_remplissage = duree_remplissage;
+        this.quant_eau_intervention = quant_eau_intervention;
+        this.duree_intervention = duree_intervention;
+    }
+
+    //Robots à poudre
+    public Robot(position, vitesseTerrain, utilisePoudre, quant_eau_intervention, duree_intervention) {
+        this.position = position
+        this.vitesseTerrain = vitesseTerrain;
+        this.utilisePoudre = utilisePoudre;
         this.quant_eau_intervention = quant_eau_intervention;
         this.duree_intervention = duree_intervention;
     }
