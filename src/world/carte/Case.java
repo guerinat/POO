@@ -15,11 +15,11 @@ public class Case {
     }
 
     public int getLigne () {
-        return ligne;
+        return this.ligne;
     }
 
     public int getColonne () {
-        return colonne;
+        return this.colonne;
     }
 
     public NatureTerrain getNature () {
@@ -29,6 +29,6 @@ public class Case {
 
     @Override
     public String toString () {
-        return " La case de ligne " + ligne + " et de colonne " + colonne + "est constituée de : " + NatureTerrain ;
+        return " La case de ligne " + this.ligne + " et de colonne " + this.colonne + "est constituée de : " + this.nature_terrain ;
     }
 } 
