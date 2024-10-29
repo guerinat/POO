@@ -37,15 +37,15 @@ public abstract class Robot {
     }
 
 
-    public getPosition() {
+    public Case getPosition() {
         return position;
     }
 
-    public getVitesse(NatureTerrain) {
+    public double getVitesse(NatureTerrain) {
         return vitesseTerrain[NatureTerrain];
     }
 
-    public derverserEau(int volume) {
+    public void derverserEau(int volume) {
 
         if (utilisePoudre) return;
 
@@ -55,7 +55,7 @@ public abstract class Robot {
         this.quant_eau -= volume;
     }
     
-    public remplirReservoire() {
+    public void remplirReservoire() {
 
         if (utilisePoudre) return;
 

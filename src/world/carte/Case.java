@@ -1,17 +1,17 @@
 public class Case {
     private int ligne ;
     private int colonne ;
-    private enum NatureTerrain {Eau, Forêt, Roche, Terrain_Libre, Habitat};
+    private NatureTerrain nature_terrain;
     
     public Case (int ligne, int colonne){
         this.ligne = ligne ;
         this.colonne = colonne ;
     }
 
-    public CaseN (int ligne, int colonne, String nature) {
+    public Case (int ligne, int colonne, String nature_terrain) {
         this.ligne = ligne ;
         this.colonne = colonne ;
-        this.NatureTerrain = nature;
+        this.nature_terrain = nature_terrain;
     }
 
     public int getLigne () {
@@ -22,9 +22,10 @@ public class Case {
         return colonne;
     }
 
-    public int getNature () {
-        return NatureTerrain;
+    public NatureTerrain getNature () {
+        return this.nature_terrain;
     }
+
 
     @Override
     public String toString () {
