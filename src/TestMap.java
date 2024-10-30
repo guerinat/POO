@@ -8,7 +8,8 @@ import gui.Rectangle;
 import gui.Simulable;
 import gui.Text;
 
-import 
+import donnees.*;
+import donnees.carte.*;
 
 public class TestMap{
     public static void main(String[] args) {
@@ -40,8 +41,6 @@ class Map implements Simulable {
     }
 
     private void planCoordinates() {
-        // panel must be large enough... unchecked here!
-        // total invader size: height == 120, width == 80
         int xMin = 60;
         int yMin = 40;
         int xMax = gui.getWidth() - xMin - 80;
@@ -84,8 +83,14 @@ class Map implements Simulable {
 
 
     private void draw() {
+        Couleur[] tabCouleurs = {Couleur.Bleu, Couleur.Vertf, Couleur.Gris, Couleur.Vertc, Couleur.Jaune};
         gui.reset();	// clear the window
+        for (int ligne ; ligne < carte.nbLignes ; ++ligne ){
+            for (int colonne ; colonne < carte.nbColonnes ; ++colonne){
+                gui.addGraphicalElement(new Rectangle(x + carte.getTailleCases()*ligne ,y + carte.getTailleCases()*colonne,Couleur.Blanc.toAwtColor(), tabCouleurs[carte.getCase(ligne,colonne).getNature().ordinal()].toAwtColor(), carte.getTailleCases()));
+            }
+        }
+        
 
-        gui.addGraphicalElement(new Rectangle(x,y, Couleur Vert,Vert, 10))
     }
 }
