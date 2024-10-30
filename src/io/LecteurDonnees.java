@@ -105,7 +105,7 @@ public class LecteurDonnees {
             for (int lig = 0; lig < nbLignes; lig++) {
                 for (int col = 0; col < nbColonnes; col++) {
                     Case src = creerCase(lig, col);
-                    carte.setCase(src, nbLignes, nbColonnes);
+                    carte.setCase(src, lig, col);
                 }
             }
 
@@ -287,14 +287,14 @@ public class LecteurDonnees {
      /**
      * Creer les donnees des robots.
      */
-    private Robot[] creerRobots() throws DataFormatException {
+    private Robot[] creerRobots(Carte carte) throws DataFormatException {
         ignorerCommentaires();
         try {
             int nbRobots = scanner.nextInt();
             Robot[] robots = new Robot[nbRobots];
 
             for (int i = 0; i < nbRobots; i++) {
-                robots[i] = creerRobot(i);
+                robots[i] = creerRobot(i, carte);
             }
 
             return robots;
@@ -310,7 +310,7 @@ public class LecteurDonnees {
      * Lit et affiche les donnees du i-eme robot.
      * @param i
      */
-    private Robot creerRobot(int i) throws DataFormatException {
+    private void lireRobot(int i) throws DataFormatException {
         ignorerCommentaires();
         System.out.print("Robot " + i + ": ");
 
@@ -345,6 +345,55 @@ public class LecteurDonnees {
     }
 
 
+    /**
+     * Creer les donnees du i-eme robot.
+     * @param i
+     */
+    private Robot creerRobot(int i, Carte carte) throws DataFormatException {
+        ignorerCommentaires();
+
+        try {
+            int lig = scanner.nextInt();
+            int col = scanner.nextInt();
+
+            String type = scanner.next();
+            String s = scanner.findInLine("(\\d+(\\.\\d+)?)");	 
+
+            verifieLigneTerminee();
+
+            Robot robot;
+
+            switch (type) {
+
+                case "DRONE":
+                    if (s == null) robot = new Drone(carte.getCase(lig, col), 100);
+                    else           robot = new Drone(carte.getCase(lig, col), Math.min(Double.valueOf(s), 150));
+                break;
+
+                case "ROUES":
+                    if (s == null) robot = new RobotARoue(carte.getCase(lig, col), 80);
+                    else           robot = new RobotARoue(carte.getCase(lig, col), Double.valueOf(s));
+                break;
+
+                case "PATTES":
+                    robot = new RobotAPattes(carte.getCase(lig, col));
+                break;
+
+                case "CHENILLES":
+                    if (s == null) robot = new RobotAChenille(carte.getCase(lig, col), 60);
+                    else           robot = new RobotAChenille(carte.getCase(lig, col), Math.min(Double.valueOf(s), 80));
+                break;
+
+                default: throw new NoSuchElementException();
+            }
+            
+            return robot;
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format de robot invalide. "
+                    + "Attendu: ligne colonne type [valeur_specifique]");
+        }
+    }
 
 
     /** Ignore toute (fin de) ligne commencant par '#' */
@@ -353,6 +402,7 @@ public class LecteurDonnees {
             scanner.nextLine();
         }
     }
+
 
     /**
      * Verifie qu'il n'y a plus rien a lire sur cette ligne (int ou float).
@@ -365,10 +415,20 @@ public class LecteurDonnees {
     }
 
 
-    
+    /**
+     * Li et creer les données de la simulation.
+     * @throws ExceptionFormatDonnees
+     */
+    public static DonneesSimulation creeDonnees(String fichierDonnees) throws FileNotFoundException, DataFormatException {
 
-
-    public DonneesSimulation creeDonnees(String fichierDonnees) {
+        LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
         
+        Carte carte = lecteur.creerCarte();
+        Incendie[] incendies = lecteur.creerIncendies(carte);
+        Robot[] robots = lecteur.creerRobots(carte);
+
+        scanner.close();
+
+        return new DonneesSimulation(robots, incendies, carte);
     }
 }

@@ -26,6 +26,6 @@ public class Case {
 
     @Override
     public String toString () {
-        return " La case de ligne " + this.ligne + " et de colonne " + this.colonne + "est constituée de : " + this.nature_terrain ;
+        return "(" + this.ligne + ", " + this.colonne + ", " + this.nature_terrain.toString().substring(0, 3) + ")" ;
     }
 } 

@@ -17,4 +17,9 @@ public class Incendie {
     public int getEauNecessaire() {
         return this.eau_necessaire;
     }
+
+    @Override
+    public String toString() {
+        return "(pos:"+position.toString()+", eau:"+eau_necessaire+")";
+    }
 }

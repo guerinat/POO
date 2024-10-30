@@ -13,4 +13,11 @@ public class RobotAPattes extends Robot {
             1 //duree_intervention (secondes)
         );
     }
+
+    @Override
+    public String toString() {
+        return "PATTES (pos:"+super.getPosition().toString()+
+                        ", vitesse:"+super.getVitesse(NatureTerrain.TERRAIN_LIBRE)+
+                ")";
+    }
 }

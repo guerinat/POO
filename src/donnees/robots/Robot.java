@@ -45,12 +45,21 @@ public abstract class Robot {
 
 
     public Case getPosition() {
-        return position;
+        return this.position;
     }
 
     public double getVitesse(NatureTerrain nature_terain) {
-        return vitesseTerrain[nature_terain.ordinal()];
+        return this.vitesseTerrain[nature_terain.ordinal()];
     }
+
+    public int getQuantEau() {
+        return this.quant_eau;
+    }
+
+    public int getQuantReservoire() {
+        return this.quant_reservoire;
+    }
+
 
     public void derverserEau(int volume) {
 
@@ -68,6 +77,8 @@ public abstract class Robot {
 
         this.quant_eau = this.quant_reservoire;
     }
+
+    abstract public String toString();
 }
 
 

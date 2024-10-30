@@ -73,6 +73,13 @@ public class Carte {
 
     @Override
     public String toString () {
-        return " La carte" ;
+        String s = "# CARTE ("+nbLignes+", "+nbColonnes+", taille:"+tailleCases+")\n";
+        for(int i = 0; i < this.nbLignes; i++) {
+            for(int j = 0; j < this.nbColonnes; j++) {
+                s += this.carte[i][j].toString() + "  ";
+            }
+            s+="\n";
+        }
+        return s;
     } 
 } 
