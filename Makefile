@@ -32,7 +32,7 @@ testLecture:
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 	
 testMap:
-	javac -d bin -sourcepath src src/TestMap.java
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestMap.java
 	java -classpath bin:lib/gui.jar TestMap
 # Execution:
 # on peut taper directement la ligne de commande :
