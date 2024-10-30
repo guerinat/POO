@@ -1,5 +1,7 @@
 package donnees.carte;
 
+
+
 public class Carte {
     private int tailleCases;
     private int nbLignes;
@@ -12,12 +14,6 @@ public class Carte {
         this.nbLignes = nbLignes ;
         this.nbColonnes = nbColonnes ;
         this.carte = new Case[nbLignes][nbColonnes];
-
-        for (int ligne=0; ligne < nbLignes; ++ligne){
-            for (int colonne=0; colonne < nbColonnes; ++colonne){
-                this.carte[ligne][colonne] = new Case(ligne, colonne);
-            }
-        }
     }
 
     public int getNbLignes () {
@@ -34,6 +30,10 @@ public class Carte {
 
     public Case getCase(int ligne, int colonne) {
         return this.carte[ligne][colonne];
+    }
+
+    public Case setCase(Case src, int ligne, int colonne) {
+        return this.carte[ligne][colonne] = src;
     }
 
     public boolean voisinExiste(Case src, Direction dir) {

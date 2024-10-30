@@ -4,11 +4,6 @@ public class Case {
     private int ligne ;
     private int colonne ;
     private NatureTerrain nature_terrain;
-    
-    public Case (int ligne, int colonne){
-        this.ligne = ligne ;
-        this.colonne = colonne ;
-    }
 
     public Case (int ligne, int colonne, NatureTerrain nature_terrain) {
         this.ligne = ligne ;
