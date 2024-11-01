@@ -16,8 +16,6 @@ public class DonneesSimulation {
         this.incendies = incendies;
     }
 
-    
-
     @Override
     public String toString() {
         String s = "";
