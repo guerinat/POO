@@ -1,7 +1,9 @@
 import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 import gui.GUISimulator;
 import gui.Rectangle;
@@ -10,13 +12,31 @@ import gui.Text;
 
 import donnees.*;
 import donnees.carte.*;
+import io.*;
+import donnees.robots.*;
 
 public class TestMap{
     public static void main(String[] args) {
         // crée la fenêtre graphique dans laquelle dessiner
-        GUISimulator gui = new GUISimulator(800, 600, Color.BLACK);
-        // crée l'invader, en l'associant à la fenêtre graphique précédente
-        Map map = new Map(gui, Color.decode("#f2ff28"));
+        // crée la carte, en l'associant à la fenêtre graphique précédente
+
+        if (args.length < 1) {
+            System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier>");
+            System.exit(1);
+        }
+
+        try {
+            DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);
+
+            GUISimulator gui = new GUISimulator(data.carte.getTailleCases()/8*(data.carte.getNbColonnes()+1), data.carte.getTailleCases()/8*(data.carte.getNbLignes()+1), Color.WHITE);
+            Map map = new Map(gui, Couleur.Blanc.toAwtColor(), data);
+
+            System.err.println(data);
+        } catch (FileNotFoundException e) {
+            System.out.println("fichier " + args[0] + " inconnu ou illisible");
+        } catch (DataFormatException e) {
+            System.out.println("\n\t**format du fichier " + args[0] + " invalide: " + e.getMessage());
+        }
     }
 }
 
@@ -28,13 +48,16 @@ class Map implements Simulable {
     
     private Color mapColor;	
 
+    private DonneesSimulation data;
+
     private int x;
     private int y;
 
-    public Map(GUISimulator gui, Color mapColor) {
+    public Map(GUISimulator gui, Color mapColor, DonneesSimulation data) {
         this.gui = gui;
         gui.setSimulable(this);				// association a la gui!
         this.mapColor = mapColor;
+        this.data = data;
 
         planCoordinates();
         draw();
@@ -47,25 +70,6 @@ class Map implements Simulable {
         xMax -= xMax % 10;
         int yMax = gui.getHeight() - yMin - 120;
         yMax -= yMax % 10;
-
-        // let's plan the invader displacement!
-        List<Integer> xCoords = new ArrayList<Integer>();
-        List<Integer> yCoords = new ArrayList<Integer>();
-        // going right
-        for (int x = xMin + 10; x <= xMax; x += 10) {
-            xCoords.add(x);
-            yCoords.add(yMin);
-        }
-        // going down
-        for (int y = yMin + 10; y <= xMin + 150; y += 10) {
-            xCoords.add(xMax);
-            yCoords.add(y);
-        }
-        // going left
-        for (int x = xMax - 10; x >= xMin; x -= 10) {
-            xCoords.add(x);
-            yCoords.add(yMin + 170);
-        }
     }
 
 
@@ -85,12 +89,20 @@ class Map implements Simulable {
     private void draw() {
         Couleur[] tabCouleurs = {Couleur.Bleu, Couleur.Vertf, Couleur.Gris, Couleur.Vertc, Couleur.Jaune};
         gui.reset();	// clear the window
-        for (int ligne ; ligne < carte.nbLignes ; ++ligne ){
-            for (int colonne ; colonne < carte.nbColonnes ; ++colonne){
-                gui.addGraphicalElement(new Rectangle(x + carte.getTailleCases()*ligne ,y + carte.getTailleCases()*colonne,Couleur.Blanc.toAwtColor(), tabCouleurs[carte.getCase(ligne,colonne).getNature().ordinal()].toAwtColor(), carte.getTailleCases()));
+        for (int ligne=0 ; ligne < data.carte.getNbLignes() ; ++ligne ){
+            for (int colonne=0 ; colonne < data.carte.getNbColonnes() ; ++colonne){
+                int incendie=0;
+                /*while(data.incendies[incendie] != data.incendies[-1] || (data.incendies[incendie].getPosition().getLigne() != ligne || data.incendies[incendie].getPosition().getColonne() != colonne) || incendie<100){
+                    incendie +=1;
+                }
+                if (data.incendies[incendie].getPosition().getLigne() == ligne && data.incendies[incendie].getPosition().getColonne() == colonne){
+                    gui.addGraphicalElement(new Rectangle(data.carte.getTailleCases()/8*(1+ligne) ,data.carte.getTailleCases()/8*(colonne+1),Couleur.Blanc.toAwtColor(), Couleur.Rouge.toAwtColor(), data.carte.getTailleCases()/8));
+                }
+                else{*/
+                    gui.addGraphicalElement(new Rectangle(data.carte.getTailleCases()/8*(1+ligne) ,data.carte.getTailleCases()/8*(colonne+1),Couleur.Blanc.toAwtColor(), tabCouleurs[data.carte.getCase(ligne,colonne).getNature().ordinal()].toAwtColor(), data.carte.getTailleCases()/8));
+                
             }
         }
-        
 
     }
 }
