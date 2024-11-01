@@ -9,18 +9,10 @@ public enum Couleur {
     Rouge(255,0,0),
     Blanc(255,255,255);
 
-    private final int r;
-    private final int g;
-    private final int b;
+    public java.awt.Color value;
 
     // Constructeur de l'énumération
     Couleur(int r, int g, int b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
-
-    public java.awt.Color toAwtColor() {
-        return new java.awt.Color(r, g, b);
+        this.value = new java.awt.Color(r, g, b);
     }
 };

@@ -16,13 +16,7 @@ public class DonneesSimulation {
         this.incendies = incendies;
     }
 
-    public int incendie_size(){
-        int size=0;
-        for (Incendie incendie : this.incendies){
-            size+=1;
-        }
-        return size;
-    }
+    
 
     @Override
     public String toString() {
