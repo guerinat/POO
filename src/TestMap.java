@@ -28,7 +28,7 @@ public class TestMap{
         try {
             DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);
 
-            GUISimulator gui = new GUISimulator(data.carte.getTailleCases()/8*(data.carte.getNbColonnes()+1), data.carte.getTailleCases()/8*(data.carte.getNbLignes()+1), Color.WHITE);
+            GUISimulator gui = new GUISimulator(data.carte.getTailleCases()/6*(data.carte.getNbColonnes()+2), data.carte.getTailleCases()/6*(data.carte.getNbLignes()+2), Color.WHITE);
             Map map = new Map(gui, Couleur.Blanc.toAwtColor(), data);
 
             System.err.println(data);
@@ -89,18 +89,19 @@ class Map implements Simulable {
     private void draw() {
         Couleur[] tabCouleurs = {Couleur.Bleu, Couleur.Vertf, Couleur.Gris, Couleur.Vertc, Couleur.Jaune};
         gui.reset();	// clear the window
+        int incendie=0;
         for (int ligne=0 ; ligne < data.carte.getNbLignes() ; ++ligne ){
             for (int colonne=0 ; colonne < data.carte.getNbColonnes() ; ++colonne){
-                int incendie=0;
-                /*while(data.incendies[incendie] != data.incendies[-1] || (data.incendies[incendie].getPosition().getLigne() != ligne || data.incendies[incendie].getPosition().getColonne() != colonne) || incendie<100){
-                    incendie +=1;
+                if (data.incendies[incendie].getPosition().getLigne() != ligne | data.incendies[incendie].getPosition().getColonne() != colonne){
+                    gui.addGraphicalElement(new Rectangle(data.carte.getTailleCases()/6*(1+colonne) ,data.carte.getTailleCases()/6*(1+ligne),Couleur.Blanc.toAwtColor(), tabCouleurs[data.carte.getCase(ligne,colonne).getNature().ordinal()].toAwtColor(), data.carte.getTailleCases()/6));
                 }
-                if (data.incendies[incendie].getPosition().getLigne() == ligne && data.incendies[incendie].getPosition().getColonne() == colonne){
-                    gui.addGraphicalElement(new Rectangle(data.carte.getTailleCases()/8*(1+ligne) ,data.carte.getTailleCases()/8*(colonne+1),Couleur.Blanc.toAwtColor(), Couleur.Rouge.toAwtColor(), data.carte.getTailleCases()/8));
-                }
-                else{*/
-                    gui.addGraphicalElement(new Rectangle(data.carte.getTailleCases()/8*(1+ligne) ,data.carte.getTailleCases()/8*(colonne+1),Couleur.Blanc.toAwtColor(), tabCouleurs[data.carte.getCase(ligne,colonne).getNature().ordinal()].toAwtColor(), data.carte.getTailleCases()/8));
+                else{
+                    gui.addGraphicalElement(new Rectangle(data.carte.getTailleCases()/6*(1+colonne) ,data.carte.getTailleCases()/6*(1+ligne),Couleur.Blanc.toAwtColor(), Couleur.Rouge.toAwtColor(), data.carte.getTailleCases()/6));
+                    if (incendie!=data.incendie_size()-1){
+                        incendie+=1;
+                    }
                 
+                }
             }
         }
 
