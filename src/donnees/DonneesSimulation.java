@@ -2,7 +2,6 @@ package donnees;
 
 import donnees.carte.*;
 import donnees.robots.*;
-import donnees.Incendie;
 
 public class DonneesSimulation {
 
