@@ -25,6 +25,14 @@ public class DonneesSimulation {
         return size;
     }
 
+    public int robots_size(){
+        int size=0;
+        for (Robot robot : this.robots){
+            size+=1;
+        }
+        return size;
+    }
+
     @Override
     public String toString() {
         String s = "";

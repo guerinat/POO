@@ -7,7 +7,8 @@ public enum Couleur {
     Vertc(0,255,0), 
     Jaune(255,255,0),
     Rouge(255,0,0),
-    Blanc(255,255,255);
+    Blanc(255,255,255),
+    Noir(0,0,0);
 
     private final int r;
     private final int g;
