@@ -1,6 +1,6 @@
-package donnees.evenements;
+package evenements;
 
-public abstract class Evenement{
+public abstract class Evenement {
 
     private long date;
 
@@ -13,9 +13,5 @@ public abstract class Evenement{
         return this.date;
     }
 
-    public void execute(){
-
-    }
-
-
+    abstract public void execute();
 }

@@ -1,4 +1,4 @@
-package donnees.evenements;
+package evenements;
 
 import donnees.carte.*;
 import donnees.robots.*;
@@ -15,6 +15,6 @@ public class Deplacement extends Evenement{
 
     @Override
     public void execute(){
-        
+        robot.setPosition(destination);
     }
 }

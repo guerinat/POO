@@ -14,6 +14,7 @@ import donnees.*;
 import donnees.carte.*;
 import io.*;
 import donnees.robots.*;
+import evenements.*;
 
 
 public class TestMap{
@@ -43,6 +44,7 @@ class Map implements Simulable {
 
     /* L'interface graphique associée */
     private GUISimulator gui;
+    private Simulateur simulateur_evenement;
 
     private DonneesSimulation data;
 
@@ -61,9 +63,13 @@ class Map implements Simulable {
         this.data = data;
         this.tailleCase = tailleGui/data.carte.getNbLignes();
 
+        this.simulateur_evenement = new Simulateur(10);
+        System.err.println(data.carte.getCase(4, 4));
+        simulateur_evenement.ajouteEvenement(new Deplacement(0, data.carte.getCase(4, 4), data.robots[0]));
+
         this.terrainTextures = new BufferedImage[NatureTerrain.values().length];
         this.robotTextures = new BufferedImage[Robot.getNbTypeRobots()];
-
+        
         load_images();
         planCoordinates();
         draw();
@@ -80,6 +86,7 @@ class Map implements Simulable {
 
     @Override
     public void next() {	
+        simulateur_evenement.incrementeDate();
         draw();
     }
 
@@ -125,7 +132,7 @@ class Map implements Simulable {
     }
 
 
-private void draw_incendies() {
+    private void draw_incendies() {
 
         for(int i = 0; i < data.incendies.length; i++) {
             int xCase = data.incendies[i].getPosition().getColonne()*tailleCase;

@@ -50,6 +50,10 @@ public abstract class Robot {
         return this.position;
     }
 
+    public void setPosition(Case position) {
+        this.position = position;
+    }
+
     public double getVitesse(NatureTerrain nature_terain) {
         return this.vitesseTerrain[nature_terain.ordinal()];
     }
