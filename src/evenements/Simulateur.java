@@ -16,7 +16,7 @@ public class Simulateur {
     }
 
     public void ajouteEvenement(Evenement e) {
-        
+
         ListIterator<Evenement> iterateur = evenements.listIterator();
 
         while (true) {
@@ -26,9 +26,9 @@ public class Simulateur {
             }
 
             Evenement current = iterateur.next();
-            if(e.getdate() > current.getdate()) {
+            if(e.getdate() < current.getdate()) {
                 iterateur.previous();
-                iterateur.add(current);
+                iterateur.add(e);
                 return;
             }
         }
@@ -47,8 +47,10 @@ public class Simulateur {
             if (current.getdate() >= date_courante + etape)  
                 break;
 
-            if (current.getdate() >= date_courante) 
+            if (current.getdate() >= date_courante) {
                 current.execute();
+                System.out.println("executed :"+current.toString());
+            }
             
         }
         date_courante += etape;
@@ -56,5 +58,14 @@ public class Simulateur {
 
     public boolean simulationTerminee() {
         return date_courante > evenements.getLast().getdate();
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        for(Evenement e : evenements) {
+            s+=e.toString()+"\n";
+        }
+        return s;
     }
 }

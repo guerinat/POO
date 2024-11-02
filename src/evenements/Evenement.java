@@ -14,4 +14,9 @@ public abstract class Evenement {
     }
 
     abstract public void execute();
+
+    @Override
+    public String toString() {
+        return "("+this.getClass().toString()+", date:"+this.date+")";
+    }
 }

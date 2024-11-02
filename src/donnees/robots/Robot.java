@@ -88,6 +88,10 @@ public abstract class Robot {
         return nb_type_robots;
     }
 
+    public boolean getRemplitSurEau() {
+        return remplitSurEau;
+    }
+
     abstract public String toString();
 
     public abstract int getTextureId();

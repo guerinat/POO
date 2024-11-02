@@ -63,9 +63,10 @@ class Map implements Simulable {
         this.data = data;
         this.tailleCase = tailleGui/data.carte.getNbLignes();
 
-        this.simulateur_evenement = new Simulateur(10);
-        System.err.println(data.carte.getCase(4, 4));
-        simulateur_evenement.ajouteEvenement(new Deplacement(0, data.carte.getCase(4, 4), data.robots[0]));
+        this.simulateur_evenement = new Simulateur(1);
+        
+        simulateur_evenement.ajouteEvenement(new Deplacement(0, data.carte, Direction.SUD, data.robots[0]));
+        simulateur_evenement.ajouteEvenement(new Remplissage(1, data.carte, data.robots[0]));
 
         this.terrainTextures = new BufferedImage[NatureTerrain.values().length];
         this.robotTextures = new BufferedImage[Robot.getNbTypeRobots()];
