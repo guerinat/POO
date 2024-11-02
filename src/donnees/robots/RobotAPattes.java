@@ -4,6 +4,8 @@ import donnees.carte.*;
 
 public class RobotAPattes extends Robot {
 
+    public static final int texture_id = 2;
+
     public RobotAPattes(Case position) {
         super(
             position, //position (Case)
@@ -19,5 +21,10 @@ public class RobotAPattes extends Robot {
         return "PATTES (pos:"+super.getPosition().toString()+
                         ", vitesse:"+super.getVitesse(NatureTerrain.TERRAIN_LIBRE)+
                 ")";
+    }
+
+    @Override
+    public int getTextureId() {
+        return texture_id;
     }
 }

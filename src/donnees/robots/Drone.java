@@ -5,6 +5,8 @@ import donnees.carte.NatureTerrain;
 
 public class Drone extends Robot {
 
+    public static final int texture_id = 0;
+
     public Drone(Case position, double vitesse) {
 
         super(
@@ -28,5 +30,8 @@ public class Drone extends Robot {
                 ")";
     }
 
-    
+    @Override
+    public int getTextureId() {
+        return texture_id;
+    }
 }

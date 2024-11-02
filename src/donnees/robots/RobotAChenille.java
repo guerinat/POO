@@ -4,6 +4,8 @@ import donnees.carte.*;
 
 public class RobotAChenille extends Robot {
 
+    public static final int texture_id = 1;
+
     public RobotAChenille(Case position, double vitesse) {
         super(
             position, //position (Case)
@@ -24,5 +26,10 @@ public class RobotAChenille extends Robot {
                         ", vitesse:"+super.getVitesse(NatureTerrain.TERRAIN_LIBRE)+
                         ", eau:"+super.getQuantEau()+"/"+super.getQuantReservoire()+
                 ")";
+    }
+
+    @Override
+    public int getTextureId() {
+        return texture_id;
     }
 }
