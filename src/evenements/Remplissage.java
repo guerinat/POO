@@ -8,11 +8,17 @@ public class Remplissage extends Evenement{
     private Carte carte;
     private Robot robot;
 
-    public Remplissage(long date, Carte carte, Robot robot){
-        super(date);
+    public Remplissage(long date_debut, Carte carte, Robot robot){
+        
+        super(date_debut, date_debut + calcDuree(robot));
 
         this.carte = carte;
         this.robot = robot;
+    }
+
+    private static long calcDuree(Robot robot) {
+        long duree = (long)(robot.getDureeRemplissage()*(1 - (double)robot.getQuantEau()/robot.getQuantReservoire()));
+        return duree;
     }
 
     //True si de l'eau se trouve dans une des direction à partir de position
@@ -26,7 +32,6 @@ public class Remplissage extends Evenement{
 
         return eau_a_proximite;
     }
-
 
     @Override
     public void execute(){
@@ -48,7 +53,7 @@ public class Remplissage extends Evenement{
 
     @Override
     public String toString() {
-        return "Remplissage (date:"+super.getdate()+", robot:"+robot.toString()+")";
+        return "Remplissage (robot:"+robot.toString()+")";
         
     }
 }

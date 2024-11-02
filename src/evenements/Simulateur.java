@@ -26,7 +26,7 @@ public class Simulateur {
             }
 
             Evenement current = iterateur.next();
-            if(e.getdate() < current.getdate()) {
+            if(e.getdateFin() < current.getdateFin()) {
                 iterateur.previous();
                 iterateur.add(e);
                 return;
@@ -42,14 +42,13 @@ public class Simulateur {
     
         while (iterateur.hasNext()) {
             Evenement current = iterateur.next(); 
-    
 
-            if (current.getdate() >= date_courante + etape)  
+            if (current.getdateFin() >= date_courante + etape)  
                 break;
 
-            if (current.getdate() >= date_courante) {
+            if (current.getdateFin() >= date_courante) {
                 current.execute();
-                System.out.println("executed :"+current.toString());
+                System.out.println("[t="+current.getdateFin()+"] "+current.toString());
             }
             
         }
@@ -57,7 +56,7 @@ public class Simulateur {
     }
 
     public boolean simulationTerminee() {
-        return date_courante > evenements.getLast().getdate();
+        return date_courante > evenements.getLast().getdateFin();
     }
 
     @Override

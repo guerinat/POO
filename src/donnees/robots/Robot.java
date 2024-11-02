@@ -14,7 +14,7 @@ public abstract class Robot {
 
     private int quant_reservoire;
     private int quant_eau;
-    private int duree_remplissage; 
+    private long duree_remplissage; 
 
     private int quant_eau_intervention;
     private int duree_intervention;
@@ -66,22 +66,11 @@ public abstract class Robot {
         return this.quant_reservoire;
     }
 
+    public long getDureeRemplissage() {
+        if (utilisePoudre)
+            throw new Error("[!] Le robot est à poudre il n'a pas de durée de remplissage");
 
-    public void derverserEau(int volume) {
-
-        if (utilisePoudre) return;
-
-        if (volume > this.quant_eau) {
-            throw new Error("[!] Il n'y a pas assez d'eau dans le reservoire.");
-        }
-        this.quant_eau -= volume;
-    }
-    
-    public void remplirReservoire() {
-
-        if (utilisePoudre) return;
-
-        this.quant_eau = this.quant_reservoire;
+        return this.duree_remplissage;
     }
 
     public static int getNbTypeRobots() {
@@ -92,9 +81,33 @@ public abstract class Robot {
         return remplitSurEau;
     }
 
+    public abstract int getTextureId();
+
+
+    public void derverserEau(int volume) {
+
+        if (utilisePoudre)
+            throw new Error("[!] Le robot est à poudre il ne peut pas déverser de l'eau.");
+
+        if (volume > this.quant_eau) {
+            throw new Error("[!] Il n'y a pas assez d'eau dans le reservoire.");
+        }
+        this.quant_eau -= volume;
+    }
+    
+    public void remplirReservoire() {
+
+        if (utilisePoudre)
+            throw new Error("[!] Le robot est à poudre il n'a pas de réservoire.");
+
+        this.quant_eau = this.quant_reservoire;
+    }
+
+    
+
     abstract public String toString();
 
-    public abstract int getTextureId();
+    
 }
 
 
