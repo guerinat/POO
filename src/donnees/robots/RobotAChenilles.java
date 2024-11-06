@@ -2,11 +2,11 @@ package donnees.robots;
 
 import donnees.carte.*;
 
-public class RobotAChenille extends Robot {
+public class RobotAChenilles extends Robot {
 
     public static final int texture_id = 1;
 
-    public RobotAChenille(Case position, double vitesse) {
+    public RobotAChenilles(Case position, double vitesse) {
         super(
             position, //position (Case)
             new double[]{0, vitesse/2, 0, vitesse, vitesse}, //vitesseTerrain (EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT)

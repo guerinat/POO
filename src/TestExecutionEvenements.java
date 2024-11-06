@@ -211,9 +211,9 @@ class ExecutionEvenements implements Simulable {
             
             //Robots
             robotTextures[Drone.texture_id] = ImageIO.read(new File("ressources/drone.png"));
-            robotTextures[RobotAChenille.texture_id] = ImageIO.read(new File("ressources/chenilles.png"));
+            robotTextures[RobotAChenilles.texture_id] = ImageIO.read(new File("ressources/chenilles.png"));
             robotTextures[RobotAPattes.texture_id] = ImageIO.read(new File("ressources/pattes.png"));
-            robotTextures[RobotARoue.texture_id] = ImageIO.read(new File("ressources/roues.png"));
+            robotTextures[RobotARoues.texture_id] = ImageIO.read(new File("ressources/roues.png"));
 
             //Incendie
             incendieTexture = ImageIO.read(new File("ressources/incendie.png"));

@@ -3,11 +3,11 @@ package donnees.robots;
 import donnees.carte.Case;
 import donnees.carte.NatureTerrain;
 
-public class RobotARoue extends Robot {
+public class RobotARoues extends Robot {
 
     public static final int texture_id = 3;
 
-    public RobotARoue(Case position, double vitesse) {
+    public RobotARoues(Case position, double vitesse) {
         super(
             position, //position (Case)
             new double[]{0,0,0,vitesse,vitesse}, //vitesseTerrain (EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT)

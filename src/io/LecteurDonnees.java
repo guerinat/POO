@@ -371,8 +371,8 @@ public class LecteurDonnees {
                 break;
 
                 case "ROUES":
-                    if (s == null) robot = new RobotARoue(carte.getCase(lig, col), 80);
-                    else           robot = new RobotARoue(carte.getCase(lig, col), Double.valueOf(s));
+                    if (s == null) robot = new RobotARoues(carte.getCase(lig, col), 80);
+                    else           robot = new RobotARoues(carte.getCase(lig, col), Double.valueOf(s));
                 break;
 
                 case "PATTES":
@@ -380,8 +380,8 @@ public class LecteurDonnees {
                 break;
 
                 case "CHENILLES":
-                    if (s == null) robot = new RobotAChenille(carte.getCase(lig, col), 60);
-                    else           robot = new RobotAChenille(carte.getCase(lig, col), Math.min(Double.valueOf(s), 80));
+                    if (s == null) robot = new RobotAChenilles(carte.getCase(lig, col), 60);
+                    else           robot = new RobotAChenilles(carte.getCase(lig, col), Math.min(Double.valueOf(s), 80));
                 break;
 
                 default: throw new NoSuchElementException();
