@@ -19,6 +19,8 @@ import java.util.ListIterator;
 import gui.GUISimulator;
 import gui.Simulable;
 
+import chemins.*;
+
 
 
 public class TestExecutionEvenements{
@@ -73,7 +75,7 @@ class ExecutionEvenements implements Simulable {
 
 
     public ExecutionEvenements(String cheminFichier, DonneesSimulation data) {
-
+        
         //Chargement des données
         this.cheminFichier = cheminFichier;
         this.data = data;

@@ -1,27 +1,31 @@
 package chemins;
 
 import donnees.robots.*;
-
-import java.util.ArrayList;
-
-import donnees.*;
 import donnees.carte.*;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class Dijkstra {
+
+public class Chemin {
     
+    //Renvoi le plus cours chemin entre robot.getPosition() et arrivee (null si il n'existe pas)
+    public static LinkedList<Case> dijkstra(Robot robot, Case arrivee, Carte carte) {
 
-
-    public long tempsArriverA(Robot robot, Case arrive, Carte carte) {
-;
         long[][] dureeDistanceCases = initDureeDistanceCases(carte, robot.getPosition());
         boolean[][] casesMarquees = initCaseMarquee(carte);
+        Case[][] predecesseurs = new Case[carte.getNbLignes()][carte.getNbColonnes()];
 
-        int nbCasesMarquees = 0;
+        while(true) { //Tant que arrivée n'est pas atteinte
 
-        while(nbCasesMarquees != carte.getNbColonnes()*carte.getNbLignes()) { //Tant que toute les cases ne sont pas marquée
+            //On prend la case de duree minimale non marquée
+            Case src = caseNonMarqueeMinDuree(dureeDistanceCases, casesMarquees, carte); 
 
-            Case src = caseNonMarqueeMinDuree(dureeDistanceCases, casesMarquees, carte); //On prend la case de duree minimale non marquée
+            //Si on a atteint l'arrivée, le plus cours chemin est trouvé (ou l'absence de chemin)
+            if (src.equals(arrivee)) { 
+                if (dureeDistanceCases[arrivee.getLigne()][arrivee.getColonne()] == Long.MAX_VALUE) return null;
+                return reconstruireChemin(predecesseurs, dureeDistanceCases, arrivee, robot.getPosition());
+            }
 
             for(Case voisin : getVoisinsNonMarquee(carte, src, casesMarquees)) { 
 
@@ -29,19 +33,19 @@ public class Dijkstra {
                 long dureeVoisin = dureeDistanceCases[voisin.getLigne()][voisin.getColonne()];
                 long dureeEntreCases = getDuree(src, voisin, robot, carte); //duree entre Src et Voisin
 
-                if (dureeVoisin > ajouterDuree(dureeSource, dureeEntreCases)) {
+                //Si un chemin plus cours est trouvé
+                if (dureeVoisin > ajouterDuree(dureeSource, dureeEntreCases)) { 
                     dureeDistanceCases[voisin.getLigne()][voisin.getColonne()] = dureeSource + dureeEntreCases;
+                    predecesseurs[voisin.getLigne()][voisin.getColonne()] = src;
                 }
             }
-
-            casesMarquees[src.getLigne()][src.getColonne()] = true; // On marque la case source
-            nbCasesMarquees++;
+            casesMarquees[src.getLigne()][src.getColonne()] = true; //On marque la case source
         }
 
     }
 
 
-    private long[][] initDureeDistanceCases(Carte carte, Case depart) {
+    private static long[][] initDureeDistanceCases(Carte carte, Case depart) {
 
         long[][] dureeCasesAccessible = new long[carte.getNbLignes()][carte.getNbLignes()];
 
@@ -54,7 +58,7 @@ public class Dijkstra {
     }
 
 
-    private boolean[][] initCaseMarquee(Carte carte) {
+    private static boolean[][] initCaseMarquee(Carte carte) {
 
         boolean[][] caseMarquee = new boolean[carte.getNbLignes()][carte.getNbLignes()];
 
@@ -67,7 +71,7 @@ public class Dijkstra {
 
 
     //Renvoi la case non marquée de durée minimale dans dureeDistanceCases
-    private Case caseNonMarqueeMinDuree(long[][] dureeDistanceCases, boolean[][] casesMarquees, Carte carte) {
+    private static Case caseNonMarqueeMinDuree(long[][] dureeDistanceCases, boolean[][] casesMarquees, Carte carte) {
 
         long minDuree = Long.MAX_VALUE;
         Case nonMarqueeMinDuree = null;
@@ -77,7 +81,7 @@ public class Dijkstra {
 
                 if (casesMarquees[i][j]) continue;
 
-                if (dureeDistanceCases[i][j] < minDuree) {
+                if (dureeDistanceCases[i][j] <= minDuree) {
                     minDuree = dureeDistanceCases[i][j];
                     nonMarqueeMinDuree = carte.getCase(i, j);
                 }
@@ -88,7 +92,7 @@ public class Dijkstra {
 
 
     //Renvoi les voisins non marqués de src
-    private ArrayList<Case> getVoisinsNonMarquee(Carte carte, Case src, boolean[][] casesMarquees) {
+    private static ArrayList<Case> getVoisinsNonMarquee(Carte carte, Case src, boolean[][] casesMarquees) {
 
         ArrayList<Case> casesVoisines = new ArrayList<>();
 
@@ -108,8 +112,9 @@ public class Dijkstra {
         return casesVoisines;
     }
 
+
     //Renvoi la duree entre la case depart et sa case voisine arrive pour le robot robot
-    long getDuree(Case depart, Case arrive, Robot robot, Carte carte) {
+    public static long getDuree(Case depart, Case arrive, Robot robot, Carte carte) {
 
         NatureTerrain nature_depart = depart.getNature();
         NatureTerrain nature_arrive = arrive.getNature();
@@ -129,10 +134,34 @@ public class Dijkstra {
 
 
     //Fonction pour ajouter deux durée potentiellement "infinie"
-    private long ajouterDuree(Long duree1, long duree2) {
+    private static long ajouterDuree(Long duree1, long duree2) {
         if (duree1 == Long.MAX_VALUE || duree2 == Long.MAX_VALUE)
             return Long.MAX_VALUE;
         return duree1+duree2;
 
+    }
+
+
+    //Reconstruit le plus cours chemin à partir des predecesseurs.
+    private static LinkedList<Case> reconstruireChemin(Case[][] predecesseurs, long[][] dureeDistanceCases, Case arrivee, Case depart) {
+
+        LinkedList<Case> chemin = new LinkedList<>();
+
+        Case current = arrivee;
+        while (current != null && !current.equals(depart)) {
+            chemin.addFirst(current); 
+            current = predecesseurs[current.getLigne()][current.getColonne()]; 
+        }
+
+        chemin.addFirst(depart);
+        return chemin;
+    }
+
+
+    public static String CheminToString(LinkedList<Case> chemin) {
+        String s = "";
+        for(Case src : chemin)
+            s += src.toString() + ", ";
+        return s;
     }
 }
