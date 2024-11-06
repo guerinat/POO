@@ -16,7 +16,7 @@ public abstract class Robot {
     private int quant_eau;
     private long duree_remplissage; 
 
-    private int quant_eau_intervention;
+    private int quant_eau_intervention; //Eau ou poudre
     private int duree_intervention;
 
     private static final int nb_type_robots = 5;
@@ -71,6 +71,14 @@ public abstract class Robot {
             throw new Error("[!] Le robot est à poudre il n'a pas de durée de remplissage");
 
         return this.duree_remplissage;
+    }
+
+    public int getQuantEauIntervention() {
+        return this.quant_eau_intervention;
+    }
+
+    public int getDureeIntervention() {
+        return this.duree_intervention;
     }
 
     public static int getNbTypeRobots() {

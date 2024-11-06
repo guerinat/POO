@@ -14,7 +14,7 @@ public class RobotARoue extends Robot {
             false, //utilisePoudre
             false, //remplitSurEau
             5000, //quant_reservoire (L)
-            0, //quant_eau (L)
+            5000, //quant_eau (L)
             10*60, //duree_remplissage (secondes)
             100, //quant_eau_intervention (L)
             5 //duree_intervention (secondes)

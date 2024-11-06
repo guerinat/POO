@@ -8,16 +8,18 @@ public class Remplissage extends Evenement{
     private Carte carte;
     private Robot robot;
 
-    public Remplissage(long date_debut, Carte carte, Robot robot){
+    public Remplissage(long date_debut, Carte carte, Robot robot, int quantEau){
         
-        super(date_debut, date_debut + calcDuree(robot));
+        super(date_debut + calcDuree(robot, quantEau));
 
         this.carte = carte;
         this.robot = robot;
     }
 
-    private static long calcDuree(Robot robot) {
-        long duree = (long)(robot.getDureeRemplissage()*(1 - (double)robot.getQuantEau()/robot.getQuantReservoire()));
+    //Calculer la durée de remplissage d'un robot à une quantité futur (ou non) d'eau donnée
+    private static long calcDuree(Robot robot, int quantEau) {
+        
+        long duree = (long)(robot.getDureeRemplissage()*(1 - (double)quantEau/robot.getQuantReservoire()));
         return duree;
     }
 
@@ -54,6 +56,5 @@ public class Remplissage extends Evenement{
     @Override
     public String toString() {
         return "Remplissage (robot:"+robot.toString()+")";
-        
     }
 }

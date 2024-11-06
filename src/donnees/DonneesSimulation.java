@@ -16,6 +16,16 @@ public class DonneesSimulation {
         this.incendies = incendies;
     }
 
+    //Renvoi l'incendie à une position donnée (nulle si elle n'existe pas)
+    public Incendie IncendiePos(Case src) {
+        for(Incendie incendie : incendies) {
+            if (incendie.getPosition().equals(src)) {
+                return incendie;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         String s = "";

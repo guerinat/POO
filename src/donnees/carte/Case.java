@@ -23,6 +23,13 @@ public class Case {
         return this.nature_terrain;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Case)) return false;
+        Case src = (Case) obj;
+        return this.colonne == src.getColonne() && this.ligne == src.getLigne() && this.nature_terrain == src.getNature();
+    }
+
 
     @Override
     public String toString () {

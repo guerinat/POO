@@ -3,9 +3,13 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.zip.DataFormatException;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 import gui.GUISimulator;
 import gui.Simulable;
@@ -17,34 +21,10 @@ import donnees.robots.*;
 import evenements.*;
 
 
-public class TestMap{
-    public static void main(String[] args) {
-
-        if (args.length < 1) {
-            System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier>");
-            System.exit(1);
-        }
-
-        try {
-
-            DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);
-            GUISimulator gui = new GUISimulator(Map.tailleGui, Map.tailleGui, Color.WHITE);
-            Map map = new Map(gui, data);
-
-        } catch (FileNotFoundException e) {
-            System.out.println("fichier " + args[0] + " inconnu ou illisible");
-        } catch (DataFormatException e) {
-            System.out.println("\n\t**format du fichier " + args[0] + " invalide: " + e.getMessage());
-        }
-    }
-}
-
-
-class Map implements Simulable {
+public class Simulateur implements Simulable {
 
     /* L'interface graphique associée */
     private GUISimulator gui;
-    private Simulateur simulateur_evenement;
 
     private DonneesSimulation data;
 
@@ -52,36 +32,118 @@ class Map implements Simulable {
     private BufferedImage[] terrainTextures, robotTextures;
     private BufferedImage incendieTexture;
 
-
     public static int tailleGui = 850;
     private int tailleCase;
 
-    public Map(GUISimulator gui, DonneesSimulation data) {
+    //Evenements
 
-        this.gui = gui;
-        gui.setSimulable(this);				// association au gui!
+    private LinkedList<Evenement> evenements;
+    private long date_courante;
+    private String cheminFichier;
+
+
+    public Simulateur(String cheminFichier, DonneesSimulation data, Evenement[] evenements) {
+
+        //Chargement des données
+        this.cheminFichier = cheminFichier;
         this.data = data;
         this.tailleCase = tailleGui/data.carte.getNbLignes();
 
-        this.simulateur_evenement = new Simulateur(30);
-        
-        Deplacement test1 = new Deplacement(0, data.carte, Direction.SUD, data.robots[0]);
-        Remplissage test2 = new Remplissage(test1.getDuree(), data.carte, data.robots[0]);
-        Deplacement test3 = new Deplacement(604, data.carte, Direction.OUEST, data.robots[0]);
-        Deplacement test4 = new Deplacement(604+test3.getDuree(), data.carte, Direction.OUEST, data.robots[0]);
+        //Association au gui
+        this.gui = new GUISimulator(tailleGui, tailleGui, Color.WHITE);
+        gui.setSimulable(this);
+        planCoordinates();
 
-        simulateur_evenement.ajouteEvenement(test1);
-        simulateur_evenement.ajouteEvenement(test2);
-        simulateur_evenement.ajouteEvenement(test3);
-        simulateur_evenement.ajouteEvenement(test4);
-
+        //Chargement des textures
         this.terrainTextures = new BufferedImage[NatureTerrain.values().length];
         this.robotTextures = new BufferedImage[Robot.getNbTypeRobots()];
-        
         load_images();
+
+        //Initialisation des evenements
+        this.evenements = new LinkedList<Evenement>();
+        this.date_courante = 0;
+        ajouteEvenements(evenements);
+
+        //Affichage
+        draw();
+    }
+
+
+    @Override
+    public void next() {
+        incrementeDate();
+        draw();
+    }
+
+
+    @Override
+    public void restart() {
+        try {
+            data = LecteurDonnees.creeDonnees(cheminFichier);
+            evenements.clear();
+        } catch (FileNotFoundException e) {
+            System.out.println("fichier " + cheminFichier + " inconnu ou illisible");
+        } catch (DataFormatException e) {
+            System.out.println("\n\t**format du fichier " + cheminFichier + " invalide: " + e.getMessage());
+        }
+
+        date_courante = 0;
+
         planCoordinates();
         draw();
     }
+
+
+    public void ajouteEvenement(Evenement e) {
+
+        ListIterator<Evenement> iterateur = evenements.listIterator();
+
+        while (true) {
+            if (!iterateur.hasNext()) {
+                iterateur.add(e);
+                return;
+            }
+
+            Evenement current = iterateur.next();
+            if(e.getdateFin() < current.getdateFin()) {
+                iterateur.previous();
+                iterateur.add(e);
+                return;
+            }
+        }
+    }
+
+
+    public void ajouteEvenements(Evenement[] events) {
+        for(Evenement e : events)
+            ajouteEvenement(e);
+    }
+
+    // Execute tout les évenement de date courante (compris) à date-courante + 1 (non-compris)
+    private void incrementeDate() {
+
+        ListIterator<Evenement> iterateur = evenements.listIterator();
+    
+        while (iterateur.hasNext()) {
+            Evenement current = iterateur.next(); 
+
+            if (current.getdateFin() >= date_courante + 1)  
+                break;
+
+            if (current.getdateFin() >= date_courante) {
+                current.execute();
+                System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
+            }
+            
+        }
+        date_courante ++;
+    }
+
+
+    private boolean simulationTerminee() {
+        return date_courante > evenements.getLast().getdateFin();
+    }
+
 
     private void planCoordinates() {
         int xMin = 60;
@@ -92,31 +154,24 @@ class Map implements Simulable {
         yMax -= yMax % 10;
     }
 
-    @Override
-    public void next() {	
-        simulateur_evenement.incrementeDate();
-        draw();
-    }
 
-    @Override
-    public void restart() {
-        planCoordinates();
-        draw();
-    }
-
+    //Charge les sprites de la carte et des données
     private void load_images() {
         try {
+            //Carte
             terrainTextures[NatureTerrain.EAU.ordinal()] = ImageIO.read(new File("ressources/eau.png"));
             terrainTextures[NatureTerrain.FORET.ordinal()] = ImageIO.read(new File("ressources/foret.png"));
             terrainTextures[NatureTerrain.HABITAT.ordinal()] = ImageIO.read(new File("ressources/habitat.png"));
             terrainTextures[NatureTerrain.ROCHE.ordinal()] = ImageIO.read(new File("ressources/roche.png"));
             terrainTextures[NatureTerrain.TERRAIN_LIBRE.ordinal()] = ImageIO.read(new File("ressources/terrain_libre.png"));
             
+            //Robots
             robotTextures[Drone.texture_id] = ImageIO.read(new File("ressources/drone.png"));
             robotTextures[RobotAChenille.texture_id] = ImageIO.read(new File("ressources/chenilles.png"));
             robotTextures[RobotAPattes.texture_id] = ImageIO.read(new File("ressources/pattes.png"));
             robotTextures[RobotARoue.texture_id] = ImageIO.read(new File("ressources/roues.png"));
 
+            //Incendie
             incendieTexture = ImageIO.read(new File("ressources/incendie.png"));
 
         } catch (IOException e) {
@@ -124,6 +179,7 @@ class Map implements Simulable {
             return;
         }
     }
+
 
     private void draw_map() {
 
@@ -146,7 +202,8 @@ class Map implements Simulable {
             int xCase = data.incendies[i].getPosition().getColonne()*tailleCase;
             int yCase = data.incendies[i].getPosition().getLigne()*tailleCase;
 
-            gui.addGraphicalElement(new ImageElement(xCase, yCase, tailleCase, tailleCase, incendieTexture));
+            if (data.incendies[i].getEauNecessaire() != 0) //Si l'incendie n'est pas eteinte
+                gui.addGraphicalElement(new ImageElement(xCase, yCase, tailleCase, tailleCase, incendieTexture));
         }
     }
 
@@ -170,5 +227,15 @@ class Map implements Simulable {
         draw_map();
         draw_incendies();
         draw_robots();
+    }
+
+
+    @Override
+    public String toString() {
+        String s = "";
+        for(Evenement e : evenements) {
+            s+=e.toString()+"\n";
+        }
+        return s;
     }
 }
