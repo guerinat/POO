@@ -31,16 +31,9 @@ testLecture:
 	javac -d bin -sourcepath src src/TestLecteurDonnees.java
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 	
-testMap:
-	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestMap.java
-	java -classpath bin:lib/gui.jar TestMap cartes/spiralOfMadness-50x50.map
-# Execution:
-# on peut taper directement la ligne de commande :
-#   > java -classpath bin:lib/gui.jar TestInvader
-# ou bien lancer l'execution en passant par ce Makefile:
-#   > make exeInvader
-
-
+testExecutionEvenements:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestExecutionEvenements.java
+	java -classpath bin:lib/gui.jar TestExecutionEvenements cartes/spiralOfMadness-50x50.map
 
 clean:
 	rm -rf bin/*

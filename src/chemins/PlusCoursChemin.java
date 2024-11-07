@@ -1,7 +1,8 @@
-package pluscourschemin;
+package chemins;
 
 import donnees.carte.*;
 import donnees.robots.*;
+import evenements.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -9,55 +10,48 @@ import java.util.LinkedList;
 
 public class PlusCoursChemin {
     
+    //Renvoi la durée totale d'un chemin
+    public static long duree_chemin(LinkedList<CaseDuree> chemin) {
 
-    // public static long duree_chemin(Robot robot, Case arrive, Carte carte) {
+        //Si le chemin n'existe pas
+        if (chemin == null) return Long.MAX_VALUE;
 
-    //     LinkedList<Case> chemin = dijkstra(robot, arrive, carte);
-    //     if (chemin == null) return Long.MAX_VALUE;
-
-    //     ListIterator<Case> iterateur = chemin.listIterator();
-
-    //     Case actuel = iterateur.next();
-    //     Case predecesseur = null;
-    //     long duree = 0;
-
-    //     while(iterateur.hasNext()) {
+        long duree = 0;
+        for(CaseDuree caseDuree : chemin) 
+            duree += caseDuree.getDuree();
         
-    //         if (predecesseur != null) 
-    //             duree += getDuree(predecesseur, actuel, robot, carte);
+        return duree;
+    }
 
-    //         predecesseur = actuel;
-    //         actuel = iterateur.next();
-    //     }
+    //Renvoi la suite d'evenement que doit effectuer robot pour suivre le chemin chemin
+    public static ArrayList<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
 
-    //     return duree;
-    // }
+        ArrayList<Evenement> events = new ArrayList<>();
 
+        CaseDuree precedente = chemin.getFirst(); 
+        long date = 0; //Date de debut de l'evenements
+        
+        for (CaseDuree caseDuree : chemin) {
 
-    // public static Evenement[] deplacerRobotChemin(long date_debut, Robot robot, Case arrive, Carte carte) {
+            //Sauter le départ
+            if (caseDuree.getSrc().equals(robot.getPosition())) 
+                continue;
 
-    //     LinkedList<Case> chemin = dijkstra(robot, arrive, carte);
-    //     ArrayList<Evenement> events = new ArrayList<>();
+            //Initialisation de l'evenement
+            Evenement event = new Deplacement(date_debut+date, carte, precedente.getSrc(), precedente.getDir(), robot);
+            events.add(event);
 
-    //     ListIterator<Case> iterateur = chemin.listIterator();
+            //Incrementation
+            date += precedente.getDuree();
+            precedente = caseDuree;
+        }
 
-    //     while(iterateur.hasNext()) {
-    //         Case src = iterateur.next();
-    //         long duree = getDuree(src, arrive, robot, carte)
-    //         Deplacement e = new Deplacement(date_debut, carte, arrivee, null, robot)
-    //         events.add(e)
-    //     }
+        return events;
 
-    // }
-
-
-
-
-
-
+    }
 
     //Renvoi le plus cours chemin entre robot.getPosition() et arrivee (null si il n'existe pas)
-    public static LinkedList<Case> dijkstra(Robot robot, Case arrivee, Carte carte) {
+    public static LinkedList<CaseDuree> dijkstra(Robot robot, Case arrivee, Carte carte) {
 
         long[][] dureeDistanceCases = initDureeDistanceCases(carte, robot.getPosition());
         boolean[][] casesMarquees = initCaseMarquee(carte);
@@ -70,7 +64,9 @@ public class PlusCoursChemin {
 
             //Si on a atteint l'arrivée, le plus cours chemin est trouvé (ou l'absence de chemin)
             if (src.equals(arrivee)) { 
-                if (dureeDistanceCases[arrivee.getLigne()][arrivee.getColonne()] == Long.MAX_VALUE) return null;
+
+                if (dureeDistanceCases[arrivee.getLigne()][arrivee.getColonne()] == Long.MAX_VALUE)
+                    return null; //absence de chemin.
                 return reconstruireChemin(predecesseurs, dureeDistanceCases, arrivee, robot.getPosition());
             }
 
@@ -189,19 +185,45 @@ public class PlusCoursChemin {
     }
 
 
-    //Reconstruit le plus cours chemin à partir des predecesseurs.
-    private static LinkedList<Case> reconstruireChemin(Case[][] predecesseurs, long[][] dureeDistanceCases, Case arrivee, Case depart) {
+    //Reconstruit le plus cours chemin à partir des predecesseurs (le chemin doit exister).
+    private static LinkedList<CaseDuree> reconstruireChemin(Case[][] predecesseurs, long[][] dureeDistanceCases, Case arrivee, Case depart) {
 
-        LinkedList<Case> chemin = new LinkedList<>();
+        LinkedList<CaseDuree> chemin = new LinkedList<>();
 
-        Case current = arrivee;
-        while (current != null && !current.equals(depart)) {
-            chemin.addFirst(current); 
-            current = predecesseurs[current.getLigne()][current.getColonne()]; 
+        Case actuelle = arrivee;
+        Case precedente = predecesseurs[actuelle.getLigne()][actuelle.getColonne()];
+
+        //Duree et direction de la prochaine case de precedente
+        long duree = 0;
+        Direction dir = null;
+
+        while (!actuelle.equals(depart)) { //Tant que départ n'est pas atteint
+
+            chemin.addFirst(new CaseDuree(actuelle, duree, dir)); 
+
+            duree = dureeDistanceCases[actuelle.getLigne()][actuelle.getColonne()] - dureeDistanceCases[precedente.getLigne()][precedente.getColonne()];
+            dir = getDirection(precedente, actuelle);
+
+            actuelle = precedente;
+            precedente = predecesseurs[precedente.getLigne()][precedente.getColonne()];
         }
-
-        chemin.addFirst(depart);
+        
+        chemin.addFirst(new CaseDuree(actuelle, duree, dir));
         return chemin;
+    }
+
+    
+    //Renvoi la direction de case1 à case2
+    private static Direction getDirection(Case case1, Case case2) {
+        int diff_x = case2.getColonne() - case1.getColonne();
+        int diff_y = case2.getLigne() - case1.getLigne();
+
+        if (diff_x == 0 && diff_y == 1)       return Direction.SUD;
+        else if (diff_x == 0 && diff_y == -1) return Direction.NORD;
+        else if (diff_y == 0 && diff_x == 1)  return Direction.EST;
+        else if (diff_y == 0 && diff_x == -1) return Direction.OUEST;
+
+        throw new Error("Les cases ne sont pas voisines");
     }
 
 
