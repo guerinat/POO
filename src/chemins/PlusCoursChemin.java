@@ -1,14 +1,61 @@
-package chemins;
+package pluscourschemin;
 
-import donnees.robots.*;
 import donnees.carte.*;
-
+import donnees.robots.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public class Chemin {
+
+public class PlusCoursChemin {
     
+
+    // public static long duree_chemin(Robot robot, Case arrive, Carte carte) {
+
+    //     LinkedList<Case> chemin = dijkstra(robot, arrive, carte);
+    //     if (chemin == null) return Long.MAX_VALUE;
+
+    //     ListIterator<Case> iterateur = chemin.listIterator();
+
+    //     Case actuel = iterateur.next();
+    //     Case predecesseur = null;
+    //     long duree = 0;
+
+    //     while(iterateur.hasNext()) {
+        
+    //         if (predecesseur != null) 
+    //             duree += getDuree(predecesseur, actuel, robot, carte);
+
+    //         predecesseur = actuel;
+    //         actuel = iterateur.next();
+    //     }
+
+    //     return duree;
+    // }
+
+
+    // public static Evenement[] deplacerRobotChemin(long date_debut, Robot robot, Case arrive, Carte carte) {
+
+    //     LinkedList<Case> chemin = dijkstra(robot, arrive, carte);
+    //     ArrayList<Evenement> events = new ArrayList<>();
+
+    //     ListIterator<Case> iterateur = chemin.listIterator();
+
+    //     while(iterateur.hasNext()) {
+    //         Case src = iterateur.next();
+    //         long duree = getDuree(src, arrive, robot, carte)
+    //         Deplacement e = new Deplacement(date_debut, carte, arrivee, null, robot)
+    //         events.add(e)
+    //     }
+
+    // }
+
+
+
+
+
+
+
     //Renvoi le plus cours chemin entre robot.getPosition() et arrivee (null si il n'existe pas)
     public static LinkedList<Case> dijkstra(Robot robot, Case arrivee, Carte carte) {
 
