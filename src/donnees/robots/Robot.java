@@ -2,6 +2,9 @@ package donnees.robots;
 
 import donnees.carte.Case;
 import donnees.carte.NatureTerrain;
+import donnees.*;
+
+
 
 
 public abstract class Robot {
@@ -18,6 +21,8 @@ public abstract class Robot {
 
     private int quant_eau_intervention; //Eau ou poudre
     private int duree_intervention;
+
+    private Incendie incendie=null;
 
     //Robots à eau
     public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre, boolean remplitSurEau, 
@@ -105,7 +110,13 @@ public abstract class Robot {
         this.quant_eau = this.quant_reservoire;
     }
 
-    
+    public void plusIncendie(Incendie incendie){
+        this.incendie = incendie;
+    }
+
+    public Incendie getIncendie(){
+        return this.incendie;
+    }
 
     abstract public String toString();
 
