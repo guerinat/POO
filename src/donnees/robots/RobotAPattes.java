@@ -4,7 +4,7 @@ import donnees.carte.*;
 
 public class RobotAPattes extends Robot {
 
-    public static final int texture_id = 2;
+    public static final String lienTexture = "ressources/pattes.png";
 
     public RobotAPattes(Case position) {
         super(
@@ -24,7 +24,7 @@ public class RobotAPattes extends Robot {
     }
 
     @Override
-    public int getTextureId() {
-        return texture_id;
+    public String getLienTexture() {
+        return lienTexture;
     }
 }

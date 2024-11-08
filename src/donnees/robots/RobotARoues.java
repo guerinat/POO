@@ -5,7 +5,7 @@ import donnees.carte.NatureTerrain;
 
 public class RobotARoues extends Robot {
 
-    public static final int texture_id = 3;
+    public static final String lienTexture = "ressources/roues.png";
 
     public RobotARoues(Case position, double vitesse) {
         super(
@@ -29,7 +29,7 @@ public class RobotARoues extends Robot {
     }
 
     @Override
-    public int getTextureId() {
-        return texture_id;
+    public String getLienTexture() {
+        return lienTexture;
     }
 }

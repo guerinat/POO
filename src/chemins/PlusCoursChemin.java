@@ -4,6 +4,7 @@ import donnees.carte.*;
 import donnees.robots.*;
 import evenements.*;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.LinkedList;
 
 
@@ -24,9 +25,9 @@ public class PlusCoursChemin {
     }
 
     //Renvoi la suite d'evenement que doit effectuer robot pour suivre le chemin chemin
-    public static ArrayList<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
+    public static PriorityQueue<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
 
-        ArrayList<Evenement> events = new ArrayList<>();
+        PriorityQueue<Evenement> events = new PriorityQueue<>();
 
         CaseDuree precedente = chemin.getFirst(); 
         long date = 0; //Date de debut de l'evenements
@@ -49,6 +50,7 @@ public class PlusCoursChemin {
         return events;
 
     }
+
 
     //Renvoi le plus cours chemin entre robot.getPosition() et arrivee (null si il n'existe pas)
     public static LinkedList<CaseDuree> dijkstra(Robot robot, Case arrivee, Carte carte) {

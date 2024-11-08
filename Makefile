@@ -33,7 +33,7 @@ testLecture:
 	
 testExecutionEvenements:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestExecutionEvenements.java
-	java -classpath bin:lib/gui.jar TestExecutionEvenements cartes/spiralOfMadness-50x50.map
+	java -classpath bin:lib/gui.jar TestExecutionEvenements cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*

@@ -5,7 +5,7 @@ import donnees.carte.NatureTerrain;
 
 public class Drone extends Robot {
 
-    public static final int texture_id = 0;
+    public static final String lienTexture = "ressources/drone.png";
 
     public Drone(Case position, double vitesse) {
 
@@ -29,9 +29,9 @@ public class Drone extends Robot {
                         ", eau:"+super.getQuantEau()+"/"+super.getQuantReservoire()+
                 ")";
     }
-
+    
     @Override
-    public int getTextureId() {
-        return texture_id;
+    public String getLienTexture() {
+        return lienTexture;
     }
 }

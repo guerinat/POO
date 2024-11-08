@@ -3,21 +3,17 @@ import java.util.zip.DataFormatException;
 
 import donnees.*;
 import donnees.carte.*;
-import donnees.robots.*;
 import io.*;
 import evenements.*;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
 import gui.GUISimulator;
 import gui.Simulable;
+import gui.ImageElement;
 
 import chemins.*;
 
@@ -35,8 +31,6 @@ public class TestExecutionEvenements{
 
             //Lecture et creation des données
             DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);
-
-            
 
             //Creation du simulateur
             ExecutionEvenements simulation = new ExecutionEvenements(args[0], data);
@@ -60,10 +54,6 @@ class ExecutionEvenements implements Simulable {
 
     private DonneesSimulation data;
 
-    /* Textures des objets */
-    private BufferedImage[] terrainTextures, robotTextures;
-    private BufferedImage incendieTexture;
-
     public static int tailleGui = 850;
     private int tailleCase;
 
@@ -85,11 +75,6 @@ class ExecutionEvenements implements Simulable {
         this.gui = new GUISimulator(tailleGui, tailleGui, Color.WHITE);
         gui.setSimulable(this);
         planCoordinates();
-
-        //Chargement des textures
-        this.terrainTextures = new BufferedImage[NatureTerrain.values().length];
-        this.robotTextures = new BufferedImage[Robot.getNbTypeRobots()];
-        load_images();
 
         //Initialisation des evenements
         this.evenements = new LinkedList<Evenement>();
@@ -118,6 +103,7 @@ class ExecutionEvenements implements Simulable {
     }
 
 
+
     @Override
     public void next() {
         incrementeDate();
@@ -127,18 +113,22 @@ class ExecutionEvenements implements Simulable {
 
     @Override
     public void restart() {
+
         try {
             data = LecteurDonnees.creeDonnees(cheminFichier);
+            evenements.clear();
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + cheminFichier + " inconnu ou illisible");
         } catch (DataFormatException e) {
             System.out.println("\n\t**format du fichier " + cheminFichier + " invalide: " + e.getMessage());
         }
 
-        //Reload des evenements
         date_courante = 0;
+
         evenements.clear();
         ajouteEvenements(loadEvenements(data));
+
+        System.out.println(evenements.getFirst());
 
         planCoordinates();
         draw();
@@ -191,6 +181,11 @@ class ExecutionEvenements implements Simulable {
     }
 
 
+    private boolean simulationTerminee() {
+        return date_courante > evenements.getLast().getdateFin();
+    }
+
+
     private void planCoordinates() {
         int xMin = 60;
         int yMin = 40;
@@ -201,31 +196,6 @@ class ExecutionEvenements implements Simulable {
     }
 
 
-    //Charge les sprites de la carte et des données
-    private void load_images() {
-        try {
-            //Carte
-            terrainTextures[NatureTerrain.EAU.ordinal()] = ImageIO.read(new File("ressources/eau.png"));
-            terrainTextures[NatureTerrain.FORET.ordinal()] = ImageIO.read(new File("ressources/foret.png"));
-            terrainTextures[NatureTerrain.HABITAT.ordinal()] = ImageIO.read(new File("ressources/habitat.png"));
-            terrainTextures[NatureTerrain.ROCHE.ordinal()] = ImageIO.read(new File("ressources/roche.png"));
-            terrainTextures[NatureTerrain.TERRAIN_LIBRE.ordinal()] = ImageIO.read(new File("ressources/terrain_libre.png"));
-            
-            //Robots
-            robotTextures[Drone.texture_id] = ImageIO.read(new File("ressources/drone.png"));
-            robotTextures[RobotAChenilles.texture_id] = ImageIO.read(new File("ressources/chenilles.png"));
-            robotTextures[RobotAPattes.texture_id] = ImageIO.read(new File("ressources/pattes.png"));
-            robotTextures[RobotARoues.texture_id] = ImageIO.read(new File("ressources/roues.png"));
-
-            //Incendie
-            incendieTexture = ImageIO.read(new File("ressources/incendie.png"));
-
-        } catch (IOException e) {
-            System.out.println("Error loading images: " + e.getMessage());
-            return;
-        }
-    }
-
 
     private void draw_map() {
 
@@ -234,9 +204,9 @@ class ExecutionEvenements implements Simulable {
 
                 int xCase = colonne*tailleCase;
                 int yCase = ligne*tailleCase;
-                BufferedImage texture = terrainTextures[data.carte.getCase(ligne, colonne).getNature().ordinal()];
+                String texture = data.carte.getCase(ligne, colonne).getNature().getLienTexture();
 
-                gui.addGraphicalElement(new ImageElement(xCase, yCase, tailleCase, tailleCase, texture));
+                gui.addGraphicalElement(new ImageElement(xCase, yCase, texture, tailleCase, tailleCase, null));
             }
         }
     }
@@ -247,9 +217,10 @@ class ExecutionEvenements implements Simulable {
         for(int i = 0; i < data.incendies.length; i++) {
             int xCase = data.incendies[i].getPosition().getColonne()*tailleCase;
             int yCase = data.incendies[i].getPosition().getLigne()*tailleCase;
+            String texture = "ressources/incendie.png";
 
             if (data.incendies[i].getEauNecessaire() != 0) //Si l'incendie n'est pas eteinte
-                gui.addGraphicalElement(new ImageElement(xCase, yCase, tailleCase, tailleCase, incendieTexture));
+                gui.addGraphicalElement(new ImageElement(xCase, yCase, texture, tailleCase, tailleCase, null));
         }
     }
 
@@ -259,9 +230,9 @@ class ExecutionEvenements implements Simulable {
         for(int i = 0; i < data.robots.length; i++) {
             int xCase = data.robots[i].getPosition().getColonne()*tailleCase;
             int yCase = data.robots[i].getPosition().getLigne()*tailleCase;
-            BufferedImage texture = robotTextures[data.robots[i].getTextureId()];
+            String texture = data.robots[i].getLienTexture();
             
-            gui.addGraphicalElement(new ImageElement(xCase, yCase, tailleCase, tailleCase, texture));
+            gui.addGraphicalElement(new ImageElement(xCase, yCase, texture, tailleCase, tailleCase, null));
         }
     }
 

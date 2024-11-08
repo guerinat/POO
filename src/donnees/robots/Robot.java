@@ -19,8 +19,6 @@ public abstract class Robot {
     private int quant_eau_intervention; //Eau ou poudre
     private int duree_intervention;
 
-    private static final int nb_type_robots = 5;
-
     //Robots à eau
     public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre, boolean remplitSurEau, 
     int quant_reservoire, int quant_eau, int duree_remplissage, int quant_eau_intervention, int duree_intervention) {
@@ -81,15 +79,11 @@ public abstract class Robot {
         return this.duree_intervention;
     }
 
-    public static int getNbTypeRobots() {
-        return nb_type_robots;
-    }
-
     public boolean getRemplitSurEau() {
         return remplitSurEau;
     }
 
-    public abstract int getTextureId();
+    public abstract String getLienTexture();
 
 
     public void derverserEau(int volume) {
