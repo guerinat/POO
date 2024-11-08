@@ -1,9 +1,12 @@
 package donnees;
 import donnees.carte.*;
+import donnees.robots.*;
 
 public class Incendie {
     private Case position;
     private int eau_necessaire;
+    private Robot robot;
+
 
     public Incendie(Case position, int eau_necessaire) {
         this.position = position;
@@ -21,6 +24,10 @@ public class Incendie {
     //renvoi true si l'incendie est eteinte
     public void eteindre(int volume) {
         eau_necessaire = volume < eau_necessaire ? eau_necessaire-volume : 0;
+    }
+
+    public Robot getRobot(){
+        return this.robot;
     }
 
     @Override

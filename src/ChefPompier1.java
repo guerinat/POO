@@ -27,6 +27,13 @@ public abstract class ChefPompier1{
         }
     }
 
+    public static boolean RobotOccupe(Incendie[] incendies, Robot robot){
+        for (Incendie incendie : incendies){
+            if (incendie.getRobot() == robot)
+                return true;
+        }
+        return false;
+    }
 
 }
     
