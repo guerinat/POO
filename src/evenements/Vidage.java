@@ -15,8 +15,8 @@ public class Vidage extends Evenement{
         this.incendie = incendie;
     }
 
-    private static long calcDuree(Robot robot) {
-        long duree = robot.getDureeRemplissage();
+    public static long calcDuree(Robot robot) {
+        long duree = robot.getDureeIntervention();
         return duree;
     }
 
@@ -29,6 +29,10 @@ public class Vidage extends Evenement{
         if (robot.getPosition().equals(incendie.getPosition())) {
             robot.derverserEau(robot.getQuantEauIntervention());
             incendie.eteindre(robot.getQuantEauIntervention());
+            if (incendie.getEauNecessaire()==0){
+                incendie.changeRobot(null);
+                robot.changeIncendie(null);
+            }
             return;
         } 
 

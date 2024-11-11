@@ -5,7 +5,7 @@ import donnees.robots.*;
 public class Incendie {
     private Case position;
     private int eau_necessaire;
-    private Robot robot;
+    private Robot robot=null;
 
 
     public Incendie(Case position, int eau_necessaire) {
@@ -28,6 +28,10 @@ public class Incendie {
 
     public Robot getRobot(){
         return this.robot;
+    }
+
+    public void changeRobot(Robot robot){
+        this.robot = robot;
     }
 
     @Override

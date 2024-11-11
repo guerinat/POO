@@ -110,12 +110,12 @@ public abstract class Robot {
         this.quant_eau = this.quant_reservoire;
     }
 
-    public void plusIncendie(Incendie incendie){
-        this.incendie = incendie;
-    }
-
     public Incendie getIncendie(){
         return this.incendie;
+    }
+
+    public void changeIncendie(Incendie incendie){
+        this.incendie = incendie;
     }
 
     abstract public String toString();
