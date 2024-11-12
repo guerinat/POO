@@ -3,6 +3,7 @@ package donnees.robots;
 import donnees.carte.Case;
 import donnees.carte.NatureTerrain;
 import donnees.*;
+import strategie.*;
 
 
 
@@ -19,11 +20,11 @@ public abstract class Robot {
     private int quant_eau;
     private long duree_remplissage; 
 
-    private int quant_eau_intervention; //Eau ou poudre
+    private int quant_eau_intervention; 
     private int duree_intervention;
 
-    private Incendie incendie=null;
-    private long dateDispo = 0;
+    private Etat etat;
+    private Incendie incendie_affecte;
 
     //Robots à eau
     public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre, boolean remplitSurEau, 
@@ -37,7 +38,8 @@ public abstract class Robot {
         this.duree_remplissage = duree_remplissage;
         this.quant_eau_intervention = quant_eau_intervention;
         this.duree_intervention = duree_intervention;
-        this.dateDispo=0;
+        this.incendie_affecte = null;
+        this.etat = Etat.DISPONNIBLE;
     }
 
     //Robots à poudre
@@ -48,6 +50,8 @@ public abstract class Robot {
         this.utilisePoudre = utilisePoudre;
         this.quant_eau_intervention = quant_eau_intervention;
         this.duree_intervention = duree_intervention;
+        this.incendie_affecte = null;
+        this.etat = Etat.DISPONNIBLE;
     }
 
 
@@ -90,6 +94,10 @@ public abstract class Robot {
         return remplitSurEau;
     }
 
+    public boolean getUtilisePoudre() {
+        return utilisePoudre;
+    }
+
     public abstract String getLienTexture();
 
 
@@ -112,21 +120,22 @@ public abstract class Robot {
         this.quant_eau = this.quant_reservoire;
     }
 
-    public Incendie getIncendie(){
-        return this.incendie;
+    public Etat getEtat() {
+        return etat;
     }
 
-    public void changeIncendie(Incendie incendie){
-        this.incendie = incendie;
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    } 
+
+    public Incendie getIncendieAffecte() {
+        return this.incendie_affecte;
     }
 
-    public void changeDateDispo(long date){
-        this.dateDispo = date;
+    public void setIncendieAffecte(Incendie incendie) {
+        this.incendie_affecte = incendie;
     }
 
-    public long getDateDispo(){
-        return this.dateDispo;
-    }
     abstract public String toString();
 
     

@@ -3,9 +3,10 @@ import donnees.carte.*;
 import donnees.robots.*;
 
 public class Incendie {
+
     private Case position;
     private int eau_necessaire;
-    private Robot robot=null;
+    
 
 
     public Incendie(Case position, int eau_necessaire) {
@@ -26,13 +27,16 @@ public class Incendie {
         eau_necessaire = volume < eau_necessaire ? eau_necessaire-volume : 0;
     }
 
-    public Robot getRobot(){
-        return this.robot;
+
+    public boolean estAffecte(Robot[] robots) {
+        for (Robot robot : robots) {
+            if (this == robot.getIncendieAffecte()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void changeRobot(Robot robot){
-        this.robot = robot;
-    }
 
     @Override
     public String toString() {

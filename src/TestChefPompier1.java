@@ -4,6 +4,7 @@ import java.util.zip.DataFormatException;
 import donnees.*;
 import donnees.carte.*;
 import io.*;
+import strategie.ChefPompier;
 import evenements.*;
 
 import java.awt.Color;
@@ -20,6 +21,8 @@ import gui.ImageElement;
 import chemins.*;
 import donnees.robots.*;
 import java.util.PriorityQueue;
+
+
 
 public class TestChefPompier1{
     public static void main(String[] args) {
@@ -77,7 +80,6 @@ class ChefPompier1 implements Simulable{
 
         //Initialisation des evenements
         this.evenements = new LinkedList<Evenement>();
-        ajouteEvenements(Finirlejeu(data));
         this.date_courante = 0;
 
         //Affichage
@@ -87,87 +89,13 @@ class ChefPompier1 implements Simulable{
     }
 
 
-    public Incendie detecteIncendie(DonneesSimulation data){
-        for (Incendie incendie : data.incendies){
-            if (incendie.getEauNecessaire()>0 && incendie.getRobot()==null){
-                return incendie;
-            }
-        }
-        System.out.println("Pas d'incendie détécté");
-        return null;
-    }
-
-
-    public Robot robotDispo(DonneesSimulation data, Incendie incendie, long date){
-        if (incendie==null) return null;
-        for (Robot robot : data.robots){
-            if (date >= robot.getDateDispo()){
-                incendie.changeRobot(robot);
-                robot.changeIncendie(incendie);
-                return robot;
-            }
-        }
-        return null;
-    }
-
-
-    public ArrayList<Evenement> EteindreIncendie(DonneesSimulation data, long date_debut, Incendie incendie, Robot robot){
-        long date = date_debut;
-        
-        LinkedList<CaseDuree> chemin = PlusCoursChemin.djikstra(robot, incendie.getPosition(), data.carte);
-        PriorityQueue<Deplacement> evenements = PlusCoursChemin.deplacerRobotChemin(date, chemin, robot, data.carte);
-        ArrayList<Evenement> events = new ArrayList<>(evenements);
-        date += PlusCoursChemin.duree_chemin(chemin);
-        
-        while (robot.getQuantEau()>0){
-            events.add(new Vidage(date, robot, incendie));
-            date += Vidage.calcDuree(robot);
-        }
-        incendie.changeRobot(null);
-        robot.changeIncendie(null);
-        Case Eau = PlusCoursChemin.PlusProcheEau(data, robot);
-        LinkedList<CaseDuree> cheminEau = PlusCoursChemin.djikstra(robot, incendie.getPosition(), data.carte);
-        Evenement[] eventsEau = PlusCoursChemin.deplacerRobotChemin(date, chemin, robot, data.carte).toArray(new Evenement[0]);
-        for (int i=0; i<eventsEau.length;i++){
-            events.add(eventsEau[i]);
-            if (i==eventsEau.length-1 && !robot.getRemplitSurEau())
-                break;
-        }
-        date += PlusCoursChemin.duree_chemin(cheminEau);
-        events.add(new Remplissage(date, data.carte, robot, robot.getQuantReservoire()));
-        date += Remplissage.calcDuree(robot, robot.getQuantReservoire());
-        
-            
-        }
-        robot.changeDateDispo(date);
-        return events;
-    }
-
-    public Evenement[] Finirlejeu(DonneesSimulation data){
-        long date = 0;
-        ArrayList<Evenement> events = new ArrayList<Evenement>(0);
-        while (detecteIncendie(data) != null){
-            Incendie incendie = detecteIncendie(data);
-            Robot robot = robotDispo(data, incendie, date);
-            System.out.println("b");
-            if (robot != null){
-                System.out.println("dd");
-                ArrayList<Evenement> events2 = EteindreIncendie(data, date, incendie, robot);
-                System.out.println("aaaaa");
-                for (Evenement evenement:events2){
-                    events.add(evenement);
-                }
-                System.out.println("c");
-            }
-            else{
-                date += 1;    
-            }
-        }
-        return events.toArray(new Evenement[0]);
-    }
 
     @Override
     public void next() {
+
+        ArrayList<Evenement> events = ChefPompier.envoyerRobotsDisponibles(data, date_courante);
+        ajouteEvenements(events);
+
         incrementeDate();
         draw();
     }
@@ -188,13 +116,13 @@ class ChefPompier1 implements Simulable{
         date_courante = 0;
 
         evenements.clear();
-        ajouteEvenements(Finirlejeu(data));
 
         System.out.println(evenements.getFirst());
 
         planCoordinates();
         draw();
     }
+
 
     public void ajouteEvenement(Evenement e) {
 
@@ -216,7 +144,7 @@ class ChefPompier1 implements Simulable{
     }
 
 
-    public void ajouteEvenements(Evenement[] events) {
+    public void ajouteEvenements(ArrayList<Evenement> events) {
         for(Evenement e : events)
             ajouteEvenement(e);
     }
@@ -243,7 +171,7 @@ class ChefPompier1 implements Simulable{
 
 
     private boolean simulationTerminee() {
-        return date_courante > evenements.getLast().getdateFin();
+        return evenements.isEmpty();
     }
 
 
@@ -319,4 +247,3 @@ class ChefPompier1 implements Simulable{
 
 }
     
-

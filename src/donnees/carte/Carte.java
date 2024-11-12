@@ -1,7 +1,5 @@
 package donnees.carte;
 
-
-
 public class Carte {
     private int tailleCases;
     private int nbLignes;

@@ -26,9 +26,9 @@ public class PlusCoursChemin {
     }
 
     //Renvoi la suite d'evenement que doit effectuer robot pour suivre le chemin chemin
-    public static PriorityQueue<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
+    public static ArrayList<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
 
-        PriorityQueue<Evenement> events = new PriorityQueue<>();
+        ArrayList<Evenement> events = new ArrayList<>();
 
         CaseDuree precedente = chemin.getFirst(); 
         long date = 0; //Date de debut de l'evenements

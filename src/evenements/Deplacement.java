@@ -41,11 +41,11 @@ public class Deplacement extends Evenement{
     @Override
     public void execute(){
 
-        System.out.println(robot.toString()+" , "+depart.toString());
+
 
 
         if (!depart.equals(robot.getPosition()))
-            throw new Error("[!] Deplacement interdit: le robot n'est pas sur la case départ de l'evenement");
+            throw new Error("[!] Deplacement interdit: le robot n'est pas sur la case départ de l'evenement"+robot.toString()+depart.toString());
 
         Case destination = carte.getVoisin(depart, dir);
         
