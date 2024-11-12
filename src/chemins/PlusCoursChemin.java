@@ -1,5 +1,6 @@
 package chemins;
 
+import donnees.DonneesSimulation;
 import donnees.carte.*;
 import donnees.robots.*;
 import evenements.*;
@@ -53,7 +54,7 @@ public class PlusCoursChemin {
 
 
     //Renvoi le plus cours chemin entre robot.getPosition() et arrivee (null si il n'existe pas)
-    public static LinkedList<CaseDuree> dijkstra(Robot robot, Case arrivee, Carte carte) {
+    public static LinkedList<CaseDuree> djikstra(Robot robot, Case arrivee, Carte carte) {
 
         long[][] dureeDistanceCases = initDureeDistanceCases(carte, robot.getPosition());
         boolean[][] casesMarquees = initCaseMarquee(carte);
@@ -234,5 +235,24 @@ public class PlusCoursChemin {
         for(Case src : chemin)
             s += src.toString() + ", ";
         return s;
+    }
+
+    public static Case PlusProcheEau(DonneesSimulation data, Robot robot){
+        Case eau = robot.getPosition();
+        long minDuree = Long.MAX_VALUE;
+        for (int ligne=0; ligne<data.carte.getNbLignes() ; ligne++){
+            for (int colonne=0 ; colonne<data.carte.getNbColonnes() ; colonne++){
+                if (data.carte.getCase(ligne,colonne).getNature() == NatureTerrain.EAU){
+                    LinkedList<CaseDuree> chemin = djikstra(robot, data.carte.getCase(ligne,colonne), data.carte);
+                    long duree = duree_chemin(chemin);
+                    if (duree<minDuree){
+                        minDuree=duree;
+                        eau = data.carte.getCase(ligne, colonne);
+                    }
+                }
+            }
+        }
+        if (eau == robot.getPosition()) throw new Error("pas d'eau disponible");
+        return eau;
     }
 }

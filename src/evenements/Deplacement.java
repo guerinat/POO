@@ -59,4 +59,8 @@ public class Deplacement extends Evenement{
     public String toString() {
         return "Deplacement (robot:"+robot.toString()+", dir:"+dir.toString()+")";
     }
+    
+    public int compareTo(Deplacement other) {
+        return Long.compare(this.getdateFin(), other.getdateFin()); // Trie par date croissante
+    }
 }
