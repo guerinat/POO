@@ -105,22 +105,21 @@ public class Simulateur implements Simulable {
             ajouteEvenement(e);
     }
 
-    // Execute tout les évenement de date courante (compris) à date-courante + 1 (non-compris)
+    // Execute tout les évenement de date courante
     private void incrementeDate() {
 
         ListIterator<Evenement> iterateur = evenements.listIterator();
     
         while (iterateur.hasNext()) {
+
             Evenement current = iterateur.next(); 
 
             if (current.getdateFin() >= date_courante + 1)  
                 break;
 
-            if (current.getdateFin() >= date_courante) {
-                current.execute();
-                System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
-            }
-            
+            current.execute();
+            System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
+            iterateur.remove();   
         }
         date_courante ++;
     }

@@ -9,7 +9,10 @@ public class RobotAChenilles extends Robot {
     public RobotAChenilles(Case position, double vitesse) {
         super(
             position, //position (Case)
-            new double[]{0, vitesse/2, 0, vitesse, vitesse}, //vitesseTerrain (EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT)
+
+            //vitesseTerrain (EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT)
+            new double[]{0, vitesse/2, 0, vitesse, vitesse},
+            
             false, //utilisePoudre
             false, //remplitSurEau
             2000, //quant_reservoire (L)

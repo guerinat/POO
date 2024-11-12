@@ -125,10 +125,10 @@ class ExecutionEvenements implements Simulable {
 
         date_courante = 0;
 
+        
+
         evenements.clear();
         ajouteEvenements(loadEvenements(data));
-
-        System.out.println(evenements.getFirst());
 
         planCoordinates();
         draw();
@@ -166,16 +166,15 @@ class ExecutionEvenements implements Simulable {
         ListIterator<Evenement> iterateur = evenements.listIterator();
     
         while (iterateur.hasNext()) {
+            
             Evenement current = iterateur.next(); 
 
             if (current.getdateFin() >= date_courante + 1)  
                 break;
 
-            if (current.getdateFin() >= date_courante) {
-                current.execute();
-                System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
-            }
-            
+            current.execute();
+            System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
+            iterateur.remove();   
         }
         date_courante ++;
     }

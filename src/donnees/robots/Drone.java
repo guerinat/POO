@@ -11,7 +11,10 @@ public class Drone extends Robot {
 
         super(
             position, //position (Case)
-            new double[]{vitesse,vitesse,vitesse,vitesse,vitesse}, //vitesseTerrain (EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT)
+
+            //vitesseTerrain (EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT)
+            new double[]{vitesse,vitesse,vitesse,vitesse,vitesse}, 
+            
             false, //utilisePoudre
             true, //remplitSurEau
             10000, //quant_reservoire (L)
