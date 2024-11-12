@@ -1,5 +1,7 @@
 package evenements;
 
+import java.lang.Long;
+
 public abstract class Evenement {
 
     private long date_fin; 
@@ -18,4 +20,6 @@ public abstract class Evenement {
     public String toString() {
         return "("+this.getClass().toString()+", date_fin:"+this.date_fin+")";
     }
+
+    
 }

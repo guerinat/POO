@@ -23,6 +23,7 @@ public abstract class Robot {
     private int duree_intervention;
 
     private Incendie incendie=null;
+    private long dateDispo = 0;
 
     //Robots à eau
     public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre, boolean remplitSurEau, 
@@ -36,6 +37,7 @@ public abstract class Robot {
         this.duree_remplissage = duree_remplissage;
         this.quant_eau_intervention = quant_eau_intervention;
         this.duree_intervention = duree_intervention;
+        this.dateDispo=0;
     }
 
     //Robots à poudre
@@ -118,6 +120,13 @@ public abstract class Robot {
         this.incendie = incendie;
     }
 
+    public void changeDateDispo(long date){
+        this.dateDispo = date;
+    }
+
+    public long getDateDispo(){
+        return this.dateDispo;
+    }
     abstract public String toString();
 
     
