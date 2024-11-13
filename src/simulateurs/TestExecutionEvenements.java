@@ -1,34 +1,29 @@
+package simulateurs;
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 
 import donnees.*;
 import donnees.carte.*;
 import io.*;
-import strategie.ChefPompier;
 import evenements.*;
 
 import java.awt.Color;
 
 import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.ListIterator;
-import java.lang.Comparable;
 
 import gui.GUISimulator;
 import gui.Simulable;
 import gui.ImageElement;
 
-import chemins.*;
-import donnees.robots.*;
-import java.util.PriorityQueue;
 
 
 
-public class TestChefPompier1{
+public class TestExecutionEvenements{
     public static void main(String[] args) {
 
         if (args.length < 1) {
-            System.out.println("Syntaxe: java TestChefPompier <nomDeFichier>");
+            System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier>");
             System.exit(1);
         }
 
@@ -38,7 +33,7 @@ public class TestChefPompier1{
             DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);
 
             //Creation du simulateur
-            ChefPompier1 simulation = new ChefPompier1(args[0], data);
+            ExecutionEvenements simulation = new ExecutionEvenements(args[0], data);
 
 
         } catch (FileNotFoundException e) {
@@ -47,11 +42,13 @@ public class TestChefPompier1{
             System.out.println("\n\t**format du fichier " + args[0] + " invalide: " + e.getMessage());
         }
     }
+
+
 }
 
 
-class ChefPompier1 implements Simulable{
-    
+class ExecutionEvenements implements Simulable {
+
     /* L'interface graphique associée */
     private GUISimulator gui;
 
@@ -67,7 +64,7 @@ class ChefPompier1 implements Simulable{
     private String cheminFichier;
 
 
-    public ChefPompier1(String cheminFichier, DonneesSimulation data) {
+    public ExecutionEvenements(String cheminFichier, DonneesSimulation data) {
         
         //Chargement des données
         this.cheminFichier = cheminFichier;
@@ -77,25 +74,38 @@ class ChefPompier1 implements Simulable{
         //Association au gui
         this.gui = new GUISimulator(tailleGui, tailleGui, Color.WHITE);
         gui.setSimulable(this);
+        planCoordinates();
 
         //Initialisation des evenements
         this.evenements = new LinkedList<Evenement>();
+        ajouteEvenements(loadEvenements(data));
         this.date_courante = 0;
 
         //Affichage
-
-        planCoordinates();
         draw();
+    }
+
+
+    static Evenement[] loadEvenements(DonneesSimulation data) {
+
+        Evenement[] events = new Evenement[86];
+
+        events[0] = new Deplacement(0, data.carte, data.robots[1].getPosition(),Direction.NORD, data.robots[1]);
+        for(int i = 0; i < 50; i++) events[1 + i] = new Vidage(450 + i*600, data.robots[1], data.IncendiePos(data.carte.getCase(5, 5)));
+        events[51] = new Deplacement(30450, data.carte, data.carte.getCase(5, 5), Direction.OUEST, data.robots[1]);
+        events[52] = new Deplacement(30900, data.carte, data.carte.getCase(5, 4), Direction.OUEST, data.robots[1]);
+        events[53] = new Remplissage(31350, data.carte, data.robots[1],0);
+        events[54] = new Deplacement(31950, data.carte, data.carte.getCase(5, 3), Direction.EST, data.robots[1]);
+        events[55] = new Deplacement(32400, data.carte, data.carte.getCase(5, 4), Direction.EST, data.robots[1]);
+        for(int i = 0; i < 30; i++) events[56 + i] = new Vidage(32850 + i*600, data.robots[1], data.IncendiePos(data.carte.getCase(5, 5)));
+
+        return events;
     }
 
 
 
     @Override
     public void next() {
-
-        ArrayList<Evenement> events = ChefPompier.envoyerRobotsDisponibles(data, date_courante);
-        ajouteEvenements(events);
-
         incrementeDate();
         draw();
     }
@@ -115,9 +125,10 @@ class ChefPompier1 implements Simulable{
 
         date_courante = 0;
 
-        evenements.clear();
+        
 
-        System.out.println(evenements.getFirst());
+        evenements.clear();
+        ajouteEvenements(loadEvenements(data));
 
         planCoordinates();
         draw();
@@ -144,7 +155,7 @@ class ChefPompier1 implements Simulable{
     }
 
 
-    public void ajouteEvenements(ArrayList<Evenement> events) {
+    public void ajouteEvenements(Evenement[] events) {
         for(Evenement e : events)
             ajouteEvenement(e);
     }
@@ -155,23 +166,22 @@ class ChefPompier1 implements Simulable{
         ListIterator<Evenement> iterateur = evenements.listIterator();
     
         while (iterateur.hasNext()) {
+            
             Evenement current = iterateur.next(); 
 
             if (current.getdateFin() >= date_courante + 1)  
                 break;
 
-            if (current.getdateFin() >= date_courante) {
-                current.execute();
-                System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
-            }
-            
+            current.execute();
+            System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
+            iterateur.remove();   
         }
         date_courante ++;
     }
 
 
     private boolean simulationTerminee() {
-        return evenements.isEmpty();
+        return date_courante > evenements.getLast().getdateFin();
     }
 
 
@@ -244,6 +254,4 @@ class ChefPompier1 implements Simulable{
         }
         return s;
     }
-
 }
-    

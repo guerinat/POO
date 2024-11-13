@@ -36,8 +36,8 @@ testExecutionEvenements:
 	java -classpath bin:lib/gui.jar TestExecutionEvenements cartes/carteSujet.map
 
 testChef:
-	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestChefPompier1.java
-	java -classpath bin:lib/gui.jar TestChefPompier1 cartes/carteSujet.map
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simulateurs/TestSimulateur.java
+	java -classpath bin:lib/gui.jar simulateurs/TestSimulateur cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*
