@@ -73,6 +73,7 @@ public class Simulateur implements Simulable{
     public void next() {
 
         //Si un chef pompier existe, jouer sa stratégie
+       
         if (!simulationTerminee() && chefPompier != null)
             chefPompier.jouerStrategie(data, date_courante);
 

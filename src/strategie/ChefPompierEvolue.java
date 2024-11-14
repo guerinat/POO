@@ -10,7 +10,7 @@ import donnees.Incendie;
 import donnees.robots.Robot;
 
 
-public class ChefPompierElementaire extends ChefPompier {
+public class ChefPompierEvolue extends ChefPompier {
 
     public void jouerStrategie(DonneesSimulation data, long date_courante) {
 
@@ -39,7 +39,7 @@ public class ChefPompierElementaire extends ChefPompier {
 
                 //Si l'incendie est innacessible, continuer.
                 LinkedList<CaseDuree> chemin = PlusCoursChemin.djikstra(robot, incendie.getPosition(), data.carte);
-                if (chemin == null) continue;
+                if (chemin.isEmpty()) continue;
 
                 //Sinon, envoyer le robot eteindre l'incendie.
                 envoyerRobotEteindreIncendie(robot, incendie, chemin, date_courante, data.carte);

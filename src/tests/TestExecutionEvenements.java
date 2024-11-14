@@ -30,8 +30,6 @@ public class TestExecutionEvenements{
         return evenementsDepart;
     }
 
-
-
     public static void main(String[] args) {
 
         if (args.length < 1) {
@@ -40,10 +38,8 @@ public class TestExecutionEvenements{
         }
 
         try {
-
             //Lecture et creation des données
             DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);    
-
 
             //Creation du simulateur, on passe notre methode d'initialisateur en argument
             new Simulateur(args[0], data, null, TestExecutionEvenements::initialisateurEvenements1);
