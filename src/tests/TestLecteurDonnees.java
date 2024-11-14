@@ -8,7 +8,15 @@ import java.util.zip.DataFormatException;
 import donnees.DonneesSimulation;
 
 public class TestLecteurDonnees {
-
+    
+    /**
+     * Méthode principale du programme. Elle vérifie si un fichier a été spécifié en argument,
+     * tente de lire les données à partir de ce fichier et affiche les données de simulation 
+     * ou gère les erreurs de format et de fichier introuvable.
+     *
+     * @param args Tableau de chaînes de caractères représentant les arguments de la ligne de commande.
+     *             args[0] doit contenir le nom du fichier de données.
+     */
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier>");

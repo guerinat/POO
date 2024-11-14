@@ -9,10 +9,18 @@ import java.util.PriorityQueue;
 import java.util.LinkedList;
 
 
-
+/**
+ * Classe contenant des méthodes pour calculer le plus court chemin qu'un robot peut emprunter sur une carte,
+ * ainsi que des méthodes utilitaires pour générer des événements de déplacement et trouver la source d'eau la plus proche.
+ */
 public class PlusCoursChemin {
     
-    //Renvoi la durée totale d'un chemin
+    /**
+     * Calcule la durée totale d'un chemin donné.
+     * 
+     * @param chemin une liste de CaseDuree représentant le chemin à suivre
+     * @return la durée totale pour parcourir le chemin ou Long.MAX_VALUE si le chemin n'existe pas
+     */
     public static long duree_chemin(LinkedList<CaseDuree> chemin) {
 
         //Si le chemin n'existe pas
@@ -25,7 +33,15 @@ public class PlusCoursChemin {
         return duree;
     }
 
-    //Renvoi la suite d'evenement que doit effectuer robot pour suivre le chemin chemin
+    /**
+     * Génère une séquence d'événements de déplacement pour qu'un robot suive un chemin donné.
+     * 
+     * @param date_debut la date de début pour le premier événement de déplacement
+     * @param chemin la liste de CaseDuree représentant le chemin à suivre
+     * @param robot le robot qui se déplace
+     * @param carte la carte sur laquelle le robot se déplace
+     * @return une liste d'événements que le robot doit effectuer pour suivre le chemin
+     */
     public static LinkedList<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
 
         LinkedList<Evenement> events = new LinkedList<>();
@@ -53,7 +69,15 @@ public class PlusCoursChemin {
     }
 
 
-    //Renvoi le plus cours chemin entre robot.getPosition() et arrivee (null si il n'existe pas)
+    /**
+     * Calcule le plus court chemin entre la position du robot et une case d'arrivée donnée.
+     * Utilise l'algorithme de Dijkstra pour trouver le chemin optimal.
+     * 
+     * @param robot le robot qui effectue le déplacement
+     * @param arrivee la case d'arrivée
+     * @param carte la carte sur laquelle le robot se déplace
+     * @return une liste chaînée de CaseDuree représentant le chemin le plus court ou null si aucun chemin n'existe
+     */
     public static LinkedList<CaseDuree> djikstra(Robot robot, Case arrivee, Carte carte) {
 
         long[][] dureeDistanceCases = initDureeDistanceCases(carte, robot.getPosition());
@@ -90,7 +114,13 @@ public class PlusCoursChemin {
 
     }
 
-
+    /**
+     * Initialise la matrice de distances avec des valeurs infinies sauf pour la case de départ.
+     * 
+     * @param carte la carte sur laquelle se déplacent les robots
+     * @param depart la case de départ
+     * @return une matrice contenant les distances initialisées
+     */
     private static long[][] initDureeDistanceCases(Carte carte, Case depart) {
 
         long[][] dureeCasesAccessible = new long[carte.getNbLignes()][carte.getNbLignes()];
@@ -103,7 +133,12 @@ public class PlusCoursChemin {
         return dureeCasesAccessible;
     }
 
-
+    /**
+     * Initialise un tableau indiquant si chaque case a été visitée.
+     * 
+     * @param carte la carte sur laquelle se déplacent les robots
+     * @return un tableau de booléens initialisés à false
+     */
     private static boolean[][] initCaseMarquee(Carte carte) {
 
         boolean[][] caseMarquee = new boolean[carte.getNbLignes()][carte.getNbLignes()];
@@ -116,7 +151,15 @@ public class PlusCoursChemin {
     }
 
 
-    //Renvoi la case non marquée de durée minimale dans dureeDistanceCases
+    
+    /**
+     * Trouve la case non marquée ayant la durée minimale dans la matrice des distances.
+     * 
+     * @param dureeDistanceCases la matrice des durées
+     * @param casesMarquees tableau indiquant si une case a été visitée
+     * @param carte la carte sur laquelle se déplacent les robots
+     * @return la case non marquée avec la durée minimale
+     */
     private static Case caseNonMarqueeMinDuree(long[][] dureeDistanceCases, boolean[][] casesMarquees, Carte carte) {
 
         long minDuree = Long.MAX_VALUE;
@@ -137,7 +180,14 @@ public class PlusCoursChemin {
     }
 
 
-    //Renvoi les voisins non marqués de src
+    /**
+     * Obtient les cases voisines non marquées d'une case source donnée.
+     * 
+     * @param carte la carte sur laquelle se déplacent les robots
+     * @param src la case source
+     * @param casesMarquees tableau indiquant si une case a été visitée
+     * @return une liste de cases voisines non marquées
+     */
     private static ArrayList<Case> getVoisinsNonMarquee(Carte carte, Case src, boolean[][] casesMarquees) {
 
         ArrayList<Case> casesVoisines = new ArrayList<>();
@@ -159,7 +209,15 @@ public class PlusCoursChemin {
     }
 
 
-    //Renvoi la duree entre la case depart et sa case voisine arrive pour le robot robot
+    /**
+     * Calcule la durée de déplacement entre deux cases pour un robot donné.
+     * 
+     * @param depart la case de départ
+     * @param arrive la case d'arrivée
+     * @param robot le robot qui effectue le déplacement
+     * @param carte la carte sur laquelle se déplacent les robots
+     * @return la durée de déplacement ou Long.MAX_VALUE si le déplacement est impossible
+     */
     public static long getDuree(Case depart, Case arrive, Robot robot, Carte carte) {
 
         NatureTerrain nature_depart = depart.getNature();
@@ -179,7 +237,13 @@ public class PlusCoursChemin {
     }
 
 
-    //Fonction pour ajouter deux durée potentiellement "infinie"
+    /**
+     * Ajoute deux durées, en prenant en compte les valeurs infinies.
+     * 
+     * @param duree1 la première durée
+     * @param duree2 la seconde durée
+     * @return la somme des deux durées, ou Long.MAX_VALUE si l'une d'elles est infinie
+     */
     private static long ajouterDuree(Long duree1, long duree2) {
         if (duree1 == Long.MAX_VALUE || duree2 == Long.MAX_VALUE)
             return Long.MAX_VALUE;
@@ -188,7 +252,16 @@ public class PlusCoursChemin {
     }
 
 
-    //Reconstruit le plus cours chemin à partir des predecesseurs (le chemin doit exister).
+    /**
+     * Reconstruit le chemin le plus court en partant de la case d'arrivée jusqu'à la case de départ.
+     * Utilise les prédécesseurs de chaque case pour remonter le chemin trouvé par Dijkstra.
+     * 
+     * @param predecesseurs tableau des cases prédécesseurs généré par Dijkstra
+     * @param dureeDistanceCases matrice des durées pour atteindre chaque case
+     * @param arrivee la case de destination
+     * @param depart la case de départ
+     * @return la liste chaînée de CaseDuree représentant le chemin le plus court
+     */
     private static LinkedList<CaseDuree> reconstruireChemin(Case[][] predecesseurs, long[][] dureeDistanceCases, Case arrivee, Case depart) {
 
         LinkedList<CaseDuree> chemin = new LinkedList<>();
@@ -216,7 +289,14 @@ public class PlusCoursChemin {
     }
 
     
-    //Renvoi la direction de case1 à case2
+    /**
+     * Détermine la direction entre deux cases voisines.
+     * 
+     * @param case1 la première case (point de départ)
+     * @param case2 la seconde case (destination)
+     * @return la direction de case1 à case2
+     * @throws Error si les cases ne sont pas adjacentes
+     */
     private static Direction getDirection(Case case1, Case case2) {
         int diff_x = case2.getColonne() - case1.getColonne();
         int diff_y = case2.getLigne() - case1.getLigne();
@@ -230,6 +310,12 @@ public class PlusCoursChemin {
     }
 
 
+    /**
+     * Convertit une liste de cases en chaîne de caractères pour l'affichage du chemin.
+     * 
+     * @param chemin la liste chaînée de cases représentant le chemin
+     * @return une chaîne de caractères listant les cases du chemin
+     */
     public static String CheminToString(LinkedList<Case> chemin) {
         String s = "";
         for(Case src : chemin)
@@ -237,7 +323,14 @@ public class PlusCoursChemin {
         return s;
     }
 
-
+    /**
+     * Trouve la case d'eau la plus proche de la position d'un robot, basée sur le plus court chemin.
+     * 
+     * @param data les données de simulation contenant la carte et les informations du terrain
+     * @param robot le robot cherchant une source d'eau
+     * @return la case contenant de l'eau la plus proche du robot
+     * @throws Error si aucune source d'eau n'est disponible
+     */
     public static Case chercherPlusProcheEau(Carte carte, Robot robot){
 
         Case plusProcheEau = null;

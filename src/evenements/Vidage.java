@@ -11,7 +11,13 @@ public class Vidage extends Evenement{
     private Robot robot;
     private Incendie incendie;
 
-    
+    /**
+     * Constructeur pour initialiser un événement de vidage.
+     * 
+     * @param date_debut La date à laquelle le vidage commence.
+     * @param robot Le robot qui effectue le vidage.
+     * @param incendie L'incendie que le robot tente d'éteindre.
+     */
     public Vidage(long date_debut, Robot robot, Incendie incendie){
         
         super(date_debut + calcDuree(robot));
@@ -19,13 +25,28 @@ public class Vidage extends Evenement{
         this.incendie = incendie;
     }
 
-
+    /**
+     * Calcule la durée nécessaire pour vider le réservoir du robot pour une intervention.
+     * 
+     * @param robot Le robot qui effectue l'intervention.
+     * 
+     * @return La durée de l'intervention en millisecondes.
+     */
     public static long calcDuree(Robot robot) {
         long duree = robot.getDureeIntervention();
         return duree;
     }
 
-
+    /**
+     * Crée une liste d'événements de vidage nécessaires pour éteindre complètement un incendie.
+     * Cela dépend du robot et de la quantité d'eau nécessaire pour éteindre l'incendie.
+     * 
+     * @param robot Le robot qui effectue l'intervention.
+     * @param incendie L'incendie que le robot tente d'éteindre.
+     * @param date_debut La date à laquelle le premier vidage commence.
+     * 
+     * @return Une liste d'événements de vidage à exécuter pour éteindre l'incendie.
+     */
     public static LinkedList<Evenement> viderEntierementRobot(Robot robot, Incendie incendie, long date_debut) {
 
         LinkedList<Evenement> vidages = new LinkedList<>();

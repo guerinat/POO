@@ -6,6 +6,14 @@ public class Carte {
     private int nbColonnes;
     private Case[][] carte;
 
+/**
+ * Constructeur de la classe Carte.
+ * Initialise la carte avec les dimensions spécifiées.
+ * 
+ * @param tailleCases la taille d'une case
+ * @param nbLignes le nombre de lignes de la carte
+ * @param nbColonnes le nombre de colonnes de la carte
+ */
     public Carte(int tailleCases, int nbLignes, int nbColonnes) {
 
         this.tailleCases = tailleCases;
@@ -14,26 +22,63 @@ public class Carte {
         this.carte = new Case[nbLignes][nbColonnes];
     }
 
+/**
+ * Retourne le nombre de lignes dans la carte.
+ * 
+ * @return le nombre de lignes
+ */
     public int getNbLignes () {
         return this.nbLignes;
     }
 
+/**
+ * Retourne le nombre de colonnes dans la carte.
+ * 
+ * @return le nombre de colonnes
+ */
     public int getNbColonnes () {
         return this.nbColonnes;
     }
 
+/**
+ * Retourne la taille d'une case.
+ * 
+ * @return la taille d'une case
+ */
     public int getTailleCases() {
         return this.tailleCases;
     }
 
+/**
+ * Retourne la case située aux coordonnées spécifiées.
+ * 
+ * @param ligne l'index de la ligne
+ * @param colonne l'index de la colonne
+ * @return la case aux coordonnées spécifiées
+ */
     public Case getCase(int ligne, int colonne) {
         return this.carte[ligne][colonne];
     }
 
+/**
+ * Définit une case à une position spécifique dans la carte.
+ * 
+ * @param src la case à placer
+ * @param ligne l'index de la ligne
+ * @param colonne l'index de la colonne
+ * @return la case nouvellement placée
+ */
     public Case setCase(Case src, int ligne, int colonne) {
         return this.carte[ligne][colonne] = src;
     }
 
+/**
+ * Vérifie si une case voisine existe dans une direction spécifiée.
+ * 
+ * @param src la case de référence
+ * @param dir la direction du voisin recherché
+ * @return vrai si le voisin existe, faux sinon
+ */
     public boolean voisinExiste(Case src, Direction dir) {
 
         switch(dir) {
@@ -50,6 +95,14 @@ public class Carte {
         }
     }
     
+/**
+ * Retourne la case voisine dans une direction spécifiée.
+ * 
+ * @param src la case de référence
+ * @param dir la direction du voisin
+ * @return la case voisine dans la direction donnée
+ * @throws Error si le voisin n'existe pas dans cette direction
+ */
     public Case getVoisin(Case src, Direction dir) {
 
         if (!voisinExiste(src, dir))
@@ -69,6 +122,11 @@ public class Carte {
         }
     }
 
+/**
+ * Génère une représentation de la carte en chaîne de caractères.
+ * 
+ * @return une chaîne de caractères représentant la carte
+ */
     @Override
     public String toString () {
         String s = "# CARTE ("+nbLignes+", "+nbColonnes+", taille:"+tailleCases+")\n";

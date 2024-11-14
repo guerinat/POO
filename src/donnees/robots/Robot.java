@@ -7,7 +7,15 @@ import strategie.*;
 
 
 
-
+/**
+ * Constructeur pour les robots à poudre (n'ont pas de réservoir d'eau et n'effectuent pas de remplissage).
+ * 
+ * @param position La position initiale du robot sur la carte.
+ * @param vitesseTerrain Les vitesses du robot sur les différents types de terrain (EAU, FORET, etc.).
+ * @param utilisePoudre Si le robot utilise de la poudre pour les interventions.
+ * @param quant_eau_intervention La quantité d'eau utilisée lors d'une intervention.
+ * @param duree_intervention La durée d'une intervention en secondes.
+ */
 public abstract class Robot {
 
     private Case position;
@@ -108,7 +116,11 @@ public abstract class Robot {
 
     public abstract String getLienTexture();
 
-
+    /**
+     * Permet de déverser une certaine quantité d'eau du réservoir du robot.
+     * 
+     * @param volume La quantité d'eau à déverser.
+     */
     public void derverserEau(int volume) {
 
         if (utilisePoudre)

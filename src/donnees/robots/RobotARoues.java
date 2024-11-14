@@ -7,6 +7,12 @@ public class RobotARoues extends Robot {
 
     public static final String lienTexture = "ressources/roues.png";
 
+/**
+ * Constructeur pour initialiser un robot à roues avec une position sur la carte et une vitesse donnée.
+ * 
+ * @param position La position du robot sur la carte (de type Case).
+ * @param vitesse La vitesse du robot sur terrain libre et habitat (en unités adaptées).
+ */
     public RobotARoues(Case position, double vitesse) {
         super(
             position, //position (Case)

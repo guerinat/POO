@@ -12,6 +12,14 @@ import donnees.robots.Robot;
 
 public class ChefPompierEvolue extends ChefPompier {
 
+    /**
+     * Méthode principale qui exécute la stratégie avancée de gestion des incendies.
+     * Envoie chaque robot disponible soit pour se remplir d'eau (si le réservoir est vide),
+     * soit pour éteindre un incendie non affecté, en calculant un chemin d'accès optimal.
+     *
+     * @param data          Données de la simulation contenant la carte, la liste des robots, et les incendies.
+     * @param date_courante La date actuelle dans la simulation, utilisée pour planifier les événements.
+     */
     public void jouerStrategie(DonneesSimulation data, long date_courante) {
 
         //Chercher un robot disponible

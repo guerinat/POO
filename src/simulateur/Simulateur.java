@@ -38,6 +38,11 @@ public class Simulateur implements Simulable{
     private String cheminFichier;
     private InitialisateurEvenements initialisateur;
 
+    /**
+     * Constructeur de la classe Simulateur
+     * @param cheminFichier Le chemin vers le fichier de données de simulation
+     * @param data Les données de simulation
+     */
     public Simulateur(String cheminFichier, DonneesSimulation data, ChefPompier chefPompier, InitialisateurEvenements initialisateur) {
         
         //Chargement des données
@@ -106,7 +111,10 @@ public class Simulateur implements Simulable{
         draw();
     }
 
-
+    /**
+     * Ajoute un événement à la liste des événements en le maintenant trié par date de fin.
+     * @param e L'événement à ajouter
+     */
     public void ajouteEvenement(Evenement e) {
 
         ListIterator<Evenement> iterateur = evenements.listIterator();
@@ -126,7 +134,10 @@ public class Simulateur implements Simulable{
         }
     }
 
-
+    /**
+     * Ajoute plusieurs événements à la liste des événements.
+     * @param events Liste d'événements à ajouter
+     */
     public void ajouteEvenements(LinkedList<Evenement> evenements) {
 
         if (evenements == null) return;

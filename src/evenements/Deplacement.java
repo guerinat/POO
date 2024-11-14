@@ -3,6 +3,10 @@ package evenements;
 import donnees.carte.*;
 import donnees.robots.*;
 
+/**
+ * Représente un événement de déplacement d'un robot dans la carte à une date donnée.
+ * Cet événement modifie la position du robot en fonction de sa direction et de la carte.
+ */
 public class Deplacement extends Evenement{
 
     private Direction dir;
@@ -10,6 +14,15 @@ public class Deplacement extends Evenement{
     private Robot robot;
     private Case depart;
 
+/**
+ * Constructeur pour initialiser un événement de déplacement d'un robot.
+ * 
+ * @param date_debut La date de début de l'événement, utilisée pour ordonner les événements dans le temps.
+ * @param carte La carte sur laquelle le robot évolue.
+ * @param depart La case de départ du robot.
+ * @param dir La direction dans laquelle le robot se déplace.
+ * @param robot Le robot qui va se déplacer.
+ */
     public Deplacement(long date_debut, Carte carte, Case depart, Direction dir, Robot robot){
         super(date_debut + calcDuree(carte, depart, robot, dir));
         this.dir = dir;
@@ -18,7 +31,17 @@ public class Deplacement extends Evenement{
         this.depart = depart;
     }
 
-    //Calcule la durée d'un robot d'une case future de départ à sa case voisine dans la direction dir
+
+/**
+ * Calcule la durée du déplacement du robot entre la case de départ et la case voisine dans la direction spécifiée.
+ * 
+ * @param carte La carte sur laquelle le robot se déplace.
+ * @param depart La case de départ du robot.
+ * @param robot Le robot qui se déplace.
+ * @param dir La direction dans laquelle le robot va se déplacer.
+ * @return La durée du déplacement en secondes.
+ * @throws Error Si la position de départ ou la destination n'est pas valide ou si le robot ne peut pas se déplacer.
+ */
     private static long calcDuree(Carte carte, Case depart, Robot robot, Direction dir) {
 
         NatureTerrain nature_depart = depart.getNature();
@@ -38,11 +61,13 @@ public class Deplacement extends Evenement{
         return duree;
     }
 
+/**
+ * Exécute l'événement en déplaçant le robot de la case de départ à la case voisine dans la direction spécifiée.
+ * 
+ * @throws Error Si le robot n'est pas sur la case de départ ou si le robot ne peut pas se déplacer sur la case voisine.
+ */
     @Override
     public void execute(){
-
-
-
 
         if (!depart.equals(robot.getPosition()))
             throw new Error("[!] Deplacement interdit: le robot n'est pas sur la case départ de l'evenement"+robot.toString()+depart.toString());
@@ -59,7 +84,14 @@ public class Deplacement extends Evenement{
     public String toString() {
         return "Deplacement (robot:"+robot.toString()+", dir:"+dir.toString()+")";
     }
-    
+
+/**
+ * Compare deux événements de déplacement en fonction de leur date de fin.
+ * Cette méthode permet de trier les événements dans un ordre chronologique.
+ * 
+ * @param other L'autre événement de déplacement à comparer.
+ * @return Un entier négatif si cet événement est avant l'autre, un entier positif si cet événement est après l'autre, ou zéro si les deux événements ont la même date de fin.
+ */
     public int compareTo(Deplacement other) {
         return Long.compare(this.getdateFin(), other.getdateFin()); // Trie par date croissante
     }

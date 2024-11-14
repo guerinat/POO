@@ -9,6 +9,15 @@ import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 
 public class TestStrategieElementaire {
+
+    /**
+     * Méthode principale du programme. Elle initialise les données de simulation, 
+     * applique une stratégie de gestion élémentaire des incendies avec un chef pompier 
+     * et crée un simulateur pour exécuter la simulation.
+     *
+     * @param args Tableau de chaînes de caractères représentant les arguments de la ligne de commande.
+     *             args[0] doit contenir le nom du fichier de données à lire.
+     */
     public static void main(String[] args) {
 
         if (args.length < 1) {

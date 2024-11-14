@@ -14,6 +14,13 @@ import simulateur.*;
 
 public class TestExecutionEvenements{
 
+    /**
+     * Méthode statique initialisant une séquence d'événements pour un test de simulation.
+     * Crée une liste d'événements de type Deplacement, Vidage, et Remplissage.
+     *
+     * @param data Données de simulation contenant les informations sur la carte, les robots, et les incendies.
+     * @return LinkedList<Evenement> une liste d'événements ordonnés dans le temps pour simuler des actions d'un robot.
+     */
     public static LinkedList<Evenement> initialisateurEvenements1(DonneesSimulation data) {
 
         LinkedList<Evenement> evenementsDepart = new LinkedList<>();
@@ -29,7 +36,14 @@ public class TestExecutionEvenements{
 
         return evenementsDepart;
     }
-
+    
+    /**
+     * Point d'entrée principal pour exécuter le test des événements.
+     * Elle lit le fichier de données de simulation, initialise les données, puis crée un simulateur
+     * en utilisant la méthode d'initialisation d'événements.
+     *
+     * @param args Tableau de chaînes de caractères, où args[0] doit être le nom du fichier de données.
+     */
     public static void main(String[] args) {
 
         if (args.length < 1) {

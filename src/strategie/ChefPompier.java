@@ -23,12 +23,23 @@ public abstract class ChefPompier {
         this.incendiesAffectes = new HashSet<>();
     }
 
-
+    /**
+     * Associe un simulateur à l'instance de ChefPompier.
+     * @param simulateur L'objet simulateur à associer pour gérer l'ajout d'événements.
+     */
     public void setSimulateur(Simulateur simulateur) {
         this.simulateur = simulateur;
     }
 
-
+    /**
+     * Programme le déplacement d'un robot vers un incendie ainsi que les événements nécessaires
+     * pour éteindre cet incendie une fois sur place.
+     * @param robot Le robot à envoyer pour éteindre l'incendie.
+     * @param incendie L'incendie à éteindre.
+     * @param chemin Le chemin que le robot doit suivre pour atteindre l'incendie.
+     * @param date_courante La date actuelle dans la simulation.
+     * @param carte La carte contenant les informations de déplacement pour le robot.
+     */
     public void envoyerRobotEteindreIncendie(Robot robot, Incendie incendie, LinkedList<CaseDuree> chemin, long date_courante, Carte carte) {
 
         //Deplacement
@@ -48,7 +59,17 @@ public abstract class ChefPompier {
     }
 
 
-
+    /**
+     * Envoie un robot se remplir à la source d'eau la plus proche, si une telle source
+     * existe, en programmant les événements nécessaires de déplacement et de remplissage.
+     * Met également à jour l'état du robot au cours de l'opération.
+     *
+     * @param robot         Le robot qui doit être envoyé pour se remplir d'eau.
+     * @param date_courante La date actuelle en temps de simulation, utilisée pour calculer
+     *                      la date des événements à ajouter.
+     * @param carte         La carte de la simulation, permettant de déterminer les positions
+     *                      des sources d'eau.
+     */
     public void envoyerRobotSeRemplir(Robot robot, long date_courante, Carte carte) {
 
         //Chercher l'eau la plus proche si elle existe

@@ -11,7 +11,17 @@ import donnees.robots.Robot;
 
 
 public class ChefPompierElementaire extends ChefPompier {
-
+   
+    /**
+     * Exécute la stratégie de gestion des incendies de façon élémentaire, en envoyant
+     * chaque robot disponible soit se remplir d'eau, soit éteindre un incendie non encore
+     * affecté.
+     *
+     * @param data          Données de la simulation, incluant la carte, les incendies,
+     *                      et les robots.
+     * @param date_courante La date actuelle dans la simulation, utilisée pour calculer
+     *                      la date des événements à ajouter.
+     */
     public void jouerStrategie(DonneesSimulation data, long date_courante) {
 
         //Chercher un robot disponible

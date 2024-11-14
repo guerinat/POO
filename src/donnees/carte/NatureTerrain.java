@@ -11,6 +11,9 @@ public enum NatureTerrain {
         "ressources/habitat.png"
     }; 
 
+    /**
+     * @return Le chemin de la texture du terrain sous forme de chaîne de caractères.
+     */
     public String getLienTexture() {
         return textures[this.ordinal()];
     }
