@@ -1,13 +1,14 @@
-package simulateurs;
+package tests;
 
 import donnees.*;
 import io.*;
-import strategie.ChefPompier;
+import simulateur.Simulateur;
+import strategie.*;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 
-public class TestSimulateur{
+public class TestStrategieElementaire {
     public static void main(String[] args) {
 
         if (args.length < 1) {
@@ -20,8 +21,9 @@ public class TestSimulateur{
             //Lecture et creation des données
             DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);
 
-            //Creation du simulateur
-            Simulateur simulation = new Simulateur(args[0], data);
+            //Creation de la strategie et du simulateur
+            ChefPompier chefPompier = new ChefPompierElementaire();
+            new Simulateur(args[0], data, chefPompier, null);
             
 
         } catch (FileNotFoundException e) {

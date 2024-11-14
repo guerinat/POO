@@ -24,20 +24,20 @@
 all: testInvader testLecture testMap
 
 testInvader:
-	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestInvader.java
-	java -classpath bin:lib/gui.jar TestInvader
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestInvader.java
+	java -classpath bin:lib/gui.jar tests/TestInvader
 
 testLecture:
-	javac -d bin -sourcepath src src/TestLecteurDonnees.java
-	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
+	javac -d bin -sourcepath src src/tests/TestLecteurDonnees.java
+	java -classpath bin tests/TestLecteurDonnees cartes/carteSujet.map
 	
 testExecutionEvenements:
-	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestExecutionEvenements.java
-	java -classpath bin:lib/gui.jar TestExecutionEvenements cartes/carteSujet.map
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestExecutionEvenements.java
+	java -classpath bin:lib/gui.jar tests/TestExecutionEvenements cartes/carteSujet.map
 
-testChef:
-	javac -d bin -classpath lib/gui.jar -sourcepath src src/simulateurs/TestSimulateur.java
-	java -classpath bin:lib/gui.jar simulateurs/TestSimulateur cartes/carteSujet.map
+testStrategieElementaire:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestStrategieElementaire.java
+	java -classpath bin:lib/gui.jar tests/TestStrategieElementaire cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*

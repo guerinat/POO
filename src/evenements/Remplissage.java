@@ -17,9 +17,9 @@ public class Remplissage extends Evenement{
     }
 
     //Calcule la durée de remplissage d'un robot à une quantité futur (ou non) d'eau donnée
-    public static long calcDuree(Robot robot, int quantEau) {
+    public static long calcDuree(Robot robot, int quantEauRobot) {
         
-        long duree = (long)(robot.getDureeRemplissage()*((double)quantEau/robot.getQuantReservoire()));
+        long duree = (long)(robot.getDureeRemplissage()*(1 - (double)quantEauRobot/robot.getQuantReservoire()));
         return duree;
     }
 

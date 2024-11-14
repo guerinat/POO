@@ -1,6 +1,7 @@
 package evenements;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import donnees.Incendie;
 import donnees.robots.*;
@@ -25,34 +26,23 @@ public class Vidage extends Evenement{
     }
 
 
-    public static ArrayList<Evenement> viderEntierementRobot(Robot robot, Incendie incendie, long date_debut) {
+    public static LinkedList<Evenement> viderEntierementRobot(Robot robot, Incendie incendie, long date_debut) {
 
-        ArrayList<Evenement> vidages = new ArrayList<>();
+        LinkedList<Evenement> vidages = new LinkedList<>();
         int eau_necessaire = incendie.getEauNecessaire();
+        int volume = robot.getQuantEau();
 
-        if (robot.getUtilisePoudre()) {
+        while(eau_necessaire > 0 && robot.peutFaireIntervention(volume)) {
 
-            while(eau_necessaire > 0) {
-                vidages.add(new Vidage(date_debut, robot, incendie));
-                eau_necessaire -= robot.getQuantEauIntervention();
-                date_debut += Vidage.calcDuree(robot);
-            }
+            vidages.add(new Vidage(date_debut, robot, incendie));
 
-        } else {
-
-            int volume = robot.getQuantEau();
-
-            while(eau_necessaire > 0 && volume >= robot.getQuantEauIntervention()) {
-                vidages.add(new Vidage(date_debut, robot, incendie));
-                volume -= robot.getQuantEauIntervention();
-                eau_necessaire -= robot.getQuantEauIntervention();
-                date_debut += Vidage.calcDuree(robot);
-            }
-            
+            volume -= robot.getQuantEauIntervention();
+            eau_necessaire -= robot.getQuantEauIntervention();
+            date_debut += Vidage.calcDuree(robot);
         }
-
         return vidages;
     }
+
 
     @Override
     public void execute(){

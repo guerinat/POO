@@ -26,9 +26,9 @@ public class PlusCoursChemin {
     }
 
     //Renvoi la suite d'evenement que doit effectuer robot pour suivre le chemin chemin
-    public static ArrayList<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
+    public static LinkedList<Evenement> deplacerRobotChemin(long date_debut, LinkedList<CaseDuree> chemin, Robot robot, Carte carte) {
 
-        ArrayList<Evenement> events = new ArrayList<>();
+        LinkedList<Evenement> events = new LinkedList<>();
 
         CaseDuree precedente = chemin.getFirst(); 
         long date = 0; //Date de debut de l'evenements
@@ -237,22 +237,30 @@ public class PlusCoursChemin {
         return s;
     }
 
-    public static Case PlusProcheEau(DonneesSimulation data, Robot robot){
-        Case eau = robot.getPosition();
+
+    public static Case chercherPlusProcheEau(Carte carte, Robot robot){
+
+        Case plusProcheEau = null;
         long minDuree = Long.MAX_VALUE;
-        for (int ligne=0; ligne<data.carte.getNbLignes() ; ligne++){
-            for (int colonne=0 ; colonne<data.carte.getNbColonnes() ; colonne++){
-                if (data.carte.getCase(ligne,colonne).getNature() == NatureTerrain.EAU){
-                    LinkedList<CaseDuree> chemin = djikstra(robot, data.carte.getCase(ligne,colonne), data.carte);
-                    long duree = duree_chemin(chemin);
-                    if (duree<minDuree){
-                        minDuree=duree;
-                        eau = data.carte.getCase(ligne, colonne);
-                    }
-                }
+
+        for (int ligne = 0; ligne < carte.getNbLignes(); ligne++) {
+            for (int colonne = 0; colonne < carte.getNbColonnes(); colonne++) {
+
+                Case src = carte.getCase(ligne,colonne);
+
+                if (src.getNature() != NatureTerrain.EAU)
+                    continue;
+                    
+                LinkedList<CaseDuree> chemin = djikstra(robot, src, carte);
+                long dureeChemin = duree_chemin(chemin);
+
+                if (dureeChemin >= minDuree)
+                    continue;
+
+                minDuree = dureeChemin;
+                plusProcheEau = carte.getCase(ligne, colonne);
             }
         }
-        if (eau == robot.getPosition()) throw new Error("pas d'eau disponible");
-        return eau;
+        return plusProcheEau;
     }
 }

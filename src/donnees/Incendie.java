@@ -28,16 +28,6 @@ public class Incendie {
     }
 
 
-    public boolean estAffecte(Robot[] robots) {
-        for (Robot robot : robots) {
-            if (this == robot.getIncendieAffecte()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     @Override
     public String toString() {
         if (eau_necessaire == 0)

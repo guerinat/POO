@@ -68,16 +68,24 @@ public abstract class Robot {
     }
 
     public int getQuantEau() {
+
+        if (utilisePoudre)
+            return Integer.MAX_VALUE;
+
         return this.quant_eau;
     }
 
     public int getQuantReservoire() {
+
+        if (utilisePoudre)
+            return Integer.MAX_VALUE;
+
         return this.quant_reservoire;
     }
 
     public long getDureeRemplissage() {
         if (utilisePoudre)
-            throw new Error("[!] Le robot est à poudre il n'a pas de durée de remplissage");
+            throw new Error("[!] Le robot est à poudre il n'a pas à se remplir.");
 
         return this.duree_remplissage;
     }
@@ -104,11 +112,11 @@ public abstract class Robot {
     public void derverserEau(int volume) {
 
         if (utilisePoudre)
-            throw new Error("[!] Le robot est à poudre il ne peut pas déverser de l'eau.");
+            return;
 
-        if (volume > this.quant_eau) {
+        if (volume > this.quant_eau) 
             throw new Error("[!] Il n'y a pas assez d'eau dans le reservoire.");
-        }
+        
         this.quant_eau -= volume;
     }
     
@@ -134,6 +142,13 @@ public abstract class Robot {
 
     public void setIncendieAffecte(Incendie incendie) {
         this.incendie_affecte = incendie;
+    }
+
+    //Renvoi true si le robot peut faire une intervention si il a un volume d'eau donnée dans son revervoire.
+    public boolean peutFaireIntervention(int volume) {
+        if (utilisePoudre) return true;
+
+        return volume >= getQuantEauIntervention();
     }
 
     abstract public String toString();

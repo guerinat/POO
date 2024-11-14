@@ -1,4 +1,4 @@
-package simulateurs;
+package simulateur;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
@@ -36,8 +36,9 @@ public class Simulateur implements Simulable{
     private LinkedList<Evenement> evenements;
     private long date_courante;
     private String cheminFichier;
+    private InitialisateurEvenements initialisateur;
 
-    public Simulateur(String cheminFichier, DonneesSimulation data) {
+    public Simulateur(String cheminFichier, DonneesSimulation data, ChefPompier chefPompier, InitialisateurEvenements initialisateur) {
         
         //Chargement des données
         this.cheminFichier = cheminFichier;
@@ -52,21 +53,29 @@ public class Simulateur implements Simulable{
         this.evenements = new LinkedList<Evenement>();
         this.date_courante = 0;
 
+        //Si des evenements initiales sont spécifiés on les initialise.
+        this.initialisateur = initialisateur;
+        if (initialisateur != null) 
+            ajouteEvenements(initialisateur.initialiserEvenements(data));
+        
+        
         //Affichage
         planCoordinates();
         draw();
 
-        //initialisation de la strategie
-        this.chefPompier = new ChefPompier();
-        chefPompier.setSimulateur(this);
+        //Si un chef pompier decidant une stratégie est specifié on l'initialise.
+        this.chefPompier = chefPompier;
+        if (chefPompier != null) chefPompier.setSimulateur(this);
     }
-
 
 
     @Override
     public void next() {
 
-        chefPompier.strategieElementaire(data, date_courante);
+        //Si un chef pompier existe, jouer sa stratégie
+        if (!simulationTerminee() && chefPompier != null)
+            chefPompier.jouerStrategie(data, date_courante);
+
         incrementeDate();
         draw();
     }
@@ -74,6 +83,8 @@ public class Simulateur implements Simulable{
 
     @Override
     public void restart() {
+
+        //Relecture des données
         try {
             data = LecteurDonnees.creeDonnees(cheminFichier);
             evenements.clear();
@@ -85,9 +96,10 @@ public class Simulateur implements Simulable{
 
         date_courante = 0;
 
+        //Re-initialisation des evenements
         evenements.clear();
-
-        System.out.println(evenements.getFirst());
+        if (initialisateur != null) 
+            ajouteEvenements(initialisateur.initialiserEvenements(data));
 
         planCoordinates();
         draw();
@@ -114,12 +126,16 @@ public class Simulateur implements Simulable{
     }
 
 
-    public void ajouteEvenements(ArrayList<Evenement> events) {
-        for(Evenement e : events)
+    public void ajouteEvenements(LinkedList<Evenement> evenements) {
+
+        if (evenements == null) return;
+
+        for(Evenement e : evenements)
             ajouteEvenement(e);
     }
 
-    // Execute tout les évenement de date courante (compris) à date-courante + 1 (non-compris)
+
+    // Execute tout les évenement de date courante
     private void incrementeDate() {
 
         ListIterator<Evenement> iterateur = evenements.listIterator();
@@ -141,7 +157,13 @@ public class Simulateur implements Simulable{
 
 
     private boolean simulationTerminee() {
-        return evenements.isEmpty();
+
+        boolean incendiesToutesEteintes = true;
+
+        for(Incendie incendie : data.incendies) 
+            incendiesToutesEteintes = incendiesToutesEteintes && (incendie.getEauNecessaire() == 0);
+
+        return incendiesToutesEteintes;
     }
 
 
