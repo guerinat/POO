@@ -28,6 +28,11 @@ public class RobotAPattes extends Robot {
                 ")";
     }
 
+    /**
+     * Méthode pour obtenir le chemin vers la texture du drone.
+     * 
+     * @return Le chemin du fichier de texture du drone.
+     */
     @Override
     public String getLienTexture() {
         return lienTexture;

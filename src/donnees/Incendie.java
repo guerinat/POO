@@ -9,7 +9,7 @@ public class Incendie {
     
 
     /**
-     * Constructeur pour initialiser un incendie avec sa position et la quantité d'eau nécessaire.
+     * Constructeur pour initialiser un incendie avec sa position et la quantité d'eau nécessaire pour l'éteindre.
      * 
      * @param position La position de l'incendie sur la carte.
      * @param eau_necessaire La quantité d'eau nécessaire pour éteindre l'incendie (en litres).
@@ -19,20 +19,12 @@ public class Incendie {
         this.eau_necessaire = eau_necessaire;
     }
 
-    /**
-     * Retourne la position de l'incendie.
-     * 
-     * @return La position de l'incendie sous forme d'un objet `Case`.
-     */
+
     public Case getPosition() {
         return this.position;
     }
 
-    /**
-     * Retourne la quantité d'eau nécessaire pour éteindre l'incendie.
-     * 
-     * @return La quantité d'eau nécessaire pour éteindre l'incendie (en litres).
-     */
+
     public int getEauNecessaire() {
         return this.eau_necessaire;
     }

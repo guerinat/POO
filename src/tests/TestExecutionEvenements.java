@@ -15,11 +15,10 @@ import simulateur.*;
 public class TestExecutionEvenements{
 
     /**
-     * Méthode statique initialisant une séquence d'événements pour un test de simulation.
-     * Crée une liste d'événements de type Deplacement, Vidage, et Remplissage.
+     * Une initialisation test d'evenements initiaux.
      *
      * @param data Données de simulation contenant les informations sur la carte, les robots, et les incendies.
-     * @return LinkedList<Evenement> une liste d'événements ordonnés dans le temps pour simuler des actions d'un robot.
+     * @return  une liste d'événements simuler des actions d'un robot.
      */
     public static LinkedList<Evenement> initialisateurEvenements1(DonneesSimulation data) {
 
@@ -38,14 +37,11 @@ public class TestExecutionEvenements{
     }
     
     /**
-     * Point d'entrée principal pour exécuter le test de simulation d'événements.
-     * Cette méthode lit un fichier de données de simulation, initialise les données,
-     * et crée un simulateur pour exécuter une séquence prédéfinie d'événements.
+     * Test de lecture d'evenements initiaux sans stratégie
      *
-     * @param args Tableau de chaînes de caractères contenant les arguments de la ligne de commande.
-     *             Le premier argument (args[0]) doit être le chemin vers le fichier de données.
-     * @throws FileNotFoundException Si le fichier spécifié dans args[0] est introuvable ou inaccessible.
-     * @throws DataFormatException Si le fichier de données a un format invalide.
+     * @param args[0]  doit contenir le chemin vers le fichier de données.
+     * @throws FileNotFoundException Si le fichier spécifié est introuvable ou illisible.
+     * @throws DataFormatException Si le format du fichier de données est invalide.
      */
     public static void main(String[] args) {
 

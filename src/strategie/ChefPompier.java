@@ -13,10 +13,13 @@ import simulateur.*;
 import donnees.carte.*;
 
 
+/**
+ * Classe abstraite du chef Pompier decidant de la stratégie.
+**/
 public abstract class ChefPompier {
 
     Simulateur simulateur;
-    HashSet<Incendie> incendiesAffectes;
+    HashSet<Incendie> incendiesAffectes; //Dictionnaire des incendies qui seront affectées.
 
 
     public ChefPompier() {
@@ -38,7 +41,7 @@ public abstract class ChefPompier {
      * @param incendie L'incendie à éteindre.
      * @param chemin Le chemin que le robot doit suivre pour atteindre l'incendie.
      * @param date_courante La date actuelle dans la simulation.
-     * @param carte La carte contenant les informations de déplacement pour le robot.
+     * @param carte La carte.
      */
     public void envoyerRobotEteindreIncendie(Robot robot, Incendie incendie, LinkedList<CaseDuree> chemin, long date_courante, Carte carte) {
 
@@ -62,13 +65,10 @@ public abstract class ChefPompier {
     /**
      * Envoie un robot se remplir à la source d'eau la plus proche, si une telle source
      * existe, en programmant les événements nécessaires de déplacement et de remplissage.
-     * Met également à jour l'état du robot au cours de l'opération.
      *
      * @param robot         Le robot qui doit être envoyé pour se remplir d'eau.
      * @param date_courante La date actuelle en temps de simulation, utilisée pour calculer
-     *                      la date des événements à ajouter.
-     * @param carte         La carte de la simulation, permettant de déterminer les positions
-     *                      des sources d'eau.
+     * @param carte         La carte.
      */
     public void envoyerRobotSeRemplir(Robot robot, long date_courante, Carte carte) {
 

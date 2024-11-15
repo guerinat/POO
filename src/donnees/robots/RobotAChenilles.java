@@ -29,12 +29,6 @@ public class RobotAChenilles extends Robot {
         );   
     }
 
-/**
- * Méthode pour obtenir une représentation sous forme de chaîne de caractères du robot à chenilles.
- * 
- * @return Une chaîne de caractères représentant l'état du robot, incluant sa position, sa vitesse, 
- *         et l'eau restante dans son réservoir.
- */
     @Override
     public String toString() {
         return "CHENILLES (pos:"+super.getPosition().toString()+
@@ -44,9 +38,9 @@ public class RobotAChenilles extends Robot {
     }
 
 /**
- * Méthode pour obtenir le lien vers la texture du robot.
+ * Méthode pour obtenir le chemin vers la texture du drone.
  * 
- * @return Le lien sous forme de chaîne de caractères vers la texture du robot (fichier image).
+ * @return Le chemin du fichier de texture du drone.
  */
     @Override
     public String getLienTexture() {

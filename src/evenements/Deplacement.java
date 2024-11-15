@@ -4,9 +4,9 @@ import donnees.carte.*;
 import donnees.robots.*;
 
 /**
- * Représente un événement de déplacement d'un robot dans la carte à une date donnée.
- * Cet événement modifie la position du robot en fonction de sa direction et de la carte.
- */
+ * Représente un événement de déplacement d'un robot.
+ **/
+
 public class Deplacement extends Evenement{
 
     private Direction dir;
@@ -17,7 +17,7 @@ public class Deplacement extends Evenement{
 /**
  * Constructeur pour initialiser un événement de déplacement d'un robot.
  * 
- * @param date_debut La date de début de l'événement, utilisée pour ordonner les événements dans le temps.
+ * @param date_debut La date de début de l'événement.
  * @param carte La carte sur laquelle le robot évolue.
  * @param depart La case de départ du robot.
  * @param dir La direction dans laquelle le robot se déplace.
@@ -40,7 +40,7 @@ public class Deplacement extends Evenement{
  * @param robot Le robot qui se déplace.
  * @param dir La direction dans laquelle le robot va se déplacer.
  * @return La durée du déplacement en secondes.
- * @throws Error Si la position de départ ou la destination n'est pas valide ou si le robot ne peut pas se déplacer.
+ * @throws Error Si la position de départ ou la destination n'est pas valide.
  */
     private static long calcDuree(Carte carte, Case depart, Robot robot, Direction dir) {
 
@@ -50,19 +50,20 @@ public class Deplacement extends Evenement{
         double vitesse_depart = robot.getVitesse(nature_depart);
         double vitesse_arrive = robot.getVitesse(nature_arrive);
 
+        //Si le depart ou l'arrivé ne sont pas accessibles.
         if (vitesse_depart == 0) throw new Error("[!] Position de depart invalide");
         if (vitesse_arrive == 0) throw new Error("[!] Le robot ne peut pas aller sur ce terrain");
 
         double vitesse_moyenne = (vitesse_depart + vitesse_arrive)/2;
 
-        //Convertion pour duree en secondes
+        //Convertion pour que la duree soit en secondes
         long duree = (long)(3.6*carte.getTailleCases()/vitesse_moyenne); 
 
         return duree;
     }
 
 /**
- * Exécute l'événement en déplaçant le robot de la case de départ à la case voisine dans la direction spécifiée.
+ * Exécute le déplacement.
  * 
  * @throws Error Si le robot n'est pas sur la case de départ ou si le robot ne peut pas se déplacer sur la case voisine.
  */
@@ -85,14 +86,4 @@ public class Deplacement extends Evenement{
         return "Deplacement (robot:"+robot.toString()+", dir:"+dir.toString()+")";
     }
 
-/**
- * Compare deux événements de déplacement en fonction de leur date de fin.
- * Cette méthode permet de trier les événements dans un ordre chronologique.
- * 
- * @param other L'autre événement de déplacement à comparer.
- * @return Un entier négatif si cet événement est avant l'autre, un entier positif si cet événement est après l'autre, ou zéro si les deux événements ont la même date de fin.
- */
-    public int compareTo(Deplacement other) {
-        return Long.compare(this.getdateFin(), other.getdateFin()); // Trie par date croissante
-    }
 }

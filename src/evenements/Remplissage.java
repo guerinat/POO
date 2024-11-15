@@ -14,23 +14,23 @@ public class Remplissage extends Evenement{
      * @param date_debut La date à laquelle le remplissage commence.
      * @param carte La carte sur laquelle l'événement de remplissage se produit.
      * @param robot Le robot qui se remplit.
-     * @param quantEau La quantité d'eau avec laquelle le robot doit se remplir.
+     * @param quantEau La quantité d'eau futur du robot.
      */
-    public Remplissage(long date_debut, Carte carte, Robot robot, int quantEau){
+    public Remplissage(long date_debut, Carte carte, Robot robot, int quantEauRobot){
         
-        super(date_debut + calcDuree(robot, quantEau));
+        super(date_debut + calcDuree(robot, quantEauRobot));
 
         this.carte = carte;
         this.robot = robot;
     }
 
     /**
-     * Calcule la durée nécessaire pour remplir le réservoir d'un robot avec une quantité d'eau donnée.
+     * Calcule la durée nécessaire pour remplir le réservoir d'un robot avec une quantité d'eau future donnée.
      * 
      * @param robot Le robot qui se remplit d'eau.
-     * @param quantEau La quantité d'eau avec laquelle le robot doit se remplir.
+     * @param quantEauRobot La future quantité d'eau du robot.
      * 
-     * @return La durée nécessaire pour le remplissage en millisecondes.
+     * @return La durée nécessaire pour le remplissage en secondes.
      */
     public static long calcDuree(Robot robot, int quantEauRobot) {
         
@@ -39,12 +39,12 @@ public class Remplissage extends Evenement{
     }
 
     /**
-     * Vérifie si une case voisine de la position actuelle du robot contient de l'eau.
+     * Vérifie si une case voisine de la position actuelle du robot est de l'eau.
      * 
      * @param carte La carte sur laquelle le robot se trouve.
      * @param position La position actuelle du robot.
      * 
-     * @return true si une case voisine contient de l'eau, sinon false.
+     * @return true si une case voisine est de l'eau, sinon false.
      */
     private boolean eauVoisin(Carte carte, Case position) {
 
@@ -58,9 +58,8 @@ public class Remplissage extends Evenement{
     }
 
     /**
-     * Exécute l'événement de remplissage du robot. Selon les conditions, le robot se remplit soit directement
-     * sur une case d'eau, soit à côté d'une case d'eau. Si ces conditions ne sont pas remplies, une erreur est lancée.
-     * 
+     * Exécute l'événement de remplissage du robot.
+
      * @throws Error Si le robot n'est pas à côté ou sur de l'eau.
      */
     @Override

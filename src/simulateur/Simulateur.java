@@ -11,7 +11,6 @@ import evenements.*;
 import java.awt.Color;
 
 import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.ListIterator;
 
 import gui.GUISimulator;
@@ -21,28 +20,26 @@ import gui.ImageElement;
 
 public class Simulateur implements Simulable{
     
-    /* L'interface graphique associée */
+    //Lecture et affichage
     private GUISimulator gui;
-
-    private DonneesSimulation data;
-
+    private String cheminFichier;
     public static int tailleGui = 850;
     private int tailleCase;
 
-    ChefPompier chefPompier;
+    //Données
+    private DonneesSimulation data;
 
-    //Evenements
-
+    //Evenements et strategie
     private LinkedList<Evenement> evenements;
     private long date_courante;
-    private String cheminFichier;
     private InitialisateurEvenements initialisateur;
+    ChefPompier chefPompier;
 
     
     /**
      * Constructeur de la classe Simulateur.
      * 
-     * @param cheminFichier Chemin vers le fichier de données de simulation.
+     * @param cheminFichier Chemin vers la carte de la simulation.
      * @param data Données de simulation.
      * @param chefPompier Le chef pompier responsable de la stratégie.
      * @param initialisateur Initialisateur des événements initiaux.
@@ -62,11 +59,10 @@ public class Simulateur implements Simulable{
         this.evenements = new LinkedList<Evenement>();
         this.date_courante = 0;
 
-        //Si des evenements initiales sont spécifiés on les initialise.
+        //Si des evenements initiaux sont spécifiés on les initialise.
         this.initialisateur = initialisateur;
         if (initialisateur != null) 
             ajouteEvenements(initialisateur.initialiserEvenements(data));
-        
         
         //Affichage
         planCoordinates();
@@ -78,11 +74,13 @@ public class Simulateur implements Simulable{
     }
 
 
+    /**
+     * Appelé à chaque étape de la simulation
+     */
     @Override
     public void next() {
 
-        //Si un chef pompier existe, jouer sa stratégie
-       
+        //Si un chef pompier existe et que les incendies ne sont pas toutes eteintes, jouer la stratégie
         if (!simulationTerminee() && chefPompier != null)
             chefPompier.jouerStrategie(data, date_courante);
 
@@ -91,6 +89,9 @@ public class Simulateur implements Simulable{
     }
 
 
+    /**
+     * Appelé quand la simulation est réinitialisée
+     */
     @Override
     public void restart() {
 
@@ -104,9 +105,8 @@ public class Simulateur implements Simulable{
             System.out.println("\n\t**format du fichier " + cheminFichier + " invalide: " + e.getMessage());
         }
 
-        date_courante = 0;
-
         //Re-initialisation des evenements
+        date_courante = 0;
         evenements.clear();
         if (initialisateur != null) 
             ajouteEvenements(initialisateur.initialiserEvenements(data));
@@ -123,6 +123,7 @@ public class Simulateur implements Simulable{
 
         ListIterator<Evenement> iterateur = evenements.listIterator();
 
+        //Insertion trié par date de fin
         while (true) {
             if (!iterateur.hasNext()) {
                 iterateur.add(e);
@@ -151,7 +152,9 @@ public class Simulateur implements Simulable{
     }
 
 
-    // Execute tout les évenement de date courante
+    /**
+     * Execute tout les évenement de date courante en incrementant la date
+     */
     private void incrementeDate() {
 
         ListIterator<Evenement> iterateur = evenements.listIterator();
@@ -171,7 +174,9 @@ public class Simulateur implements Simulable{
         date_courante ++;
     }
 
-
+    /**
+     * @return true si toute les incendies sont eteintes 
+     **/
     private boolean simulationTerminee() {
 
         boolean incendiesToutesEteintes = true;
@@ -182,7 +187,9 @@ public class Simulateur implements Simulable{
         return incendiesToutesEteintes;
     }
 
-
+    /**
+     * Determine les coordonées du gui
+     **/
     private void planCoordinates() {
         int xMin = 60;
         int yMin = 40;
@@ -192,8 +199,9 @@ public class Simulateur implements Simulable{
         yMax -= yMax % 10;
     }
 
-
-
+    /**
+     * Affiche la carte
+     **/
     private void draw_map() {
 
         for (int ligne=0; ligne < data.carte.getNbLignes(); ++ligne ){
@@ -208,7 +216,9 @@ public class Simulateur implements Simulable{
         }
     }
 
-
+    /**
+     * Affiche les incendies
+     **/
     private void draw_incendies() {
 
         for(int i = 0; i < data.incendies.length; i++) {
@@ -221,7 +231,9 @@ public class Simulateur implements Simulable{
         }
     }
 
-
+    /**
+     * Affiche les robots
+     **/
     private void draw_robots() {
 
         for(int i = 0; i < data.robots.length; i++) {
@@ -233,7 +245,9 @@ public class Simulateur implements Simulable{
         }
     }
 
-
+    /**
+     * Affiche loutes les instances de la simulations
+     **/
     private void draw() {
         
         gui.reset();

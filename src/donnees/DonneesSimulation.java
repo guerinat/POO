@@ -12,9 +12,9 @@ public class DonneesSimulation {
 /**
  * Constructeur pour initialiser les données de la simulation.
  * 
- * @param robots Un tableau de robots présents dans la simulation.
- * @param incendies Un tableau d'incendies présents dans la simulation.
- * @param carte La carte représentant l'environnement de simulation.
+ * @param robots Le tableau de robots présents dans la simulation.
+ * @param incendies Le tableau d'incendies présents dans la simulation.
+ * @param carte La carte lue de la simulation.
  */
     public DonneesSimulation(Robot[] robots, Incendie[] incendies, Carte carte) {
         this.carte = carte;

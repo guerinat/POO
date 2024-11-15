@@ -11,14 +11,11 @@ import java.util.zip.DataFormatException;
 public class TestStrategieElementaire {
 
     /**
-     * Point d'entrée principal du programme. Cette méthode initialise les données 
-     * de simulation depuis un fichier, applique une stratégie élémentaire pour la gestion 
-     * des incendies avec un chef pompier, et exécute la simulation.
+     * Test de la stratégie élémentaire (donc sans evenements initiaux)
      *
-     * @param args Tableau de chaînes de caractères représentant les arguments de la ligne de commande.
-     *             args[0] doit contenir le nom du fichier de données à lire.
+     * @param args[0]  doit contenir le chemin vers le fichier de données.
      * @throws FileNotFoundException Si le fichier spécifié est introuvable ou illisible.
-     * @throws DataFormatException Si le fichier a un format invalide.
+     * @throws DataFormatException Si le format du fichier de données est invalide.
      */
     public static void main(String[] args) {
 
@@ -36,7 +33,6 @@ public class TestStrategieElementaire {
             ChefPompier chefPompier = new ChefPompierElementaire();
             new Simulateur(args[0], data, chefPompier, null);
             
-
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {
