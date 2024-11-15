@@ -24,14 +24,16 @@ public class ChefPompierElementaire extends ChefPompier {
      */
     public void jouerStrategie(DonneesSimulation data, long date_courante) {
 
+
+
         //Chercher les robots disponibles
-        for(Robot robot : data.robots) {
-            
+        for(Robot robot : data.robots) {            
+
             if (robot.getEtat() != Etat.DISPONNIBLE) continue; 
 
             //Si le reservoire du robot est vide, envoyer le robot chercher de l'eau.
             if(!robot.peutFaireIntervention(robot.getQuantEau())) {
-                
+                                
                 envoyerRobotSeRemplir(robot, date_courante, data.carte);
 
                 //Desafectée l'incendie du robot si elle existe
@@ -41,6 +43,8 @@ public class ChefPompierElementaire extends ChefPompier {
                 continue;
             }
 
+            
+
             //Sinon, chercher une incendie non-eteinte, non-affectée.
             for(Incendie incendie : data.incendies) {
 
@@ -48,7 +52,7 @@ public class ChefPompierElementaire extends ChefPompier {
                     continue;
 
                 //Si l'incendie est innacessible, continuer.
-                LinkedList<CaseDuree> chemin = PlusCoursChemin.djikstra(robot, incendie.getPosition(), data.carte);
+                LinkedList<CaseDuree> chemin = PlusCoursChemin.djikstra(robot, incendie.getPosition(), data.carte, false);
                 if (chemin == null) continue;
 
                 //Sinon, envoyer le robot eteindre l'incendie.

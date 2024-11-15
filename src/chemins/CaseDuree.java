@@ -11,7 +11,7 @@ public class CaseDuree {
 /**
  * Constructeur pour créer une instance de CaseDuree.
  * 
- * @param src la case source à partir de laquelle on calcule la durée
+ * @param src la case concernée
  * @param duree la durée pour atteindre la prochaine case (0 si elle n'existe pas)
  * @param dir la direction de la prochaine case (null si elle n'existe pas)
  */

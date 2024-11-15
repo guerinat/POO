@@ -72,12 +72,15 @@ public abstract class ChefPompier {
      */
     public void envoyerRobotSeRemplir(Robot robot, long date_courante, Carte carte) {
 
-        //Chercher l'eau la plus proche si elle existe
-        Case plusProcheEau = PlusCoursChemin.chercherPlusProcheEau(carte, robot);
-        if (plusProcheEau == null) return;
+        //Chercher le chemin vers l'eau la plus proche
+        LinkedList<CaseDuree> chemin = PlusCoursChemin.cheminPlusProcheEau(carte, robot);
+        if (chemin == null) return;
 
-        //Deplacements vers l'eau
-        LinkedList<CaseDuree> chemin = PlusCoursChemin.djikstra(robot, plusProcheEau, carte);
+
+        //Si le robot ne se remplit la dernière case du chemin
+        if (!robot.getRemplitSurEau())
+         chemin.removeLast();
+
         LinkedList<Evenement> deplacements = PlusCoursChemin.deplacerRobotChemin(date_courante, chemin, robot, carte);
         long dateApresChemin = date_courante + PlusCoursChemin.duree_chemin(chemin);
         simulateur.ajouteEvenements(deplacements);

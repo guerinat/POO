@@ -1,7 +1,9 @@
 package donnees.robots;
 
+import donnees.carte.Carte;
 import donnees.carte.Case;
 import donnees.carte.NatureTerrain;
+import chemins.PlusCoursChemin;
 import donnees.*;
 import strategie.*;
 
@@ -194,6 +196,20 @@ public abstract class Robot {
 
         return volume >= getQuantEauIntervention();
     }
+    
+
+    /**
+     * @return `true` si le @param robot peut au moins acceder à un incendie, false sinon.
+     */
+    public boolean estUtile( Incendie[] incendies, Carte carte) {
+        
+        for(Incendie incendie : incendies) 
+            if (PlusCoursChemin.djikstra(this, incendie.getPosition(), carte, false) != null)
+                return true;
+
+        return false;
+    }
+
 
     abstract public String toString();
 

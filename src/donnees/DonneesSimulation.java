@@ -2,6 +2,7 @@ package donnees;
 
 import donnees.carte.*;
 import donnees.robots.*;
+import strategie.Etat;
 
 public class DonneesSimulation {
 
@@ -9,26 +10,31 @@ public class DonneesSimulation {
     public Robot[] robots;
     public Incendie[] incendies;
     
-/**
- * Constructeur pour initialiser les données de la simulation.
- * 
- * @param robots Le tableau de robots présents dans la simulation.
- * @param incendies Le tableau d'incendies présents dans la simulation.
- * @param carte La carte lue de la simulation.
- */
+    /**
+     * Constructeur pour initialiser les données de la simulation.
+     * 
+     * @param robots Le tableau de robots présents dans la simulation.
+     * @param incendies Le tableau d'incendies présents dans la simulation.
+     * @param carte La carte lue de la simulation.
+     */
     public DonneesSimulation(Robot[] robots, Incendie[] incendies, Carte carte) {
         this.carte = carte;
         this.robots = robots;
         this.incendies = incendies;
+        
+        //On initialise les robotos avec un etat inutile si il ne peuvent acceder à aucun incendies.
+        for(Robot robot : robots)
+            if (!robot.estUtile(incendies, carte))
+                robot.setEtat(Etat.INUTILE);
     }
 
     
-/**
- * Renvoie l'incendie situé à la position donnée, ou null si aucun incendie n'est trouvé à cette position.
- * 
- * @param src La position de la case à vérifier.
- * @return L'incendie à la position spécifiée, ou null si aucun incendie n'existe à cette position.
- */
+    /**
+     * Renvoie l'incendie situé à la position donnée, ou null si aucun incendie n'est trouvé à cette position.
+     * 
+     * @param src La position de la case à vérifier.
+     * @return L'incendie à la position spécifiée, ou null si aucun incendie n'existe à cette position.
+     */
     public Incendie IncendiePos(Case src) {
         for(Incendie incendie : incendies) {
             if (incendie.getPosition().equals(src)) {
@@ -38,11 +44,7 @@ public class DonneesSimulation {
         return null;
     }
 
-/**
- * Retourne une représentation sous forme de chaîne de caractères des données de la simulation, incluant la carte, les robots et les incendies.
- * 
- * @return Une chaîne de caractères représentant l'état complet de la simulation (carte, robots et incendies).
- */
+
     @Override
     public String toString() {
         String s = "";

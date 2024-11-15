@@ -1,11 +1,9 @@
 package chemins;
 
-import donnees.DonneesSimulation;
 import donnees.carte.*;
 import donnees.robots.*;
 import evenements.*;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 import java.util.LinkedList;
 
 
@@ -70,15 +68,17 @@ public class PlusCoursChemin {
 
 
     /**
-     * Calcule le plus court chemin entre la position du robot et une case d'arrivée donnée.
-     * Utilise l'algorithme de Dijkstra pour trouver le chemin optimal.
+     * Calcule le plus court chemin entre la position du robot et une case d'arrivée donnée
+     * avec l'algorithme de Dijkstra pour trouver le chemin optimal.
      * 
      * @param robot le robot qui effectue le déplacement
      * @param arrivee la case d'arrivée
      * @param carte la carte sur laquelle le robot se déplace
-     * @return une liste chaînée de CaseDuree représentant le chemin le plus court ou null si aucun chemin n'existe
+     * @param aCoteArrivee true si on cherche à se rendre sur une case voisine d'arrivee
+     * @return une liste chaînée de CaseDuree représentant le chemin le plus court jusqu'a arrive 
+     * (ou une case voisine) ou null si aucun chemin n'existe
      */
-    public static LinkedList<CaseDuree> djikstra(Robot robot, Case arrivee, Carte carte) {
+    public static LinkedList<CaseDuree> djikstra(Robot robot, Case arrivee, Carte carte, boolean aCoteArrivee) {
 
         long[][] dureeDistanceCases = initDureeDistanceCases(carte, robot.getPosition());
         boolean[][] casesMarquees = initCaseMarquee(carte);
@@ -101,7 +101,7 @@ public class PlusCoursChemin {
 
                 long dureeSource = dureeDistanceCases[src.getLigne()][src.getColonne()];
                 long dureeVoisin = dureeDistanceCases[voisin.getLigne()][voisin.getColonne()];
-                long dureeEntreCases = getDuree(src, voisin, robot, carte); //duree entre Src et Voisin
+                long dureeEntreCases = getDuree(src, voisin, arrivee, robot, carte, aCoteArrivee); //duree entre Src et Voisin
 
                 //Si un chemin plus cours est trouvé
                 if (dureeVoisin > ajouterDuree(dureeSource, dureeEntreCases)) { 
@@ -115,7 +115,7 @@ public class PlusCoursChemin {
     }
 
     /**
-     * Initialise la matrice de distances avec des valeurs infinies sauf pour la case de départ.
+     * Initialise la matrice de distances avec des valeurs infinies (sauf pour la case de départ).
      * 
      * @param carte la carte sur laquelle se déplacent les robots
      * @param depart la case de départ
@@ -181,7 +181,7 @@ public class PlusCoursChemin {
 
 
     /**
-     * Obtient les cases voisines non marquées d'une case source donnée.
+     * Renvoi les cases voisines non marquées d'une case source donnée.
      * 
      * @param carte la carte sur laquelle se déplacent les robots
      * @param src la case source
@@ -215,17 +215,22 @@ public class PlusCoursChemin {
      * @param depart la case de départ
      * @param arrive la case d'arrivée
      * @param robot le robot qui effectue le déplacement
-     * @param carte la carte sur laquelle se déplacent les robots
+     * @param aCoteArrivee true si on cherche à se rendre sur une case voisine d'arrivee
      * @return la durée de déplacement ou Long.MAX_VALUE si le déplacement est impossible
      */
-    public static long getDuree(Case depart, Case arrive, Robot robot, Carte carte) {
+    public static long getDuree(Case departDeplacement, Case arriveDeplacement, Case arriveeChemin, Robot robot, Carte carte, boolean aCoteArrivee) {
 
-        NatureTerrain nature_depart = depart.getNature();
-        NatureTerrain nature_arrive = arrive.getNature();
+        NatureTerrain nature_depart = departDeplacement.getNature();
+        NatureTerrain nature_arrive = arriveDeplacement.getNature();
 
         double vitesse_depart = robot.getVitesse(nature_depart);
         double vitesse_arrive = robot.getVitesse(nature_arrive);
 
+        //Si on cherche à aller à coté de l'arrivé, l'arrivé n'a pas besoin d'etre accessible.
+        if (aCoteArrivee && arriveDeplacement.equals(arriveeChemin))
+            return 0;
+
+        //Si la case est inaccessible
         if (vitesse_depart == 0 || vitesse_arrive == 0) 
             return Long.MAX_VALUE; 
 
@@ -311,29 +316,14 @@ public class PlusCoursChemin {
 
 
     /**
-     * Convertit une liste de cases en chaîne de caractères pour l'affichage du chemin.
+     * Trouve la case d'eau la plus proche de la position d'un robot, renvoi le plus cours 
+     * chemin pour y acceder ou pour acceder à une de ses cases voisines.
      * 
-     * @param chemin la liste chaînée de cases représentant le chemin
-     * @return une chaîne de caractères listant les cases du chemin
+     * @return le chemin le plus cours pour accédé sur ou à coté d' une source d'eau
      */
-    public static String CheminToString(LinkedList<Case> chemin) {
-        String s = "";
-        for(Case src : chemin)
-            s += src.toString() + ", ";
-        return s;
-    }
+    public static LinkedList<CaseDuree> cheminPlusProcheEau(Carte carte, Robot robot){
 
-    /**
-     * Trouve la case d'eau la plus proche de la position d'un robot, basée sur le plus court chemin.
-     * 
-     * @param data les données de simulation contenant la carte et les informations du terrain
-     * @param robot le robot cherchant une source d'eau
-     * @return la case contenant de l'eau la plus proche du robot
-     * @throws Error si aucune source d'eau n'est disponible
-     */
-    public static Case chercherPlusProcheEau(Carte carte, Robot robot){
-
-        Case plusProcheEau = null;
+        LinkedList<CaseDuree> plusProcheEau = null;
         long minDuree = Long.MAX_VALUE;
 
         for (int ligne = 0; ligne < carte.getNbLignes(); ligne++) {
@@ -343,15 +333,17 @@ public class PlusCoursChemin {
 
                 if (src.getNature() != NatureTerrain.EAU)
                     continue;
-                    
-                LinkedList<CaseDuree> chemin = djikstra(robot, src, carte);
+                
+                //On cherche à se rendre sur une case EAU seulement si le robot se remplit sur de l'eau
+                //Sinon on se rend sur une case voisine
+                LinkedList<CaseDuree> chemin = djikstra(robot, src, carte, !robot.getRemplitSurEau());
                 long dureeChemin = duree_chemin(chemin);
 
                 if (dureeChemin >= minDuree)
                     continue;
 
                 minDuree = dureeChemin;
-                plusProcheEau = carte.getCase(ligne, colonne);
+                plusProcheEau = chemin;
             }
         }
         return plusProcheEau;
