@@ -15,7 +15,7 @@ Si aucune carte n’est spécifiée, une carte par défaut est lancée, carteSuj
 Toutes les cartes sont rangées dans le dossier carte/
 
 
-Ensuite la fenêtre de simulation ainsi apparue est
+Ensuite la fenêtre de simulation ainsi apparue contient la barre suivante
 
 ![Image fenêtre](fenêtre_gui.png)
 
