@@ -7,7 +7,7 @@ Programme de simulation de stratégies pour éteindre des incendies avec des rob
 
 
 ## 🧰 Environnement requis
-Environnement de programmation Java utilisé (d'autres versions peuvent être compatible):
+Environnement de programmation Java utilisé (d'autres versions peuvent être compatibles):
 - OpenJDK 11.0.24
 - Javac 11.0.24
 
@@ -24,7 +24,7 @@ make testStrategieElementaire carte=cartes/carte_souhaitée
 ```
 
 
-Si aucune carte de simulation n’est spécifiée, une carte par défaut est lancée : [carte/carteSujet.map](carte/carteSujet.map). 
+Si aucune carte de simulation n’est spécifiée, une carte par défaut est lancée : [cartes/carteSujet.map](cartes/carteSujet.map). 
 
 
 Les autre cartes disponibles se trouve dans le dossier **carte**.
@@ -45,7 +45,7 @@ make testExecutionEvenements:
 
 ## 🏞️ Interface graphique
 
-Ensuite la fenêtre de simulation ainsi apparue contient la barre suivante
+Ensuite la fenêtre de simulation contient la barre suivante
 
 ![Image fenêtre](ressources/readme/gui.png)
 
