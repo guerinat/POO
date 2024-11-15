@@ -17,3 +17,17 @@ Toutes les cartes sont rangées dans le dossier carte/
 
 Ensuite la fenêtre de simulation ainsi apparue est
 
+![Image fenêtre](fenêtre_gui.png)
+
+On a d'abord les deux cases avec des nombres par défaut.
+La première définit le temps en ms entre deux affichages consécutif.
+La deuxième définit le nombre de pas effectués entre chaque affichage, 
+ainsi pour accélérer la simulation l'utilisateur peut augmenter le nombre de pas et/ou diminuer le temps des pas.
+
+Ensuite les boutons présents sur l'interface sont les boutons :
+
+- Lecture : lance la simulation et execute la fonction next() tous les pas de temps tant que ni le bouton pause, ni le bouton début, ni le bouton quitter n'a été pressé
+- Pause : apparait quand le bouton Lecture a été pressé et qui permet de stopper la fonction next() et ainsi mettre la simulation à l'arrêt
+- Suivant : effectue une étape next() de plus
+- Début : remet au début la simulation et redessine la carte au début
+- Quitter : quitte l'application
