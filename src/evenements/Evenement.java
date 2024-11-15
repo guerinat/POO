@@ -1,16 +1,14 @@
 package evenements;
 
-import java.lang.Long;
-
 public abstract class Evenement {
 
     private long date_fin; 
 
-/**
- * Constructeur pour initialiser un événement avec une date de fin donnée.
- * 
- * @param date_fin La date de fin (d'éxécution) de l'événement.
- */
+    /**
+     * Constructeur pour initialiser un événement avec une date de fin donnée.
+     * 
+     * @param date_fin La date de fin (d'éxécution) de l'événement.
+     */
     public Evenement(long date_fin){
         this.date_fin = date_fin;
     }
@@ -28,6 +26,4 @@ public abstract class Evenement {
     public String toString() {
         return "("+this.getClass().toString()+", date_fin:"+this.date_fin+")";
     }
-
-    
 }

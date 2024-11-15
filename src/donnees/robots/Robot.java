@@ -10,6 +10,7 @@ import strategie.*;
 
 public abstract class Robot {
 
+
     private Case position;
     private double[] vitesseTerrain;
 
@@ -24,7 +25,7 @@ public abstract class Robot {
     private int duree_intervention;
 
     private Etat etat;
-    private Incendie incendie_affecte;
+
 
     /**
      * Constructeur pour les robots utilisant de l'eau.
@@ -50,8 +51,7 @@ public abstract class Robot {
         this.duree_remplissage = duree_remplissage;
         this.quant_eau_intervention = quant_eau_intervention;
         this.duree_intervention = duree_intervention;
-        this.incendie_affecte = null;
-        this.etat = Etat.DISPONNIBLE;
+        this.etat = Etat.DISPONIBLE;
     }
 
     
@@ -71,8 +71,7 @@ public abstract class Robot {
         this.utilisePoudre = utilisePoudre;
         this.quant_eau_intervention = quant_eau_intervention;
         this.duree_intervention = duree_intervention;
-        this.incendie_affecte = null;
-        this.etat = Etat.DISPONNIBLE;
+        this.etat = Etat.DISPONIBLE;
     }
 
 
@@ -80,9 +79,11 @@ public abstract class Robot {
         return this.position;
     }
 
+
     public void setPosition(Case position) {
         this.position = position;
     }
+
 
     /**
      * @param nature_terain Le type de terrain.
@@ -92,6 +93,7 @@ public abstract class Robot {
         return this.vitesseTerrain[nature_terain.ordinal()];
     }
 
+
     public int getQuantEau() {
 
         if (utilisePoudre)
@@ -100,6 +102,7 @@ public abstract class Robot {
         return this.quant_eau;
     }
 
+
     public int getQuantReservoire() {
 
         if (utilisePoudre)
@@ -107,6 +110,7 @@ public abstract class Robot {
 
         return this.quant_reservoire;
     }
+
 
     /**
      * @return La durée nécessaire pour remplir complètement le réservoir.
@@ -119,21 +123,26 @@ public abstract class Robot {
         return this.duree_remplissage;
     }
 
+
     public int getQuantEauIntervention() {
         return this.quant_eau_intervention;
     }
+
 
     public int getDureeIntervention() {
         return this.duree_intervention;
     }
 
+
     public boolean getRemplitSurEau() {
         return remplitSurEau;
     }
 
+
     public boolean getUtilisePoudre() {
         return utilisePoudre;
     }
+
 
     public abstract String getLienTexture();
 
@@ -155,6 +164,7 @@ public abstract class Robot {
         this.quant_eau -= volume;
     }
         
+
     /**
      * Remplit le réservoir d'eau à sa capacité maximale.
      * 
@@ -168,21 +178,15 @@ public abstract class Robot {
         this.quant_eau = this.quant_reservoire;
     }
 
+
     public Etat getEtat() {
         return etat;
     }
 
+
     public void setEtat(Etat etat) {
         this.etat = etat;
     } 
-
-    public Incendie getIncendieAffecte() {
-        return this.incendie_affecte;
-    }
-
-    public void setIncendieAffecte(Incendie incendie) {
-        this.incendie_affecte = incendie;
-    }
 
     
     /**
@@ -212,8 +216,6 @@ public abstract class Robot {
 
 
     abstract public String toString();
-
-    
 }
 
 

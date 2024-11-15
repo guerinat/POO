@@ -6,23 +6,24 @@ import donnees.robots.*;
 /**
  * Représente un événement de déplacement d'un robot.
  **/
-
 public class Deplacement extends Evenement{
+
 
     private Direction dir;
     private Carte carte;
     private Robot robot;
     private Case depart;
 
-/**
- * Constructeur pour initialiser un événement de déplacement d'un robot.
- * 
- * @param date_debut La date de début de l'événement.
- * @param carte La carte sur laquelle le robot évolue.
- * @param depart La case de départ du robot.
- * @param dir La direction dans laquelle le robot se déplace.
- * @param robot Le robot qui va se déplacer.
- */
+
+    /**
+     * Constructeur pour initialiser un événement de déplacement d'un robot.
+     * 
+     * @param date_debut La date de début de l'événement.
+     * @param carte La carte sur laquelle le robot évolue.
+     * @param depart La case de départ du robot.
+     * @param dir La direction dans laquelle le robot se déplace.
+     * @param robot Le robot qui va se déplacer.
+     */
     public Deplacement(long date_debut, Carte carte, Case depart, Direction dir, Robot robot){
         super(date_debut + calcDuree(carte, depart, robot, dir));
         this.dir = dir;
@@ -32,19 +33,20 @@ public class Deplacement extends Evenement{
     }
 
 
-/**
- * Calcule la durée du déplacement du robot entre la case de départ et la case voisine dans la direction spécifiée.
- * 
- * @param carte La carte sur laquelle le robot se déplace.
- * @param depart La case de départ du robot.
- * @param robot Le robot qui se déplace.
- * @param dir La direction dans laquelle le robot va se déplacer.
- * @return La durée du déplacement en secondes.
- * @throws Error Si la position de départ ou la destination n'est pas valide.
- */
+    /**
+     * Calcule la durée du déplacement du robot entre la case de départ et la case voisine dans la direction spécifiée.
+     * 
+     * @param carte La carte sur laquelle le robot se déplace.
+     * @param depart La case de départ du robot.
+     * @param robot Le robot qui se déplace.
+     * @param dir La direction dans laquelle le robot va se déplacer.
+     * @return La durée du déplacement en secondes.
+     * @throws Error Si la position de départ ou la destination n'est pas valide.
+     */
     private static long calcDuree(Carte carte, Case depart, Robot robot, Direction dir) {
 
         NatureTerrain nature_depart = depart.getNature();
+
         NatureTerrain nature_arrive = carte.getVoisin(depart, dir).getNature();
 
         double vitesse_depart = robot.getVitesse(nature_depart);
@@ -62,11 +64,12 @@ public class Deplacement extends Evenement{
         return duree;
     }
 
-/**
- * Exécute le déplacement.
- * 
- * @throws Error Si le robot n'est pas sur la case de départ ou si le robot ne peut pas se déplacer sur la case voisine.
- */
+    
+    /**
+     * Exécute le déplacement.
+     * 
+     * @throws Error Si le robot n'est pas sur la case de départ ou si le robot ne peut pas se déplacer sur la case voisine.
+     */
     @Override
     public void execute(){
 
@@ -80,6 +83,7 @@ public class Deplacement extends Evenement{
 
         robot.setPosition(destination);
     }
+
 
     @Override
     public String toString() {

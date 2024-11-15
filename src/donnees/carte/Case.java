@@ -1,6 +1,8 @@
 package donnees.carte;
 
 public class Case {
+
+    
     private int ligne ;
     private int colonne ;
     private NatureTerrain nature_terrain;
@@ -19,37 +21,23 @@ public class Case {
         this.nature_terrain = nature_terrain;
     }
 
-/**
- * Retourne la position de la case sur la ligne.
- *
- * @return l'index de la ligne
- */
+
     public int getLigne () {
         return this.ligne;
     }
 
-/**
- * Retourne la position de la case sur la colonne.
- *
- * @return l'index de la colonne
- */
+
     public int getColonne () {
         return this.colonne;
     }
 
-/**
- * Retourne le type de terrain de la case.
- *
- * @return la nature du terrain de la case
- */
+
     public NatureTerrain getNature () {
         return this.nature_terrain;
     }
 
 /**
  * Vérifie si deux cases sont égales.
- * Deux cases sont égales si elles ont la même position (ligne, colonne) et le même type de terrain.
- *
  * @param obj l'objet à comparer avec cette case
  * @return vrai si les cases sont identiques, faux sinon
  */
@@ -61,13 +49,6 @@ public class Case {
     }
 
 
-/**
- * Retourne une représentation sous forme de chaîne de caractères de la case.
- * Format : "(ligne, colonne, nature)"
- * La nature du terrain est abrégée aux trois premières lettres.
- *
- * @return une chaîne représentant la case
- */
     @Override
     public String toString () {
         return "(" + this.ligne + ", " + this.colonne + ", " + this.nature_terrain.toString().substring(0, 3) + ")" ;

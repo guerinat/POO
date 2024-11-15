@@ -20,6 +20,7 @@ import gui.ImageElement;
 
 public class Simulateur implements Simulable{
     
+
     //Lecture et affichage
     private GUISimulator gui;
     private String cheminFichier;
@@ -115,6 +116,7 @@ public class Simulateur implements Simulable{
         draw();
     }
 
+
     /**
      * Ajoute un événement à la liste des événements en le maintenant trié par date de fin.
      * @param e L'événement à ajouter
@@ -138,6 +140,7 @@ public class Simulateur implements Simulable{
             }
         }
     }
+
 
     /**
      * Ajoute plusieurs événements à la liste des événements.
@@ -166,14 +169,15 @@ public class Simulateur implements Simulable{
                 break;
 
             if (current.getdateFin() >= date_courante) {
+                System.out.println("[t="+current.getdateFin()+"] "+current.toString());
                 current.execute();
-                System.out.println("[t="+current.getdateFin()+"] "+current.toString()+"\n");
             }
             
         }
         date_courante ++;
     }
 
+    
     /**
      * @return true si toute les incendies sont eteintes 
      **/
@@ -187,6 +191,7 @@ public class Simulateur implements Simulable{
         return incendiesToutesEteintes;
     }
 
+
     /**
      * Determine les coordonées du gui
      **/
@@ -198,6 +203,7 @@ public class Simulateur implements Simulable{
         int yMax = gui.getHeight() - yMin - 120;
         yMax -= yMax % 10;
     }
+
 
     /**
      * Affiche la carte
@@ -216,6 +222,7 @@ public class Simulateur implements Simulable{
         }
     }
 
+
     /**
      * Affiche les incendies
      **/
@@ -231,6 +238,7 @@ public class Simulateur implements Simulable{
         }
     }
 
+
     /**
      * Affiche les robots
      **/
@@ -244,6 +252,7 @@ public class Simulateur implements Simulable{
             gui.addGraphicalElement(new ImageElement(xCase, yCase, texture, tailleCase, tailleCase, null));
         }
     }
+
 
     /**
      * Affiche loutes les instances de la simulations
@@ -266,6 +275,5 @@ public class Simulateur implements Simulable{
         }
         return s;
     }
-
 }
     

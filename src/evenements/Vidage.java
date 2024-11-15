@@ -1,6 +1,5 @@
 package evenements;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import donnees.Incendie;
@@ -8,8 +7,10 @@ import donnees.robots.*;
 
 public class Vidage extends Evenement{
 
+
     private Robot robot;
     private Incendie incendie;
+
 
     /**
      * Constructeur pour initialiser un événement de vidage.
@@ -25,6 +26,7 @@ public class Vidage extends Evenement{
         this.incendie = incendie;
     }
 
+
     /**
      * Calcule la durée nécessaire pour vider le réservoir du robot pour une intervention.
      * 
@@ -36,6 +38,7 @@ public class Vidage extends Evenement{
         long duree = robot.getDureeIntervention();
         return duree;
     }
+
 
     /**
      * Crée une liste d'événements de vidage correspondant aux vidages maximum que peut effectuer un robot,
@@ -85,6 +88,7 @@ public class Vidage extends Evenement{
 
         throw new Error("[!] Le robot n'est pas sur l'incendie.");
     }
+
 
     @Override
     public String toString() {

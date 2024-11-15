@@ -2,17 +2,21 @@ package chemins;
 
 import donnees.carte.*;
 import donnees.robots.*;
+import donnees.*;
 import evenements.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import strategie.AssociationRobotsIncendie;
+import strategie.Etat;
 
 
 /**
  * Classe contenant des méthodes pour calculer le plus court chemin qu'un robot peut emprunter sur une carte,
- * ainsi que des méthodes utilitaires pour générer des événements de déplacement et trouver la source d'eau la plus proche.
+ * ainsi que des méthodes utilitaires.
  */
 public class PlusCoursChemin {
     
+
     /**
      * Calcule la durée totale d'un chemin donné.
      * 
@@ -30,6 +34,7 @@ public class PlusCoursChemin {
         
         return duree;
     }
+
 
     /**
      * Génère une séquence d'événements de déplacement pour qu'un robot suive un chemin donné.
@@ -114,6 +119,7 @@ public class PlusCoursChemin {
 
     }
 
+
     /**
      * Initialise la matrice de distances avec des valeurs infinies (sauf pour la case de départ).
      * 
@@ -133,6 +139,7 @@ public class PlusCoursChemin {
         return dureeCasesAccessible;
     }
 
+
     /**
      * Initialise un tableau indiquant si chaque case a été visitée.
      * 
@@ -149,7 +156,6 @@ public class PlusCoursChemin {
 
         return caseMarquee;
     }
-
 
     
     /**
@@ -319,7 +325,7 @@ public class PlusCoursChemin {
      * Trouve la case d'eau la plus proche de la position d'un robot, renvoi le plus cours 
      * chemin pour y acceder ou pour acceder à une de ses cases voisines.
      * 
-     * @return le chemin le plus cours pour accédé sur ou à coté d' une source d'eau
+     * @return le chemin le plus cours pour accédé sur ou à coté d' une source d'eau (null si il n'existe pas)
      */
     public static LinkedList<CaseDuree> cheminPlusProcheEau(Carte carte, Robot robot){
 
@@ -347,5 +353,36 @@ public class PlusCoursChemin {
             }
         }
         return plusProcheEau;
+    }
+
+
+    /**
+     * Trouve le robot non-affecté et disponible avec de l'eau le plus proche d'un incendie (null si aucun robot non-affectés ne peut y acceder)
+     * chemin pour y acceder.
+     * 
+     * @return le robot non-affecté et disponible avec de l'eau le plus proche de l'incendie
+     */
+    public static Robot robotPlusProcheIncendie(Carte carte, Robot robots[], Incendie incendie, AssociationRobotsIncendie affectes){
+
+        Robot plusProcheRobot = null;
+        long minDuree = Long.MAX_VALUE;
+
+        for (Robot robot : robots) {
+
+            //Verifier que le robot est non-affectés, disponible, et a encore de l'eau
+            if (affectes.robotEstAssocie(robot) || robot.getEtat() != Etat.DISPONIBLE || !robot.peutFaireIntervention(robot.getQuantEau()))
+                continue;
+
+            //Si oui on crée un chemin
+            LinkedList<CaseDuree> chemin = djikstra(robot, incendie.getPosition(), carte, false);
+            long dureeChemin = duree_chemin(chemin);
+
+            if (dureeChemin >= minDuree)
+                continue;
+
+            minDuree = dureeChemin;
+            plusProcheRobot = robot;
+        }
+        return plusProcheRobot;
     }
 }

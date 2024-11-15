@@ -1,7 +1,6 @@
 package evenements;
 
 import java.util.LinkedList;
-
 import donnees.DonneesSimulation;
 
 /**

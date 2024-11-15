@@ -5,15 +5,17 @@ import donnees.carte.NatureTerrain;
 
 public class Drone extends Robot {
 
+
     public static final String lienTexture = "ressources/drone.png";
 
-/**
- * Constructeur du Drone.
- * Initialise un drone avec une position, une vitesse, et des caractéristiques spécifiques de comportement.
- * 
- * @param position La position initiale du drone (de type Case).
- * @param vitesse La vitesse du drone sur tous les types de terrain (en km/h).
- */
+
+    /**
+     * Constructeur du Drone.
+     * Initialise un drone avec une position, une vitesse, et des caractéristiques spécifiques de comportement.
+     * 
+     * @param position La position initiale du drone (de type Case).
+     * @param vitesse La vitesse du drone sur tous les types de terrain (en km/h).
+     */
     public Drone(Case position, double vitesse) {
 
         super(
@@ -41,11 +43,12 @@ public class Drone extends Robot {
                 ")";
     }
         
-/**
- * Méthode pour obtenir le chemin vers la texture du drone.
- * 
- * @return Le chemin du fichier de texture du drone.
- */
+
+    /**
+     * Méthode pour obtenir le chemin vers la texture du drone.
+     * 
+     * @return Le chemin du fichier de texture du drone.
+     */
     @Override
     public String getLienTexture() {
         return lienTexture;

@@ -15,7 +15,7 @@ Environnement de programmation Java utilisé (d'autres versions peuvent être co
 
 Plusieurs stratégies sont disponibles :
 - strategieElementaire
-- strategieAvancee
+- strategieEvoluee
 
 Pour **compiler et exécuter** la *strategie élémentaire* sur la carte *carte_souhaitée* :
 

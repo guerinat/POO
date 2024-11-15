@@ -1,5 +1,8 @@
 package strategie;
 
+/**
+ * Different état que peut avoir un robot
+ */
 public enum Etat {
-    DISPONNIBLE, REMPLISSAGE, VIDAGE, DEPLACEMENT, INUTILE;
+    DISPONIBLE, REMPLISSAGE, VIDAGE, DEPLACEMENT, INUTILE, PRET_POUR_VIDAGE;
 };

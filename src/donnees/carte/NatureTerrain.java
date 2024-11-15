@@ -1,7 +1,9 @@
 package donnees.carte;
 
 public enum NatureTerrain {
+
     EAU, FORET, ROCHE, TERRAIN_LIBRE, HABITAT;
+
 
     private static String[] textures = {
         "ressources/eau.png", 
@@ -11,6 +13,7 @@ public enum NatureTerrain {
         "ressources/habitat.png"
     }; 
 
+    
     /**
      * @return Le chemin de la texture du terrain sous forme de chaîne de caractères.
      */

@@ -13,21 +13,6 @@ import donnees.robots.*;
  * Lecteur de cartes au format spectifié dans le sujet.
  * Les données sur les cases, robots puis incendies sont lues dans le fichier,
  * puis simplement affichées.
- * A noter: pas de vérification sémantique sur les valeurs numériques lues.
- *
- * IMPORTANT:
- *
- * Cette classe ne fait que LIRE les infos et les afficher.
- * A vous de modifier ou d'ajouter des méthodes, inspirées de celles présentes
- * (ou non), qui CREENT les objets au moment adéquat pour construire une
- * instance de la classe DonneesSimulation à partir d'un fichier.
- *
- * Vous pouvez par exemple ajouter une méthode qui crée et retourne un objet
- * contenant toutes les données lues:
- *    public static DonneesSimulation creeDonnees(String fichierDonnees);
- * Et faire des méthode creeCase(), creeRobot(), ... qui lisent les données,
- * créent les objets adéquats et les ajoutent ds l'instance de
- * DonneesSimulation.
  */
 public class LecteurDonnees {
 
@@ -64,12 +49,12 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Lit les données de la carte depuis le fichier de données et affiche les informations
- * relatives à la carte (dimensions, taille des cases, etc.).
- * 
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Lit les données de la carte depuis le fichier de données et affiche les informations
+     * relatives à la carte (dimensions, taille des cases, etc.).
+     * 
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private void lireCarte() throws DataFormatException {
         ignorerCommentaires();
         try {
@@ -92,12 +77,13 @@ public class LecteurDonnees {
         // une ExceptionFormat levee depuis lireCase est remontee telle quelle
     }
 
-/**
- * Crée une instance de la carte en lisant le fichier de données.
- * Retourne un objet Carte contenant toutes les cases.
- * 
- * @throws DataFormatException Si le format des données est incorrect
- */
+    
+    /**
+     * Crée une instance de la carte en lisant le fichier de données.
+     * Retourne un objet Carte contenant toutes les cases.
+     * 
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private Carte creerCarte() throws DataFormatException {
         ignorerCommentaires();
         try {
@@ -123,13 +109,13 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Lit les informations d'une case et les affiche.
- * 
- * @param lig La ligne de la case
- * @param col La colonne de la case
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Lit les informations d'une case et les affiche.
+     * 
+     * @param lig La ligne de la case
+     * @param col La colonne de la case
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private void lireCase(int lig, int col) throws DataFormatException {
         ignorerCommentaires();
         System.out.print("Case (" + lig + "," + col + "): ");
@@ -155,14 +141,14 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Crée une instance de la case à partir des données lues dans le fichier.
- * 
- * @param lig La ligne de la case
- * @param col La colonne de la case
- * @return La case créée
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Crée une instance de la case à partir des données lues dans le fichier.
+     * 
+     * @param lig La ligne de la case
+     * @param col La colonne de la case
+     * @return La case créée
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private Case creerCase(int lig, int col) throws DataFormatException {
 
         ignorerCommentaires();
@@ -182,11 +168,11 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Lit et affiche les incendies à partir des données du fichier.
- * 
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Lit et affiche les incendies à partir des données du fichier.
+     * 
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private void lireIncendies() throws DataFormatException {
         ignorerCommentaires();
         try {
@@ -203,13 +189,13 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Crée un tableau d'incendies à partir des données lues dans le fichier.
- * 
- * @param carte La carte de simulation
- * @return Le tableau des incendies créés
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Crée un tableau d'incendies à partir des données lues dans le fichier.
+     * 
+     * @param carte La carte de simulation
+     * @return Le tableau des incendies créés
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private Incendie[] creerIncendies(Carte carte) throws DataFormatException {
         ignorerCommentaires();
         try {
@@ -229,12 +215,12 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Lit et affiche les données d'un incendie.
- * 
- * @param i L'indice de l'incendie
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Lit et affiche les données d'un incendie.
+     * 
+     * @param i L'indice de l'incendie
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private void lireIncendie(int i) throws DataFormatException {
         ignorerCommentaires();
         System.out.print("Incendie " + i + ": ");
@@ -259,14 +245,14 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Crée un incendie à partir des données lues dans le fichier.
- * 
- * @param i L'indice de l'incendie
- * @param carte La carte où se trouve l'incendie
- * @return L'incendie créé
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Crée un incendie à partir des données lues dans le fichier.
+     * 
+     * @param i L'indice de l'incendie
+     * @param carte La carte où se trouve l'incendie
+     * @return L'incendie créé
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private Incendie creerIncendie(int i, Carte carte) throws DataFormatException {
         ignorerCommentaires();
 
@@ -291,11 +277,11 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Lit les robots à partir des données du fichier.
- * 
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Lit les robots à partir des données du fichier.
+     * 
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private void lireRobots() throws DataFormatException {
         ignorerCommentaires();
         try {
@@ -312,13 +298,13 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Crée une simulation de robots à partir des données lues.
- * 
- * @param carte La carte de simulation
- * @return Un tableau des robots créés
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Crée une simulation de robots à partir des données lues.
+     * 
+     * @param carte La carte de simulation
+     * @return Un tableau des robots créés
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private Robot[] creerRobots(Carte carte) throws DataFormatException {
         ignorerCommentaires();
         try {
@@ -338,12 +324,12 @@ public class LecteurDonnees {
     }
 
 
-/**
- * Lit et affiche les données d'un robot.
- * 
- * @param i L'indice du robot
- * @throws DataFormatException Si le format des données est incorrect
- */
+    /**
+     * Lit et affiche les données d'un robot.
+     * 
+     * @param i L'indice du robot
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private void lireRobot(int i) throws DataFormatException {
         ignorerCommentaires();
         System.out.print("Robot " + i + ": ");
@@ -378,14 +364,15 @@ public class LecteurDonnees {
         }
     }
 
-/**
- * Crée un robot à partir des données lues dans le fichier.
- * 
- * @param i L'indice du robot
- * @param carte La carte où se trouve le robot
- * @return Le robot créé
- * @throws DataFormatException Si le format des données est incorrect
- */
+
+    /**
+     * Crée un robot à partir des données lues dans le fichier.
+     * 
+     * @param i L'indice du robot
+     * @param carte La carte où se trouve le robot
+     * @return Le robot créé
+     * @throws DataFormatException Si le format des données est incorrect
+     */
     private Robot creerRobot(int i, Carte carte) throws DataFormatException {
         ignorerCommentaires();
 
@@ -440,12 +427,13 @@ public class LecteurDonnees {
         }
     }
 
-/**
- * Vérifie si la ligne actuelle dans le fichier est terminée et ne contient
- * pas de données supplémentaires.
- * 
- * @throws DataFormatException Si des données supplémentaires sont présentes
- */
+
+    /**
+     * Vérifie si la ligne actuelle dans le fichier est terminée et ne contient
+     * pas de données supplémentaires.
+     * 
+     * @throws DataFormatException Si des données supplémentaires sont présentes
+     */
     private void verifieLigneTerminee() throws DataFormatException {
         if (scanner.findInLine("(\\d+)") != null) {
             throw new DataFormatException("format invalide, donnees en trop.");

@@ -6,10 +6,12 @@ import strategie.Etat;
 
 public class DonneesSimulation {
 
+    
     public Carte carte;
     public Robot[] robots;
     public Incendie[] incendies;
     
+
     /**
      * Constructeur pour initialiser les données de la simulation.
      * 
@@ -56,7 +58,6 @@ public class DonneesSimulation {
         for(int i = 0; i < incendies.length; i++) s += incendies[i].toString() + "\n";
 
         return s;
-        
     }
 
 }

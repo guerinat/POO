@@ -5,7 +5,9 @@ import donnees.carte.NatureTerrain;
 
 public class RobotARoues extends Robot {
 
+
     public static final String lienTexture = "ressources/roues.png";
+
 
 /**
  * Constructeur pour initialiser un robot à roues avec une position sur la carte et une vitesse donnée.
@@ -27,6 +29,7 @@ public class RobotARoues extends Robot {
         );
     }
 
+
     public String toString() {
         return "ROUES (pos:"+super.getPosition().toString()+
                         ", vitesse:"+super.getVitesse(NatureTerrain.TERRAIN_LIBRE)+
@@ -34,6 +37,7 @@ public class RobotARoues extends Robot {
                 ")";
     }
 
+    
     /**
      * Méthode pour obtenir le chemin vers la texture du drone.
      * 

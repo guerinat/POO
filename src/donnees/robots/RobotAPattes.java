@@ -4,13 +4,15 @@ import donnees.carte.*;
 
 public class RobotAPattes extends Robot {
 
+
     public static final String lienTexture = "ressources/pattes.png";
 
+
     /**
- * Constructeur pour initialiser un robot à pattes avec une position sur la carte.
- * 
- * @param position La position du robot sur la carte (de type Case).
- */
+     * Constructeur pour initialiser un robot à pattes avec une position sur la carte.
+     * 
+     * @param position La position du robot sur la carte (de type Case).
+     */
     public RobotAPattes(Case position) {
         super(
             position, //position (Case)
@@ -21,12 +23,14 @@ public class RobotAPattes extends Robot {
         );
     }
 
+
     @Override
     public String toString() {
         return "PATTES (pos:"+super.getPosition().toString()+
                         ", vitesse:"+super.getVitesse(NatureTerrain.TERRAIN_LIBRE)+
                 ")";
     }
+
 
     /**
      * Méthode pour obtenir le chemin vers la texture du drone.

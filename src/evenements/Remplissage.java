@@ -5,8 +5,10 @@ import donnees.robots.*;
 
 public class Remplissage extends Evenement{
 
+
     private Carte carte;
     private Robot robot;
+
 
     /**
      * Constructeur pour initialiser un événement de remplissage.
@@ -24,6 +26,7 @@ public class Remplissage extends Evenement{
         this.robot = robot;
     }
 
+
     /**
      * Calcule la durée nécessaire pour remplir le réservoir d'un robot avec une quantité d'eau future donnée.
      * 
@@ -37,6 +40,7 @@ public class Remplissage extends Evenement{
         long duree = (long)(robot.getDureeRemplissage()*(1 - (double)quantEauRobot/robot.getQuantReservoire()));
         return duree;
     }
+
 
     /**
      * Vérifie si une case voisine de la position actuelle du robot est de l'eau.
@@ -57,6 +61,7 @@ public class Remplissage extends Evenement{
         return eau_a_proximite;
     }
 
+    
     /**
      * Exécute l'événement de remplissage du robot.
 

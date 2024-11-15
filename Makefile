@@ -27,5 +27,10 @@ testStrategieElementaire: TEST=tests/TestStrategieElementaire
 testStrategieElementaire: compile run
 
 
+testStrategieEvoluee: SRC=src/tests/TestStrategieEvoluee.java
+testStrategieEvoluee: TEST=tests/TestStrategieEvoluee
+testStrategieEvoluee: compile run
+
+
 clean:
 	rm -rf bin/*

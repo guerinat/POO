@@ -1,6 +1,5 @@
 package strategie;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 
 import chemins.CaseDuree;
@@ -18,13 +17,11 @@ import donnees.carte.*;
 **/
 public abstract class ChefPompier {
 
-    Simulateur simulateur;
-    HashSet<Incendie> incendiesAffectes; //Dictionnaire des incendies qui seront affectées.
+    protected Simulateur simulateur;
 
+    //Association bi-directionelle entre les robots et les incendies affectés
+    protected AssociationRobotsIncendie affectes = new AssociationRobotsIncendie(); 
 
-    public ChefPompier() {
-        this.incendiesAffectes = new HashSet<>();
-    }
 
     /**
      * Associe un simulateur à l'instance de ChefPompier.
@@ -33,6 +30,7 @@ public abstract class ChefPompier {
     public void setSimulateur(Simulateur simulateur) {
         this.simulateur = simulateur;
     }
+
 
     /**
      * Programme le déplacement d'un robot vers un incendie ainsi que les événements nécessaires
@@ -52,13 +50,56 @@ public abstract class ChefPompier {
 
         //Vidage
         LinkedList<Evenement> vidages = Vidage.viderEntierementRobot(robot, incendie, dateApresChemin);
-        long dureeApresVidage = dateApresChemin + vidages.size()*Vidage.calcDuree(robot);
+        long dateApresVidage = dateApresChemin + vidages.size()*Vidage.calcDuree(robot);
         simulateur.ajouteEvenements(vidages);
 
         //Changements des etats
-        simulateur.ajouteEvenement(new ChangerEtat(date_courante, robot, Etat.DEPLACEMENT, incendie));
+        simulateur.ajouteEvenement(new ChangerEtat(date_courante, robot, Etat.DEPLACEMENT));
         simulateur.ajouteEvenement(new ChangerEtat(dateApresChemin, robot, Etat.VIDAGE));
-        simulateur.ajouteEvenement(new ChangerEtat(dureeApresVidage, robot, Etat.DISPONNIBLE, null));
+        simulateur.ajouteEvenement(new ChangerEtat(dateApresVidage, robot, Etat.DISPONIBLE));
+    }
+
+    
+    /**
+     * Programme le déplacement d'un robot vers un incendie 
+     * @param robot Le robot à envoyer pour éteindre l'incendie.
+     * @param incendie L'incendie où se rendre.
+     * @param chemin Le chemin que le robot doit suivre pour atteindre l'incendie.
+     * @param date_courante La date actuelle dans la simulation.
+     * @param carte La carte.
+     */
+    public void envoyerRobotSurIncendie(Robot robot, Incendie incendie, LinkedList<CaseDuree> chemin, long date_courante, Carte carte) {
+
+
+        LinkedList<Evenement> deplacements = PlusCoursChemin.deplacerRobotChemin(date_courante, chemin, robot, carte);
+        long dateApresChemin = date_courante + PlusCoursChemin.duree_chemin(chemin);
+        simulateur.ajouteEvenements(deplacements);
+
+        //Changements des etats
+        simulateur.ajouteEvenement(new ChangerEtat(date_courante, robot, Etat.DEPLACEMENT));
+        simulateur.ajouteEvenement(new ChangerEtat(dateApresChemin, robot, Etat.PRET_POUR_VIDAGE));
+    }
+
+    
+    /**
+     * Vide @param robot sur @param incendie, si l'incendie n'a pas était eteinte entre temps et si le @param
+     * robot a encore de l'eau
+     */
+    public void viderRobot(Robot robot, Incendie incendie, long date_courante, Carte carte) {
+
+        //Vérifier que le feu n’a pas été éteint entre temps ou que le robot est vide
+        if (incendie.getEauNecessaire() == 0 || !robot.peutFaireIntervention(robot.getQuantEau())) {
+            simulateur.ajouteEvenement(new ChangerEtat(date_courante, robot, Etat.DISPONIBLE));
+            affectes.supprimer(robot);
+            return;
+        }
+
+        Vidage vidage = new Vidage(date_courante, robot, incendie);
+        long dateApresVidage = vidage.getdateFin();
+        simulateur.ajouteEvenement(vidage);
+
+        simulateur.ajouteEvenement(new ChangerEtat(date_courante, robot, Etat.VIDAGE));
+        simulateur.ajouteEvenement(new ChangerEtat(dateApresVidage, robot, Etat.PRET_POUR_VIDAGE));
     }
 
 
@@ -93,7 +134,7 @@ public abstract class ChefPompier {
         //Changements des etats
         simulateur.ajouteEvenement(new ChangerEtat(date_courante, robot, Etat.DEPLACEMENT));
         simulateur.ajouteEvenement(new ChangerEtat(dateApresChemin, robot, Etat.REMPLISSAGE));
-        simulateur.ajouteEvenement(new ChangerEtat(dateApresRemplissage, robot, Etat.DISPONNIBLE));
+        simulateur.ajouteEvenement(new ChangerEtat(dateApresRemplissage, robot, Etat.DISPONIBLE));
     }
 
 

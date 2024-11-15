@@ -1,13 +1,13 @@
 package donnees;
 import donnees.carte.*;
-import donnees.robots.*;
 
 public class Incendie {
+
 
     private Case position;
     private int eau_necessaire;
     
-
+    
     /**
      * Constructeur pour initialiser un incendie avec sa position et la quantité d'eau nécessaire pour l'éteindre.
      * 
@@ -29,6 +29,7 @@ public class Incendie {
         return this.eau_necessaire;
     }
 
+    
     /**
      * Réduit la quantité d'eau nécessaire pour éteindre l'incendie en fonction du volume d'eau versé.
      * Si le volume est suffisant, l'incendie est éteint.
