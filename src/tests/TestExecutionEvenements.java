@@ -38,11 +38,14 @@ public class TestExecutionEvenements{
     }
     
     /**
-     * Point d'entrée principal pour exécuter le test des événements.
-     * Elle lit le fichier de données de simulation, initialise les données, puis crée un simulateur
-     * en utilisant la méthode d'initialisation d'événements.
+     * Point d'entrée principal pour exécuter le test de simulation d'événements.
+     * Cette méthode lit un fichier de données de simulation, initialise les données,
+     * et crée un simulateur pour exécuter une séquence prédéfinie d'événements.
      *
-     * @param args Tableau de chaînes de caractères, où args[0] doit être le nom du fichier de données.
+     * @param args Tableau de chaînes de caractères contenant les arguments de la ligne de commande.
+     *             Le premier argument (args[0]) doit être le chemin vers le fichier de données.
+     * @throws FileNotFoundException Si le fichier spécifié dans args[0] est introuvable ou inaccessible.
+     * @throws DataFormatException Si le fichier de données a un format invalide.
      */
     public static void main(String[] args) {
 

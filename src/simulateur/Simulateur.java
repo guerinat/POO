@@ -38,10 +38,14 @@ public class Simulateur implements Simulable{
     private String cheminFichier;
     private InitialisateurEvenements initialisateur;
 
+    
     /**
-     * Constructeur de la classe Simulateur
-     * @param cheminFichier Le chemin vers le fichier de données de simulation
-     * @param data Les données de simulation
+     * Constructeur de la classe Simulateur.
+     * 
+     * @param cheminFichier Chemin vers le fichier de données de simulation.
+     * @param data Données de simulation.
+     * @param chefPompier Le chef pompier responsable de la stratégie.
+     * @param initialisateur Initialisateur des événements initiaux.
      */
     public Simulateur(String cheminFichier, DonneesSimulation data, ChefPompier chefPompier, InitialisateurEvenements initialisateur) {
         

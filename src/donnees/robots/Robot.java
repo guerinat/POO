@@ -6,16 +6,6 @@ import donnees.*;
 import strategie.*;
 
 
-
-/**
- * Constructeur pour les robots à poudre (n'ont pas de réservoir d'eau et n'effectuent pas de remplissage).
- * 
- * @param position La position initiale du robot sur la carte.
- * @param vitesseTerrain Les vitesses du robot sur les différents types de terrain (EAU, FORET, etc.).
- * @param utilisePoudre Si le robot utilise de la poudre pour les interventions.
- * @param quant_eau_intervention La quantité d'eau utilisée lors d'une intervention.
- * @param duree_intervention La durée d'une intervention en secondes.
- */
 public abstract class Robot {
 
     private Case position;
@@ -34,7 +24,19 @@ public abstract class Robot {
     private Etat etat;
     private Incendie incendie_affecte;
 
-    //Robots à eau
+    /**
+     * Constructeur pour les robots utilisant de l'eau.
+     * 
+     * @param position La position initiale du robot sur la carte.
+     * @param vitesseTerrain Les vitesses du robot sur différents types de terrain.
+     * @param utilisePoudre Indique si le robot utilise de la poudre.
+     * @param remplitSurEau Indique si le robot peut se remplir directement sur une source d'eau.
+     * @param quant_reservoire La capacité maximale du réservoir d'eau du robot.
+     * @param quant_eau La quantité d'eau actuelle dans le réservoir.
+     * @param duree_remplissage La durée nécessaire pour remplir complètement le réservoir (en millisecondes).
+     * @param quant_eau_intervention La quantité d'eau utilisée lors d'une intervention.
+     * @param duree_intervention La durée d'une intervention en secondes.
+     */
     public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre, boolean remplitSurEau, 
     int quant_reservoire, int quant_eau, int duree_remplissage, int quant_eau_intervention, int duree_intervention) {
         this.position = position;
@@ -50,7 +52,16 @@ public abstract class Robot {
         this.etat = Etat.DISPONNIBLE;
     }
 
-    //Robots à poudre
+    
+    /**
+     * Constructeur pour les robots utilisant de la poudre.
+     * 
+     * @param position La position initiale du robot sur la carte.
+     * @param vitesseTerrain Les vitesses du robot sur différents types de terrain.
+     * @param utilisePoudre Indique si le robot utilise de la poudre.
+     * @param quant_eau_intervention La quantité nécessaire pour une intervention (toujours utilisée pour poudre).
+     * @param duree_intervention La durée d'une intervention en secondes.
+     */
     public Robot(Case position, double[] vitesseTerrain, boolean utilisePoudre,
     int quant_eau_intervention, int duree_intervention) {
         this.position = position;
@@ -71,6 +82,10 @@ public abstract class Robot {
         this.position = position;
     }
 
+    /**
+     * @param nature_terain Le type de terrain.
+     * @return La vitesse du robot sur le terrain donné.
+     */
     public double getVitesse(NatureTerrain nature_terain) {
         return this.vitesseTerrain[nature_terain.ordinal()];
     }
@@ -91,6 +106,10 @@ public abstract class Robot {
         return this.quant_reservoire;
     }
 
+    /**
+     * @return La durée nécessaire pour remplir complètement le réservoir.
+     * @throws Error Si le robot utilise de la poudre et n'a pas de réservoir.
+     */
     public long getDureeRemplissage() {
         if (utilisePoudre)
             throw new Error("[!] Le robot est à poudre il n'a pas à se remplir.");
@@ -116,10 +135,12 @@ public abstract class Robot {
 
     public abstract String getLienTexture();
 
+  
     /**
-     * Permet de déverser une certaine quantité d'eau du réservoir du robot.
+     * Déverse une certaine quantité d'eau du réservoir.
      * 
      * @param volume La quantité d'eau à déverser.
+     * @throws Error Si le volume demandé est supérieur à la quantité d'eau disponible dans le réservoir.
      */
     public void derverserEau(int volume) {
 
@@ -131,7 +152,12 @@ public abstract class Robot {
         
         this.quant_eau -= volume;
     }
-    
+        
+    /**
+     * Remplit le réservoir d'eau à sa capacité maximale.
+     * 
+     * @throws Error Si le robot utilise de la poudre et n'a pas de réservoir.
+     */
     public void remplirReservoire() {
 
         if (utilisePoudre)
@@ -156,7 +182,13 @@ public abstract class Robot {
         this.incendie_affecte = incendie;
     }
 
-    //Renvoi true si le robot peut faire une intervention si il a un volume d'eau donnée dans son revervoire.
+    
+    /**
+     * Vérifie si le robot peut effectuer une intervention avec le volume d'eau donné.
+     * 
+     * @param volume Le volume d'eau disponible.
+     * @return `true` si le robot peut effectuer une intervention, sinon `false`.
+     */
     public boolean peutFaireIntervention(int volume) {
         if (utilisePoudre) return true;
 

@@ -25,6 +25,15 @@ public class ChangerEtat extends Evenement{
         incendie_affecte = null;
     }
 
+    /**
+     * Constructeur pour initialiser un événement qui modifie l'état d'un robot,
+     * avec un incendie associé.
+     * 
+     * @param date_debut La date de début de l'événement. Cette date est utilisée pour ordonner les événements dans le temps.
+     * @param robot Le robot dont l'état va être modifié.
+     * @param etat Le nouvel état que le robot doit adopter.
+     * @param incendie_affecte L'incendie auquel le robot est affecté.
+     */
     public ChangerEtat(long date_debut, Robot robot, Etat etat, Incendie incendie_affecte){
         super(date_debut);
         this.robot = robot;

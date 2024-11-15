@@ -10,12 +10,14 @@ import donnees.DonneesSimulation;
 public class TestLecteurDonnees {
     
     /**
-     * Méthode principale du programme. Elle vérifie si un fichier a été spécifié en argument,
-     * tente de lire les données à partir de ce fichier et affiche les données de simulation 
-     * ou gère les erreurs de format et de fichier introuvable.
+     * Point d'entrée principal du programme. Cette méthode vérifie si un fichier de données a été
+     * spécifié en argument, tente de lire les données à partir de ce fichier, et affiche les données
+     * de simulation en cas de succès. En cas d'erreurs, elle gère les exceptions associées.
      *
      * @param args Tableau de chaînes de caractères représentant les arguments de la ligne de commande.
-     *             args[0] doit contenir le nom du fichier de données.
+     *             args[0] doit contenir le chemin vers le fichier de données.
+     * @throws FileNotFoundException Si le fichier spécifié est introuvable ou illisible.
+     * @throws DataFormatException Si le format du fichier de données est invalide.
      */
     public static void main(String[] args) {
         if (args.length < 1) {
