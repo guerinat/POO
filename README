@@ -1,16 +1,19 @@
 Ensimag 2A POO - TP 2024/25
 ============================
 
-- src: contient les classes fournies par les enseignants
-  -> LecteurDonnees.java         : lit tous les elements d'un fichier de description de donnees (cases, incendies et robots) et les affiche.
-                                   A vous de MODIFIER cette classe (ou en ecrire une nouvelle) pour creer les objets correspondants à vos propres classes
-  -> TestLecteurDonnees.java     : lit un fichier de donnees et affiche son contenu
-  -> TestInvader                 : cree un simulateur "mini Invaders" dans une fenetre graphique
+Dans un premier temps, pour lancer l’application, l’utilisateur pourra compiler et exécuter le programme dans un terminal à l’aide du Makefile créé à cet effet,
 
-- cartes: quelques exemples de fichiers de donnees
+Si l'utilisateur souhaite utiliser la stratégie élémentaire il lui faut utiliser les commandes avec App1 et s'il souhaite utiliser la stratégie évoluée il lui faut utiliser les commandes avec App2
+	
+Il faut alors lancer le programme:
+- soit en faisant les deux étapes séparément avec les commandes 
+“make compileApp1” puis “make runApp1 file=cartes/la_carte_souhaitée” 
 
-- bin/gui.jar: archive Java contenant les classes de l'interface graphique. Voir un exemple d'utilisation dans TestInvader.java
+- soit en exécutant les deux étapes à la suite avec “make app1 file=cartes/la_carte_souhaitée”.
 
-- doc: la documentation (API) des classes de l'interface graphique contenues dans gui.jar. Point d'entrée: index.html
+Si aucune carte n’est spécifiée, une carte par défaut est lancée, carteSujet.map est ainsi la carte par défaut
+Toutes les cartes sont rangées dans le dossier carte/
 
-- Makefile: quelques explications sur la compilation en ligne, notamment la notion de classpath et l'utilisation de gui.jar
+
+Ensuite la fenêtre de simulation ainsi apparue est
+
