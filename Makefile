@@ -37,7 +37,42 @@ testExecutionEvenements:
 
 testStrategieElementaire:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestStrategieElementaire.java
+	java -classpath bin:lib/gui.jar tests/TestStrategieElementaire cartes/spiralOfMadness-50x50.map
+
+
+
+app1: compileApp1 runApp1
+
+compileApp1:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestStrategieElementaire.java
+
+runApp1:
+	@if [ -z "$(file)" ]; then \
+		echo "Aucun fichier spécifié : utilisation du fichier par défaut!"; \
+		make runDefault1; \
+	else \
+		java -classpath bin:lib/gui.jar TestStrategieElementaire $(file); \
+	fi
+
+runDefault1:
 	java -classpath bin:lib/gui.jar tests/TestStrategieElementaire cartes/carteSujet.map
+
+app2: compileApp2 runApp2
+
+compileApp2:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestStrategieEvoluee.java
+
+runApp2:
+	@if [ -z "$(file)" ]; then \
+		echo "Aucun fichier spécifié : utilisation du fichier par défaut!"; \
+		make runDefault2; \
+	else \
+		java -classpath bin:lib/gui.jar TestStrategieEvoluee $(file); \
+	fi
+
+runDefault2:
+	java -classpath bin:lib/gui.jar tests/TestStrategieEvoluee cartes/carteSujet.map
+
 
 clean:
 	rm -rf bin/*
