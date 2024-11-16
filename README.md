@@ -1,8 +1,8 @@
 # 🤖🚒 Simulation de robots-pompiers.
 
-Programme de simulation de stratégies pour éteindre des incendies avec des robots-pompiers, réalisé dans le cadre d'un projet de programmation orienté objet à Ensimag (plus de détails sur le programme se trouve dans [sujet.pdf](sujet.pdf)).
+Programme de simulation de stratégies pour éteindre des incendies avec des robots-pompiers, réalisé dans le cadre d'un projet de programmation orienté objet à Ensimag (plus de détails sur le programme se trouve dans [Choix de conception.pdf](Choix%20de%20conception.pdf) ou [sujet.pdf](sujet.pdf)).
 
-<img alt="Screenshot" src="ressources/readme/screenshot.png" width="400">
+<img alt="Screenshot" src="ressources/readme/screenshot.jpg" width="400">
 
 
 
@@ -47,7 +47,7 @@ make testExecutionEvenements:
 
 Ensuite la fenêtre de simulation contient la barre suivante
 
-![Image fenêtre](ressources/readme/gui.png)
+![Image fenêtre](ressources/readme/gui.jpg)
 
 ### Lecture de la simulation
 - **Lecture/Pause** : lis/pause la simulation.
